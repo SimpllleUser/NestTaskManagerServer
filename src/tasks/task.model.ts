@@ -1,0 +1,48 @@
+import {
+  BelongsTo,
+  BelongsToMany,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { ApiProperty } from '@nestjs/swagger';
+import { User } from '../users/users.model';
+import { Role } from '../roles/roles.model';
+
+interface TaskCreationAttrs {
+  title: string;
+  description: string;
+  userId: number;
+}
+
+@Table({ tableName: 'tasks' })
+export class Task extends Model<Task, TaskCreationAttrs> {
+  // @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
+  @Column({
+    type: DataType.INTEGER,
+    unique: true,
+    autoIncrement: true,
+    primaryKey: true,
+  })
+  id: number;
+
+  // @ApiProperty({ example: 'ADMIN', description: 'Уникальное Значение роли ' })
+  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  title: string;
+
+  // @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
+  @Column({ type: DataType.STRING, allowNull: false })
+  description: string;
+
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
+  userId: number;
+
+  @BelongsTo(() => User)
+  author: User;
+
+  // @BelongsToMany(() => User, () => UserRoles)
+  // users: User[];
+}
