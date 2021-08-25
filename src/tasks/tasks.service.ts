@@ -8,8 +8,12 @@ export class TasksService {
   constructor(@InjectModel(Task) private taskRepository: typeof Task) {}
 
   async create(dto: CreateTaskDto) {
-    console.log('dto task', dto);
     const task = await this.taskRepository.create(dto);
     return task;
+  }
+
+  async findOne(id: number) {
+    const task = await this.taskRepository.findOne({ where: { id } });
+    return task || {};
   }
 }

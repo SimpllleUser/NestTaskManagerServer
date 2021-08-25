@@ -9,7 +9,6 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
-import { Role } from '../roles/roles.model';
 
 interface TaskCreationAttrs {
   title: string;
@@ -19,7 +18,7 @@ interface TaskCreationAttrs {
 
 @Table({ tableName: 'tasks' })
 export class Task extends Model<Task, TaskCreationAttrs> {
-  // @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
+  @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -28,11 +27,11 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   })
   id: number;
 
-  // @ApiProperty({ example: 'ADMIN', description: 'Уникальное Значение роли ' })
+  @ApiProperty({ example: 'ADMIN', description: 'Уникальное Значение роли ' })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   title: string;
 
-  // @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
+  @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
@@ -42,7 +41,4 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @BelongsTo(() => User)
   author: User;
-
-  // @BelongsToMany(() => User, () => UserRoles)
-  // users: User[];
 }
