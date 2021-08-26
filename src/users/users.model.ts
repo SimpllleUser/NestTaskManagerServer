@@ -32,7 +32,7 @@ export class User extends Model<User, UserCreationAttrs> {
   @ApiProperty({ example: '12345678', description: 'Пароль' })
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
-  @Column({ type: DataType.STRING, allowNull: false })
+  @Column({ type: DataType.STRING, allowNull: true })
   hashCode: string;
   @Column({ type: DataType.BOOLEAN, allowNull: false })
   isActive: boolean;

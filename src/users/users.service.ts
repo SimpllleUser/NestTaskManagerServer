@@ -57,6 +57,7 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: { hashCode },
     });
+    user.hashCode = null;
     user.isActive = true;
     await user.save();
     return user;
