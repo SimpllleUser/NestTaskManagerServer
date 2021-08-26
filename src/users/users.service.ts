@@ -5,18 +5,24 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { RolesService } from '../roles/roles.service';
 import { AddRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
+import { v4 as uuidv4 } from 'uuid';
+import { MailService } from "../mailer/mail.service";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
     private roleService: RolesService,
+    private mailService: MailService,
   ) {}
 
   async createUser(dto: CreateUserDto) {
+    dto.isActive = false;
+    dto.hashCode = uuidv4();
     const user = await this.userRepository.create(dto);
     const role = await this.roleService.getRoleByValue('USER');
     await user.$set('roles', [role.id]);
+    await this.mailService.activateUser(user.hashCode);
     user.roles = [role];
     return user;
   }
@@ -45,6 +51,15 @@ export class UsersService {
       'Пользователь или роль не найдены',
       HttpStatus.NOT_FOUND,
     );
+  }
+
+  async makeActive(hashCode: string) {
+    const user = await this.userRepository.findOne({
+      where: { hashCode },
+    });
+    user.isActive = true;
+    await user.save();
+    return user;
   }
 
   async ban(dto: BanUserDto) {

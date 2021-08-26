@@ -2,10 +2,11 @@ import {
   Body,
   Controller,
   Get,
-  Post,
+  Param,
+  Post, Res,
   UseGuards,
-  UsePipes,
-} from '@nestjs/common';
+  UsePipes
+} from "@nestjs/common";
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -43,5 +44,11 @@ export class UsersController {
   @Post('/role')
   addRole(@Body() dto: AddRoleDto) {
     return this.usersService.addRole(dto);
+  }
+
+  @Get('/activate/:hashCode')
+  makeActive(@Param('hashCode') hashCode: string, @Res() res) {
+    this.usersService.makeActive(hashCode);
+    return res.status(302).redirect('/login');
   }
 }
