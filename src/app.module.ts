@@ -8,7 +8,9 @@ import { Role } from './roles/roles.model';
 import { UserRoles } from './roles/user-roles.model';
 import { AuthModule } from './auth/auth.module';
 import { TasksModule } from './tasks/tasks.module';
-import { Task } from "./tasks/task.model";
+import { Task } from './tasks/task.model';
+import { MailerModule } from 'nestjs-mailer';
+import { MailModule } from './mailer/mail.module';
 
 @Module({
   imports: [
@@ -25,10 +27,28 @@ import { Task } from "./tasks/task.model";
       models: [User, Role, UserRoles, Task],
       autoLoadModels: true,
     }),
+    MailerModule.forRoot({
+      config: {
+        transport: {
+          host: 'smtp.gmail.com',
+          port: 587,
+          ignoreTLS: false,
+          secure: false,
+          auth: {
+            user: process.env.MAIL_LOGIN,
+            pass: process.env.MAIL_PASSWORD,
+          },
+        },
+        defaults: {
+          from: '"Resume Maker" <pecehritsa.vv@gmail.com>',
+        },
+      },
+    }),
     UsersModule,
     RolesModule,
     AuthModule,
     TasksModule,
+    MailModule,
   ],
 })
 export class AppModule {}
