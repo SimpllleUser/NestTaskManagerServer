@@ -1,5 +1,11 @@
+import { Experience, Skill } from '../resume.model';
+
 export class CreateResumeDto {
-  readonly name: string;
-  readonly age: number;
-  readonly breed: string;
+  readonly fullName: string;
+  readonly position: string;
+  readonly skills: Skill[];
+  readonly languages: Skill[];
+  readonly experience: Experience[];
+  readonly studies: Experience[];
+  readonly additionalInformation: string;
 }
