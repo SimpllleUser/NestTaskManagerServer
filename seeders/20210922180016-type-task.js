@@ -3,13 +3,13 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert(
-      'TypeTask',
+      'Type_Task',
       ['bug', 'todo', 'fix'].map((name) => ({ name })),
       {},
     );
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete('TypeTask', null, {});
+    return queryInterface.bulkDelete('Type_Task', null, {});
   },
 };
