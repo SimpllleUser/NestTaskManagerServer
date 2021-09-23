@@ -4,7 +4,6 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -18,14 +17,17 @@ import { ProjectTeam } from './models/project-team';
 interface ProjectCreationAttrs {
   title: string;
   description: string;
-  tasks: Task[];
-  teams: User[];
-  author: User;
+  userId: number;
+}
+
+interface Test {
+  id: string;
+  email: string;
+  isActive: boolean;
 }
 
 @Table({ tableName: 'projects' })
 export class Project extends Model<Project, ProjectCreationAttrs> {
-  @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -42,16 +44,16 @@ export class Project extends Model<Project, ProjectCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
-  @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER })
-  userId: number;
-
-  @BelongsTo(() => User)
-  author: User;
-
   @BelongsToMany(() => Task, () => ProjectTasks)
   tasks: Task[];
 
   @BelongsToMany(() => User, () => ProjectTeam)
   team: User[];
+
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
+  userId: number;
+
+  @BelongsTo(() => User)
+  author: Test;
 }

@@ -1,19 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { InjectModel } from '@nestjs/sequelize';
+import { Project } from './project.model';
+import { User } from '../users/users.model';
 
 @Injectable()
 export class ProjectService {
-  create(createProjectDto: CreateProjectDto) {
-    return 'This action adds a new project';
+  constructor(
+    @InjectModel(Project) private projectRepository: typeof Project,
+  ) {}
+
+  async create(createProjectDto: CreateProjectDto) {
+    const project = await this.projectRepository.create(createProjectDto);
+    return project;
   }
 
-  findAll() {
-    return `This action returns all project`;
+  // TODO rename to FindAllByAuthor(userId)
+  async findAll(userId: number) {
+    const projects = await this.projectRepository.findAll({
+      where: { userId },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
+        },
+      ],
+    });
+    return projects;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} project`;
+  async findOne(userId: number) {
+    const projects = await this.projectRepository.findAll({
+      where: { userId },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
+        },
+      ],
+    });
+    return projects;
   }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {

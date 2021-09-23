@@ -13,7 +13,10 @@ export class TasksService {
   }
 
   async findOne(id: number) {
-    const task = await this.taskRepository.findOne({ where: { id } });
+    const task = await this.taskRepository.findOne({
+      where: { id },
+      include: { all: true },
+    });
     return task || {};
   }
 }

@@ -43,10 +43,6 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   @BelongsTo(() => User)
   author: User;
 
-  @ForeignKey(() => TypeTask)
-  @Column({ type: DataType.INTEGER })
-  typeId: number;
-
-  @BelongsTo(() => User)
-  typeTask: TypeTask;
+  // @BelongsTo(() => TypeTask)
+  // typeTask: TypeTask;
 }

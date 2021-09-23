@@ -9,6 +9,6 @@ import { TypeTask } from '../type-task/type-task-model';
 @Module({
   providers: [TasksService],
   controllers: [TasksController],
-  imports: [SequelizeModule.forFeature([TypeTask, User, Task])],
+  imports: [SequelizeModule.forFeature([TypeTask, Task])],
 })
 export class TasksModule {}

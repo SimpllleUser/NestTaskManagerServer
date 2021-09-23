@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -12,9 +20,9 @@ export class ProjectController {
     return this.projectService.create(createProjectDto);
   }
 
-  @Get()
-  findAll() {
-    return this.projectService.findAll();
+  @Get(':id')
+  findAll(@Param('id') id: string) {
+    return this.projectService.findOne(+id);
   }
 
   @Get(':id')
