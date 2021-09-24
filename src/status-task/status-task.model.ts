@@ -10,8 +10,8 @@ interface TypeCreationAttrs {
   name: string;
 }
 
-@Table({ tableName: 'type_task' })
-export class TypeTask extends Model<TypeTask, TypeCreationAttrs> {
+@Table({ tableName: 'status_task' })
+export class StatusTask extends Model<StatusTask, TypeCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
     unique: true,

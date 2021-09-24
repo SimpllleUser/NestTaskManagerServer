@@ -9,8 +9,8 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
-import { TypeTask } from '../type-task/type-task-model';
-import { Project } from "../project/project.model";
+import { StatusTask } from '../status-task/status-task.model';
+import { Project } from '../project/project.model';
 
 interface TaskCreationAttrs {
   title: string;
@@ -51,6 +51,10 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   @BelongsTo(() => Project)
   project: Project;
 
-  // @BelongsTo(() => TypeTask)
-  // typeTask: TypeTask;
+  @ForeignKey(() => StatusTask)
+  @Column({ type: DataType.INTEGER })
+  statusId: number;
+
+  @BelongsTo(() => StatusTask)
+  status: StatusTask;
 }

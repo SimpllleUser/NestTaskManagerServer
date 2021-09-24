@@ -9,13 +9,12 @@ import { UserRoles } from './roles/user-roles.model';
 import { AuthModule } from './auth/auth.module';
 import { TasksModule } from './tasks/tasks.module';
 import { Task } from './tasks/task.model';
-import { TypeTaskModule } from './type-task/type-task.module';
-import { TypeTask } from './type-task/type-task-model';
+import { StatusTaskModule } from './status-task/status-task.module';
+import { StatusTask } from './status-task/status-task.model';
 import { ProjectModule } from './project/project.module';
 import { ProjectTasks } from './project/models/project-tasks';
 import { Project } from './project/project.model';
 import { ProjectTeam } from './project/models/project-team';
-import { StatusProjectService } from './status-project/status-project.service';
 import { StatusProject } from './status-project/status-project.model';
 import { StatusProjectModule } from './status-project/status-project.module';
 
@@ -36,7 +35,7 @@ import { StatusProjectModule } from './status-project/status-project.module';
         Project,
         ProjectTasks,
         ProjectTeam,
-        TypeTask,
+        StatusTask,
         User,
         Role,
         UserRoles,
@@ -50,7 +49,7 @@ import { StatusProjectModule } from './status-project/status-project.module';
     RolesModule,
     AuthModule,
     TasksModule,
-    TypeTaskModule,
+    StatusTaskModule,
     ProjectModule,
   ],
 })

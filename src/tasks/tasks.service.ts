@@ -4,13 +4,23 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Task } from './task.model';
 import { User } from '../users/users.model';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { StatusProjectService } from '../status-project/status-project.service';
+import { StatusTask } from '../status-task/status-task.model';
+import { StatusTaskService } from '../status-task/status-task.service';
 
 @Injectable()
 export class TasksService {
-  constructor(@InjectModel(Task) private taskRepository: typeof Task) {}
+  constructor(
+    @InjectModel(Task) private taskRepository: typeof Task,
+    private statusTask: StatusTaskService,
+  ) {}
 
   async create(dto: CreateTaskDto) {
+    const status = await this.statusTask.getStatusByName('OPEN');
+    console.log(status);
     const task = await this.taskRepository.create(dto);
+    task.statusId = status.id;
+    await task.save();
     return task;
   }
 
@@ -32,6 +42,9 @@ export class TasksService {
           attributes: {
             exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
           },
+        },
+        {
+          model: StatusTask,
         },
       ],
     });
