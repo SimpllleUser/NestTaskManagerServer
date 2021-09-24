@@ -5,15 +5,20 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Project } from './project.model';
 import { User } from '../users/users.model';
 import { Task } from '../tasks/task.model';
+import { StatusProjectService } from '../status-project/status-project.service';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectModel(Project) private projectRepository: typeof Project,
+    private statusProject: StatusProjectService,
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
+    const status = await this.statusProject.getStatusByName('TODO');
     const project = await this.projectRepository.create(createProjectDto);
+    project.statusId = status.id;
+    await project.save();
     return project;
   }
 

@@ -49,7 +49,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   projectId: number;
 
   @BelongsTo(() => Project)
-  project: User;
+  project: Project;
 
   // @BelongsTo(() => TypeTask)
   // typeTask: TypeTask;

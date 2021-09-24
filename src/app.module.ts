@@ -15,6 +15,9 @@ import { ProjectModule } from './project/project.module';
 import { ProjectTasks } from './project/models/project-tasks';
 import { Project } from './project/project.model';
 import { ProjectTeam } from './project/models/project-team';
+import { StatusProjectService } from './status-project/status-project.service';
+import { StatusProject } from './status-project/status-project.model';
+import { StatusProjectModule } from './status-project/status-project.module';
 
 @Module({
   imports: [
@@ -29,6 +32,7 @@ import { ProjectTeam } from './project/models/project-team';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       models: [
+        StatusProject,
         Project,
         ProjectTasks,
         ProjectTeam,
@@ -40,6 +44,7 @@ import { ProjectTeam } from './project/models/project-team';
       ],
       autoLoadModels: true,
     }),
+    StatusProjectModule,
     ProjectModule,
     UsersModule,
     RolesModule,
