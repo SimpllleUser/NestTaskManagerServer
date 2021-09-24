@@ -8,17 +8,15 @@ import { UserRoles } from '../roles/user-roles.model';
 import { RolesModule } from '../roles/roles.module';
 import { AuthModule } from '../auth/auth.module';
 import { Task } from '../tasks/task.model';
-import { MailModule } from '../mailer/mail.module';
-import { MailService } from '../mailer/mail.service';
+import { Project } from '../project/project.model';
 
 @Module({
   controllers: [UsersController],
-  providers: [UsersService, MailService],
+  providers: [UsersService],
   imports: [
-    SequelizeModule.forFeature([User, Role, UserRoles, Task]),
+    SequelizeModule.forFeature([User, Role, UserRoles, Task, Project]),
     RolesModule,
     forwardRef(() => AuthModule),
-    forwardRef(() => MailModule),
   ],
   exports: [UsersService],
 })

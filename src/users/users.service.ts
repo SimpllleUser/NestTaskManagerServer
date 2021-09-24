@@ -6,14 +6,12 @@ import { RolesService } from '../roles/roles.service';
 import { AddRoleDto } from './dto/add-role.dto';
 import { BanUserDto } from './dto/ban-user.dto';
 import { v4 as uuidv4 } from 'uuid';
-import { MailService } from "../mailer/mail.service";
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectModel(User) private userRepository: typeof User,
     private roleService: RolesService,
-    private mailService: MailService,
   ) {}
 
   async createUser(dto: CreateUserDto) {
@@ -22,7 +20,6 @@ export class UsersService {
     const user = await this.userRepository.create(dto);
     const role = await this.roleService.getRoleByValue('USER');
     await user.$set('roles', [role.id]);
-    await this.mailService.activateUser(user.hashCode);
     user.roles = [role];
     return user;
   }
