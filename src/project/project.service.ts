@@ -4,6 +4,7 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Project } from './project.model';
 import { User } from '../users/users.model';
+import { Task } from '../tasks/task.model';
 
 @Injectable()
 export class ProjectService {
@@ -16,8 +17,7 @@ export class ProjectService {
     return project;
   }
 
-  // TODO rename to FindAllByAuthor(userId)
-  async findAll(userId: number) {
+  async findAllByAuthor(userId: number) {
     const projects = await this.projectRepository.findAll({
       where: { userId },
       include: [
@@ -28,14 +28,18 @@ export class ProjectService {
             exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
           },
         },
+        {
+          model: Task,
+          as: 'tasks',
+        },
       ],
     });
     return projects;
   }
 
-  async findOne(userId: number) {
-    const projects = await this.projectRepository.findAll({
-      where: { userId },
+  async findOne(id: number) {
+    const project = await this.projectRepository.findOne({
+      where: { id },
       include: [
         {
           model: User,
@@ -44,16 +48,24 @@ export class ProjectService {
             exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
           },
         },
+        {
+          model: Task,
+          as: 'tasks',
+        },
       ],
     });
-    return projects;
+    return project;
   }
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project`;
+  async update(id: number, updateProjectDto: UpdateProjectDto) {
+    const project = await this.projectRepository.findOne({
+      where: { id },
+    });
+    const updatedProject = await project.update(updateProjectDto);
+    return updatedProject;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} project`;
+  async remove(id: number) {
+    return await this.projectRepository.destroy({ where: { id } });
   }
 }

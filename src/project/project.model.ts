@@ -4,6 +4,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -44,7 +45,7 @@ export class Project extends Model<Project, ProjectCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
-  @BelongsToMany(() => Task, () => ProjectTasks)
+  @HasMany(() => Task)
   tasks: Task[];
 
   @BelongsToMany(() => User, () => ProjectTeam)

@@ -20,13 +20,13 @@ export class ProjectController {
     return this.projectService.create(createProjectDto);
   }
 
-  @Get(':id')
-  findAll(@Param('id') id: string) {
-    return this.projectService.findOne(+id);
+  @Get('/author/:id')
+  findAllByAuthor(@Param('id') id: number) {
+    return this.projectService.findAllByAuthor(id);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: number) {
     return this.projectService.findOne(+id);
   }
 
