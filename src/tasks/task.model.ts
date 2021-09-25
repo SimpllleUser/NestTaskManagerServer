@@ -12,12 +12,14 @@ import { User } from '../users/users.model';
 import { StatusTask } from '../status-task/status-task.model';
 import { Project } from '../project/project.model';
 import { TypeTask } from '../type-task/type-task.model';
+import { PriorityTask } from '../priority-task/priority-task.model';
 
 interface TaskCreationAttrs {
   title: string;
   description: string;
   userId: number;
   typeId: number;
+  priorityId: number;
 }
 
 @Table({ tableName: 'tasks' })
@@ -66,4 +68,11 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @BelongsTo(() => TypeTask)
   type: TypeTask;
+
+  @ForeignKey(() => PriorityTask)
+  @Column({ type: DataType.INTEGER })
+  priorityId: number;
+
+  @BelongsTo(() => PriorityTask)
+  priority: TypeTask;
 }

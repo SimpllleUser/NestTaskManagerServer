@@ -7,8 +7,10 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { StatusProjectService } from '../status-project/status-project.service';
 import { StatusTask } from '../status-task/status-task.model';
 import { StatusTaskService } from '../status-task/status-task.service';
-import { Type, TypeTaskService } from '../type-task/type-task.service';
-import { TypeTask } from "../type-task/type-task.model";
+import { TypeTaskService } from '../type-task/type-task.service';
+import { TypeTask } from '../type-task/type-task.model';
+import { PriorityTaskService } from '../priority-task/priority-task.service';
+import { PriorityTask } from "../priority-task/priority-task.model";
 
 @Injectable()
 export class TasksService {
@@ -16,6 +18,7 @@ export class TasksService {
     @InjectModel(Task) private taskRepository: typeof Task,
     private statusTask: StatusTaskService,
     private typeTask: TypeTaskService,
+    private priorityTask: PriorityTaskService,
   ) {}
 
   async create(dto: CreateTaskDto) {
@@ -51,6 +54,9 @@ export class TasksService {
         {
           model: TypeTask,
         },
+        {
+          model: PriorityTask,
+        },
       ],
     });
     return task || {};
@@ -76,7 +82,7 @@ export class TasksService {
     return { result: true };
   }
 
-  // async onModuleInit(): Promise<void> {
-  //   await this.typeTask.initTypes();
-  // }
+  async onModuleInit(): Promise<void> {
+    // await this.priorityTask.initPriorities();//
+  }
 }

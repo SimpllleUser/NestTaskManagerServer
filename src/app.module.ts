@@ -18,6 +18,8 @@ import { ProjectTeam } from './project/models/project-team';
 import { StatusProject } from './status-project/status-project.model';
 import { StatusProjectModule } from './status-project/status-project.module';
 import { TypeTask } from './type-task/type-task.model';
+import { PriorityTask } from './priority-task/priority-task.model';
+import { PriorityTaskModule } from './priority-task/priority-task.module';
 
 @Module({
   imports: [
@@ -32,6 +34,7 @@ import { TypeTask } from './type-task/type-task.model';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       models: [
+        PriorityTask,
         StatusProject,
         Project,
         ProjectTasks,
@@ -45,6 +48,7 @@ import { TypeTask } from './type-task/type-task.model';
       ],
       autoLoadModels: true,
     }),
+    PriorityTaskModule,
     StatusProjectModule,
     ProjectModule,
     UsersModule,

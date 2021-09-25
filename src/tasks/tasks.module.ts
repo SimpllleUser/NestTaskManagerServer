@@ -8,6 +8,8 @@ import { Project } from '../project/project.model';
 import { StatusTaskModule } from '../status-task/status-task.module';
 import { TypeTask } from '../type-task/type-task.model';
 import { TypeTaskModule } from '../type-task/type-task.module';
+import { PriorityTask } from '../priority-task/priority-task.model';
+import { PriorityTaskModule } from '../priority-task/priority-task.module';
 
 @Module({
   providers: [TasksService],
@@ -15,7 +17,14 @@ import { TypeTaskModule } from '../type-task/type-task.module';
   imports: [
     StatusTaskModule,
     TypeTaskModule,
-    SequelizeModule.forFeature([TypeTask, StatusTask, Task, Project]),
+    PriorityTaskModule,
+    SequelizeModule.forFeature([
+      PriorityTask,
+      TypeTask,
+      StatusTask,
+      Task,
+      Project,
+    ]),
   ],
 })
 export class TasksModule {}
