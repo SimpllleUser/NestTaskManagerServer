@@ -7,17 +7,19 @@ import { UpdateTaskDto } from './dto/update-task.dto';
 import { StatusProjectService } from '../status-project/status-project.service';
 import { StatusTask } from '../status-task/status-task.model';
 import { StatusTaskService } from '../status-task/status-task.service';
+import { Type, TypeTaskService } from '../type-task/type-task.service';
+import { TypeTask } from "../type-task/type-task.model";
 
 @Injectable()
 export class TasksService {
   constructor(
     @InjectModel(Task) private taskRepository: typeof Task,
     private statusTask: StatusTaskService,
+    private typeTask: TypeTaskService,
   ) {}
 
   async create(dto: CreateTaskDto) {
     const status = await this.statusTask.getStatusByName('OPEN');
-    console.log(status);
     const task = await this.taskRepository.create(dto);
     task.statusId = status.id;
     await task.save();
@@ -46,6 +48,9 @@ export class TasksService {
         {
           model: StatusTask,
         },
+        {
+          model: TypeTask,
+        },
       ],
     });
     return task || {};
@@ -70,4 +75,8 @@ export class TasksService {
     await this.taskRepository.destroy({ where: { id } });
     return { result: true };
   }
+
+  // async onModuleInit(): Promise<void> {
+  //   await this.typeTask.initTypes();
+  // }
 }

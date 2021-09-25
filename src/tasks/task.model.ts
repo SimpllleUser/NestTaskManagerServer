@@ -11,11 +11,13 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
 import { StatusTask } from '../status-task/status-task.model';
 import { Project } from '../project/project.model';
+import { TypeTask } from '../type-task/type-task.model';
 
 interface TaskCreationAttrs {
   title: string;
   description: string;
   userId: number;
+  typeId: number;
 }
 
 @Table({ tableName: 'tasks' })
@@ -57,4 +59,11 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @BelongsTo(() => StatusTask)
   status: StatusTask;
+
+  @ForeignKey(() => TypeTask)
+  @Column({ type: DataType.INTEGER })
+  typeId: number;
+
+  @BelongsTo(() => TypeTask)
+  type: TypeTask;
 }

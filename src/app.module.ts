@@ -17,6 +17,7 @@ import { Project } from './project/project.model';
 import { ProjectTeam } from './project/models/project-team';
 import { StatusProject } from './status-project/status-project.model';
 import { StatusProjectModule } from './status-project/status-project.module';
+import { TypeTask } from './type-task/type-task.model';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { StatusProjectModule } from './status-project/status-project.module';
         Project,
         ProjectTasks,
         ProjectTeam,
+        TypeTask,
         StatusTask,
         User,
         Role,

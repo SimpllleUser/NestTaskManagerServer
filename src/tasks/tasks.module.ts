@@ -6,13 +6,16 @@ import { Task } from './task.model';
 import { StatusTask } from '../status-task/status-task.model';
 import { Project } from '../project/project.model';
 import { StatusTaskModule } from '../status-task/status-task.module';
+import { TypeTask } from '../type-task/type-task.model';
+import { TypeTaskModule } from '../type-task/type-task.module';
 
 @Module({
   providers: [TasksService],
   controllers: [TasksController],
   imports: [
     StatusTaskModule,
-    SequelizeModule.forFeature([StatusTask, Task, Project]),
+    TypeTaskModule,
+    SequelizeModule.forFeature([TypeTask, StatusTask, Task, Project]),
   ],
 })
 export class TasksModule {}
