@@ -1,6 +1,8 @@
 export class CreateTaskDto {
-  readonly title: string;
-  readonly description: string;
-  readonly userId: number;
-  readonly projectId: number;
+  title: string;
+  description: string;
+  authorId: number;
+  typeId: number;
+  priorityId: number;
+  executorId: number;
 }

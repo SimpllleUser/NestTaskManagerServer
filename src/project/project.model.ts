@@ -14,20 +14,15 @@ import { Role } from '../roles/roles.model';
 import { Task } from '../tasks/task.model';
 import { ProjectTasks } from './models/project-tasks';
 import { ProjectTeam } from './models/project-team';
+import { StatusProject } from '../status-project/status-project.model';
 
 interface ProjectCreationAttrs {
   title: string;
   description: string;
-  userId: number;
+  authorId: number;
 }
 
-interface Test {
-  id: string;
-  email: string;
-  isActive: boolean;
-}
-
-@Table({ tableName: 'projects' })
+@Table({ tableName: 'project' })
 export class Project extends Model<Project, ProjectCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
@@ -53,8 +48,15 @@ export class Project extends Model<Project, ProjectCreationAttrs> {
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
-  userId: number;
+  authorId: number;
 
   @BelongsTo(() => User)
-  author: Test;
+  author: User;
+
+  @ForeignKey(() => StatusProject)
+  @Column({ type: DataType.INTEGER })
+  statusId: number;
+
+  @BelongsTo(() => StatusProject)
+  status: StatusProject;
 }

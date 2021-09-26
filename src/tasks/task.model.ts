@@ -9,13 +9,18 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
-import { TypeTask } from '../type-task/type-task-model';
-import { Project } from "../project/project.model";
+import { StatusTask } from '../status-task/status-task.model';
+import { Project } from '../project/project.model';
+import { TypeTask } from '../type-task/type-task.model';
+import { PriorityTask } from '../priority-task/priority-task.model';
 
 interface TaskCreationAttrs {
   title: string;
   description: string;
-  userId: number;
+  authorId: number;
+  typeId: number;
+  priorityId: number;
+  executorId: number;
 }
 
 @Table({ tableName: 'tasks' })
@@ -39,7 +44,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
-  userId: number;
+  authorId: number;
 
   @BelongsTo(() => User)
   author: User;
@@ -49,8 +54,33 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   projectId: number;
 
   @BelongsTo(() => Project)
-  project: User;
+  project: Project;
 
-  // @BelongsTo(() => TypeTask)
-  // typeTask: TypeTask;
+  @ForeignKey(() => StatusTask)
+  @Column({ type: DataType.INTEGER })
+  statusId: number;
+
+  @BelongsTo(() => StatusTask)
+  status: StatusTask;
+
+  @ForeignKey(() => TypeTask)
+  @Column({ type: DataType.INTEGER })
+  typeId: number;
+
+  @BelongsTo(() => TypeTask)
+  type: TypeTask;
+
+  @ForeignKey(() => PriorityTask)
+  @Column({ type: DataType.INTEGER })
+  priorityId: number;
+
+  @BelongsTo(() => PriorityTask)
+  priority: TypeTask;
+
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
+  executorId: number;
+
+  @BelongsTo(() => User)
+  executor: User;
 }
