@@ -8,6 +8,7 @@ import {
 
 interface TypeCreationAttrs {
   name: string;
+  value: number;
 }
 
 @Table({ tableName: 'status_task' })
@@ -21,4 +22,6 @@ export class StatusTask extends Model<StatusTask, TypeCreationAttrs> {
   id: number;
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   name: string;
+  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  value: number;
 }

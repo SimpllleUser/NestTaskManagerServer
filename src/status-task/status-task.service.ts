@@ -32,15 +32,35 @@ export class StatusTaskService {
     const notExistStatuses = this.getNotExistStatuses(statuses);
     if (!notExistStatuses?.length) return;
     await Promise.all(
-      notExistStatuses.map((status: string) => this.create({ name: status })),
+      notExistStatuses.map((status: CreateStatusProjectDto) =>
+        this.create(status),
+      ),
     );
   }
 
   getNotExistStatuses(existStatuses) {
-    const statuses = ['OPEN', 'IN_PROGRESS', 'CLOSE', 'PLANNED'];
+    const statuses = [
+      {
+        name: 'OPEN',
+        value: 1,
+      },
+      {
+        name: 'IN_PROGRESS',
+        value: 2,
+      },
+      {
+        name: 'DONE',
+        value: 3,
+      },
+      {
+        name: 'TODO',
+        value: 4,
+      },
+    ];
     const notExistsStatus = statuses.filter(
       (status) => !existStatuses.find(({ name }) => status === name),
     );
     return notExistsStatus;
+    //
   }
 }
