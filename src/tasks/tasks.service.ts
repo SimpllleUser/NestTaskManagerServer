@@ -10,7 +10,7 @@ import { StatusTaskService } from '../status-task/status-task.service';
 import { TypeTaskService } from '../type-task/type-task.service';
 import { TypeTask } from '../type-task/type-task.model';
 import { PriorityTaskService } from '../priority-task/priority-task.service';
-import { PriorityTask } from "../priority-task/priority-task.model";
+import { PriorityTask } from '../priority-task/priority-task.model';
 
 @Injectable()
 export class TasksService {
@@ -37,9 +37,9 @@ export class TasksService {
     return task || {};
   }
 
-  async findAllByAuthor(userId: number) {
+  async findAllByAuthor(authorId: number) {
     const task = await this.taskRepository.findAll({
-      where: { userId },
+      where: { authorId },
       include: [
         {
           model: User,
@@ -56,6 +56,16 @@ export class TasksService {
         },
         {
           model: PriorityTask,
+        },
+        {
+          model: PriorityTask,
+        },
+        {
+          model: User,
+          as: 'executor',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
         },
       ],
     });

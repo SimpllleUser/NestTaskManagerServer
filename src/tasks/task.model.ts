@@ -17,9 +17,10 @@ import { PriorityTask } from '../priority-task/priority-task.model';
 interface TaskCreationAttrs {
   title: string;
   description: string;
-  userId: number;
+  authorId: number;
   typeId: number;
   priorityId: number;
+  executorId: number;
 }
 
 @Table({ tableName: 'tasks' })
@@ -43,7 +44,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
-  userId: number;
+  authorId: number;
 
   @BelongsTo(() => User)
   author: User;
@@ -75,4 +76,11 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @BelongsTo(() => PriorityTask)
   priority: TypeTask;
+
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
+  executorId: number;
+
+  @BelongsTo(() => User)
+  executor: User;
 }

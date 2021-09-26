@@ -22,9 +22,9 @@ export class ProjectService {
     return project;
   }
 
-  async findAllByAuthor(userId: number) {
+  async findAllByAuthor(authorId: number) {
     const projects = await this.projectRepository.findAll({
-      where: { userId },
+      where: { authorId },
       include: [
         {
           model: User,
@@ -74,3 +74,4 @@ export class ProjectService {
     return await this.projectRepository.destroy({ where: { id } });
   }
 }
+//

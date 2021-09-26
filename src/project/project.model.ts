@@ -19,7 +19,7 @@ import { StatusProject } from '../status-project/status-project.model';
 interface ProjectCreationAttrs {
   title: string;
   description: string;
-  userId: number;
+  authorId: number;
 }
 
 @Table({ tableName: 'project' })
@@ -48,7 +48,7 @@ export class Project extends Model<Project, ProjectCreationAttrs> {
 
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
-  userId: number;
+  authorId: number;
 
   @BelongsTo(() => User)
   author: User;
