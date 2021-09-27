@@ -34,7 +34,6 @@ export class TypeTaskService {
 
   async initTypes(): Promise<void> {
     const types = await this.findAll();
-    console.log(types);
     const notExistTypes = this.getNotExistTypes(types);
     if (!notExistTypes?.length) return;
     await Promise.all(notExistTypes.map((type: Type) => this.create(type)));
