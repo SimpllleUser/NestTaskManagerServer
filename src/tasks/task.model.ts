@@ -34,11 +34,9 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   })
   id: number;
 
-  @ApiProperty({ example: 'ADMIN', description: 'Уникальное Значение роли ' })
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
+  @Column({ type: DataType.STRING, unique: false, allowNull: false })
   title: string;
 
-  @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
