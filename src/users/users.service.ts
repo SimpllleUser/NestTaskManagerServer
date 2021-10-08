@@ -24,6 +24,11 @@ export class UsersService {
     return user;
   }
 
+  async findOne(id) {
+    const user = await this.userRepository.findByPk(id);
+    return user;
+  }
+
   async getAllUsers() {
     const users = await this.userRepository.findAll({ include: { all: true } });
     return users;

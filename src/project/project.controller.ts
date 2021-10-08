@@ -42,4 +42,19 @@ export class ProjectController {
   remove(@Param('id') id: string) {
     return this.projectService.remove(+id);
   }
+
+  @Patch(':projectId/user/:userId')
+  addUser(
+    @Param('projectId') projectId: number,
+    @Param('userId') userId: number,
+  ) {
+    return this.projectService.addUser(projectId, userId);
+  }
+  @Delete(':projectId/user/:userId')
+  deleteUser(
+    @Param('projectId') projectId: number,
+    @Param('userId') userId: number,
+  ) {
+    return this.projectService.deleteUser(projectId, userId);
+  }
 }
