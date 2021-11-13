@@ -7,11 +7,14 @@ import { Task } from '../tasks/task.model';
 import { Project } from './project.model';
 import { StatusProject } from '../status-project/status-project.model';
 import { StatusProjectModule } from '../status-project/status-project.module';
+import { UsersModule } from '../users/users.module';
+
 
 @Module({
   controllers: [ProjectController],
   providers: [ProjectService],
   imports: [
+    UsersModule,
     StatusProjectModule,
     SequelizeModule.forFeature([StatusProject, Project, User, Task]),
   ],

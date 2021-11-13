@@ -7,11 +7,14 @@ import {
   Param,
   Delete,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { ValidationPipe } from '../pipes/validation.pipe';
+import { JwtAuthGuard } from '../auth/jwt-auth-guards';
+
 
 @Controller('project')
 export class ProjectController {
@@ -28,6 +31,7 @@ export class ProjectController {
     return this.projectService.findAllByAuthor(id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.projectService.findOne(+id);
@@ -41,5 +45,20 @@ export class ProjectController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.projectService.remove(+id);
+  }
+
+  @Patch(':projectId/user/:userId')
+  addUser(
+    @Param('projectId') projectId: number,
+    @Param('userId') userId: number,
+  ) {
+    return this.projectService.addUser(projectId, userId);
+  }
+  @Delete(':projectId/user/:userId')
+  deleteUser(
+    @Param('projectId') projectId: number,
+    @Param('userId') userId: number,
+  ) {
+    return this.projectService.deleteUser(projectId, userId);
   }
 }

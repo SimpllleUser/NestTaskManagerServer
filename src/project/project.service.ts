@@ -6,17 +6,20 @@ import { Project } from './project.model';
 import { User } from '../users/users.model';
 import { Task } from '../tasks/task.model';
 import { StatusProjectService } from '../status-project/status-project.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectModel(Project) private projectRepository: typeof Project,
-    private statusProject: StatusProjectService,
+    private statusProjectService: StatusProjectService,
+    private userService: UsersService,
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
-    const status = await this.statusProject.getStatusByName('TODO');
+    const status = await this.statusProjectService.getStatusByName('TODO');
     const project = await this.projectRepository.create(createProjectDto);
+    await project.$add('team', createProjectDto.authorId);
     project.statusId = status.id;
     await project.save();
     return project;
@@ -54,8 +57,22 @@ export class ProjectService {
           },
         },
         {
+          model: User,
+          as: 'author',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
+        },
+        {
           model: Task,
           as: 'tasks',
+        },
+        {
+          model: User,
+          as: 'team',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
         },
       ],
     });
@@ -72,6 +89,21 @@ export class ProjectService {
 
   async remove(id: number) {
     return await this.projectRepository.destroy({ where: { id } });
+  }
+
+  async addUser(projectId, userId: number) {
+    const project = await this.findOne(projectId);
+    const user = await this.userService.findOne(userId);
+    await project.$add('team', userId);
+    await project.save();
+    return user;
+  }
+  async deleteUser(projectId, userId: number) {
+    const project = await this.findOne(projectId);
+    const user = await this.userService.findOne(userId);
+    await project.$remove('team', userId);
+    await project.save();
+    return { status: true };
   }
 }
 //

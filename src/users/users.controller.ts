@@ -40,6 +40,8 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Roles('ADMIN')
   @ApiOperation({ summary: 'Выдать роль' })
   @ApiResponse({ status: 200 })
   @Post('/role')
