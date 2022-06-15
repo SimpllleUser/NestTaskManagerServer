@@ -1,11 +1,4 @@
-import {
-  IsInt,
-  IsNumber,
-  IsPositive,
-  IsString,
-  Length,
-  Min,
-} from 'class-validator';
+import { IsInt, IsPositive, IsString, Length, Min } from 'class-validator';
 
 export class CreateTaskDto {
   @IsString({ message: 'Должно быть строкой' })

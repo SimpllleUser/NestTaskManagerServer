@@ -9,7 +9,6 @@ import { StatusProject } from '../status-project/status-project.model';
 import { StatusProjectModule } from '../status-project/status-project.module';
 import { UsersModule } from '../users/users.module';
 
-
 @Module({
   controllers: [ProjectController],
   providers: [ProjectService],

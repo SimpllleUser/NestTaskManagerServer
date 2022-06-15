@@ -4,7 +4,6 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Task } from './task.model';
 import { User } from '../users/users.model';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { StatusProjectService } from '../status-project/status-project.service';
 import { StatusTask } from '../status-task/status-task.model';
 import { StatusTaskService } from '../status-task/status-task.service';
 import { TypeTaskService } from '../type-task/type-task.service';

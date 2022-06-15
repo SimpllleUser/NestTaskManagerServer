@@ -12,11 +12,9 @@ import {
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Roles } from '../auth/roles-auth.decorator';
 import { TaskGuard } from './task.guard';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { JwtAuthGuard } from '../auth/jwt-auth-guards';
-
 
 @Controller('tasks')
 export class TasksController {
@@ -29,7 +27,7 @@ export class TasksController {
   createTask(@Body() dto: CreateTaskDto) {
     return this.taskService.create(dto);
   }
-  
+
   @UseGuards(JwtAuthGuard)
   @Get('/:id')
   getTask(@Param('id') id: number) {

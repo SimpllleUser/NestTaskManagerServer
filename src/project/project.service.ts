@@ -100,7 +100,6 @@ export class ProjectService {
   }
   async deleteUser(projectId, userId: number) {
     const project = await this.findOne(projectId);
-    const user = await this.userService.findOne(userId);
     await project.$remove('team', userId);
     await project.save();
     return { status: true };

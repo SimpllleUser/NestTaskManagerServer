@@ -10,9 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
-import { Role } from '../roles/roles.model';
 import { Task } from '../tasks/task.model';
-import { ProjectTasks } from './models/project-tasks';
 import { ProjectTeam } from './models/project-team';
 import { StatusProject } from '../status-project/status-project.model';
 

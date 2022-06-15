@@ -15,7 +15,6 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { JwtAuthGuard } from '../auth/jwt-auth-guards';
 
-
 @Controller('project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}

@@ -15,7 +15,6 @@ import { User } from './users.model';
 import { AddRoleDto } from './dto/add-role.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth-guards';
 import { Roles } from '../auth/roles-auth.decorator';
-import { RolesGuard } from '../auth/roles.guard';
 import { ValidationPipe } from '../pipes/validation.pipe';
 
 @ApiTags('Пользователи')
