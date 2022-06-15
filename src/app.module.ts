@@ -28,13 +28,14 @@ import { PriorityTaskModule } from './priority-task/priority-task.module';
     }),
     SequelizeModule.forRoot({
       host: '0.0.0.0',
+      password: '',
       dialect: 'sqlite',
       pool: {
         max: 5,
         min: 0,
         idle: 10000,
       },
-      storage: '../db.sqlite',
+      storage: './db.sqlite',
       autoLoadModels: true,
       models: [
         PriorityTask,
