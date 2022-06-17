@@ -31,7 +31,7 @@ export interface UserModel {
   tasks: Task[];
   projects: Project[];
 }
-export interface UserRegistration {
+export interface UserAuth {
   id: number;
   login: string;
   name: string;
