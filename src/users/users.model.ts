@@ -13,8 +13,29 @@ import { Task } from '../tasks/task.model';
 import { Project } from '../project/project.model';
 
 interface UserCreationAttrs {
-  email: string;
+  login: string;
+  name: string;
   password: string;
+  isActive: boolean;
+  hashCode: string;
+}
+
+export interface UserModel {
+  id: number;
+  login: string;
+  name: string;
+  password: string;
+  hashCode: string;
+  isActive: boolean;
+  roles: Role[];
+  tasks: Task[];
+  projects: Project[];
+}
+export interface UserRegistration {
+  id: number;
+  login: string;
+  name: string;
+  token: string;
 }
 
 @Table({ tableName: 'users' })
@@ -29,7 +50,9 @@ export class User extends Model<User, UserCreationAttrs> {
   id: number;
   @ApiProperty({ example: 'user@mail.ru', description: 'Почтовый адрес' })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
-  email: string;
+  login: string;
+  @Column({ type: DataType.STRING, unique: false, allowNull: false })
+  name: string;
   @ApiProperty({ example: '12345678', description: 'Пароль' })
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
@@ -37,13 +60,10 @@ export class User extends Model<User, UserCreationAttrs> {
   hashCode: string;
   @Column({ type: DataType.BOOLEAN, allowNull: false })
   isActive: boolean;
-
   @BelongsToMany(() => Role, () => UserRoles)
   roles: Role[];
-
   @HasMany(() => Task)
   tasks: Task[];
-
   @HasMany(() => Project)
   projects: Project[];
 }

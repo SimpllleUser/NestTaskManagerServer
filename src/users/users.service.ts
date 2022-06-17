@@ -15,12 +15,11 @@ export class UsersService {
   ) {}
 
   async createUser(dto: CreateUserDto) {
-    dto.isActive = false;
-    dto.hashCode = uuidv4();
-    const user = await this.userRepository.create(dto);
-    const role = await this.roleService.getRoleByValue('USER');
-    await user.$set('roles', [role.id]);
-    user.roles = [role];
+    const user = await this.userRepository.create({
+      ...dto,
+      isActive: false,
+      hashCode: uuidv4(),
+    });
     return user;
   }
 
@@ -34,9 +33,9 @@ export class UsersService {
     return users;
   }
 
-  async getUserByEmail(email: string) {
+  async getUserByEmail(login: string) {
     const user = await this.userRepository.findOne({
-      where: { email },
+      where: { login },
       include: { all: true },
     });
     return user;

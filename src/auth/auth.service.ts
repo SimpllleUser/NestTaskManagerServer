@@ -8,6 +8,7 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import { UserModel, UserRegistration } from 'src/users/users.model';
 
 @Injectable()
 export class AuthService {
@@ -22,8 +23,8 @@ export class AuthService {
     return result;
   }
 
-  async registration(userDto: CreateUserDto) {
-    const candidate = await this.userService.getUserByEmail(userDto.email);
+  async registration(userDto: CreateUserDto): Promise<UserRegistration> {
+    const candidate = await this.userService.getUserByEmail(userDto.login);
     if (candidate)
       throw new HttpException(
         'User with this email is exist in system',
@@ -34,8 +35,8 @@ export class AuthService {
       ...userDto,
       password: hashPassword,
     });
-    return this.generateToken(user);
-    // return await this.authService.registration(userDto);
+    const { id, name, login }: UserModel = user;
+    return { id, name, login, ...this.generateToken(user) };
   }
 
   private generateToken(user) {
@@ -46,7 +47,7 @@ export class AuthService {
   }
 
   private async validateUser(userDto: CreateUserDto) {
-    const user = await this.userService.getUserByEmail(userDto.email);
+    const user = await this.userService.getUserByEmail(userDto.login);
     const passwordEqual = await bcrypt.compare(userDto.password, user.password);
     if (user && passwordEqual) {
       return user;

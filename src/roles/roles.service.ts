@@ -11,9 +11,27 @@ export class RolesService {
     const role = await this.roleRepository.create(dto);
     return role;
   }
-
   async getRoleByValue(value: string) {
     const role = await this.roleRepository.findOne({ where: { value } });
     return role;
   }
+  async getAll() {
+    const role = await this.roleRepository.findAll();
+    return role;
+  }
+  // async onModuleInit(): Promise<void> {
+  //   const roles = [
+  //     {
+  //       value: 'ADMIN',
+  //       description: 'is admin',
+  //     },
+  //     {
+  //       value: 'USER',
+  //       description: 'is user',
+  //     },
+  //   ];
+  //   const existsRoles = await this.getAll();
+  //   if (!existsRoles.length) return;
+  //   roles.map((role: CreateRoleDto) => this.createRole(role));
+  // }
 }
