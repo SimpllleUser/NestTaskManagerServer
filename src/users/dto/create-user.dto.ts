@@ -2,15 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, Length } from 'class-validator';
 
 export class CreateUserDto {
-  @ApiProperty({ example: 'user@mail.ru', description: 'Почта' })
-  @IsString({ message: 'Должно быть строкой' })
-  @IsEmail({}, { message: 'Некорректный email' })
+  @ApiProperty({ example: 'user@example.com', description: 'email' })
+  @IsString({ message: 'Must be striing' })
+  @IsEmail({}, { message: 'Not correct  email' })
   readonly login: string;
   @ApiProperty({ example: 'Some name', description: 'user name' })
-  @IsString({ message: 'Должно быть строкой' })
+  @IsString({ message: 'Must be string' })
   readonly name: string;
-  @ApiProperty({ example: '12345', description: 'пароль' })
-  @IsString({ message: 'Должно быть строкой' })
-  @Length(4, 16, { message: 'Не меньше 4 и не больше 16' })
+  @ApiProperty({ example: '12345', description: 'password' })
+  @IsString({ message: 'Must be string' })
+  @Length(4, 16, { message: 'Min length 4 and max length 16' })
   readonly password: string;
 }

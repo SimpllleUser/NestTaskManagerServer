@@ -40,7 +40,7 @@ export interface UserAuth {
 
 @Table({ tableName: 'users' })
 export class User extends Model<User, UserCreationAttrs> {
-  @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
+  @ApiProperty({ example: '1', description: 'Uniq identificator' })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -48,12 +48,12 @@ export class User extends Model<User, UserCreationAttrs> {
     primaryKey: true,
   })
   id: number;
-  @ApiProperty({ example: 'user@mail.ru', description: 'Почтовый адрес' })
+  @ApiProperty({ example: 'user@example.com', description: 'email address' })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   login: string;
   @Column({ type: DataType.STRING, unique: false, allowNull: false })
   name: string;
-  @ApiProperty({ example: '12345678', description: 'Пароль' })
+  @ApiProperty({ example: '12345678', description: 'password' })
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
   @Column({ type: DataType.STRING, allowNull: true })

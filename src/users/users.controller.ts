@@ -22,7 +22,7 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  @ApiOperation({ summary: 'Создание пользователя' })
+  @ApiOperation({ summary: 'Create user' })
   @ApiResponse({ status: 200, type: User })
   @UsePipes(ValidationPipe)
   @Post()
@@ -30,7 +30,7 @@ export class UsersController {
     return this.usersService.createUser(userDto);
   }
 
-  @ApiOperation({ summary: 'Получить всех пользователей' })
+  @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({ status: 200, type: [User] })
   @UseGuards(JwtAuthGuard)
   @Roles('ADMIN')
@@ -41,13 +41,13 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Roles('ADMIN')
-  @ApiOperation({ summary: 'Выдать роль' })
+  @ApiOperation({ summary: 'Get user role' })
   @ApiResponse({ status: 200 })
   @Post('/role')
   addRole(@Body() dto: AddRoleDto) {
     return this.usersService.addRole(dto);
   }
-
+  @ApiOperation({ summary: 'Make active' })
   @Get('/activate/:hashCode')
   makeActive(@Param('hashCode') hashCode: string, @Res() res) {
     this.usersService.makeActive(hashCode);
