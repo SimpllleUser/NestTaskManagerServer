@@ -17,7 +17,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth-guards';
 import { Roles } from '../auth/roles-auth.decorator';
 import { ValidationPipe } from '../pipes/validation.pipe';
 
-@ApiTags('Пользователи')
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}

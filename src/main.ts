@@ -6,10 +6,10 @@ import { AppResultInterceptor } from './app/app-result.interceptor';
 async function bootstrap() {
   const PORT = process.env.PORT || 3000;
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('Resume api')
-    .setDescription('Resume api documentation')
+    .setTitle('Documentation API')
+    .setDescription('It`s documentation API for TaskManager app server')
     .setVersion('1.0')
-    .addTag('resume')
+    .addTag('Documentation')
     .build();
   const app = await NestFactory.create(AppModule, { cors: true });
   app.useGlobalInterceptors(new AppResultInterceptor());

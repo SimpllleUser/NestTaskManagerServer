@@ -19,9 +19,9 @@ interface ProjectCreationAttrs {
   description: string;
   authorId: number;
 }
-
-@Table({ tableName: 'project' })
+@Table({ tableName: 'projects' })
 export class Project extends Model<Project, ProjectCreationAttrs> {
+  @ApiProperty({ example: '1', description: 'Uniq identificator' })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -30,14 +30,27 @@ export class Project extends Model<Project, ProjectCreationAttrs> {
   })
   id: number;
 
-  @ApiProperty({ example: 'ADMIN', description: 'Уникальное Значение роли ' })
+  @ApiProperty({ example: 'Some-title', description: 'Must be uqniq value ' })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   title: string;
 
-  @ApiProperty({ example: 'Администратор', description: 'Описание роли' })
+  @ApiProperty({ example: 'ADMIN', description: 'description roles' })
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
+  @ApiProperty({
+    example: [
+      {
+        title: 'string',
+        description: 'string',
+        authorId: 'number',
+        typeId: 'number',
+        priorityId: 'number',
+        executorId: 'number',
+      },
+    ],
+    description: 'description roles',
+  })
   @HasMany(() => Task)
   tasks: Task[];
 

@@ -12,8 +12,9 @@ import { StatusTask } from '../status-task/status-task.model';
 import { Project } from '../project/project.model';
 import { TypeTask } from '../type-task/type-task.model';
 import { PriorityTask } from '../priority-task/priority-task.model';
+import { CreateTaskDto } from './dto/create-task.dto';
 
-interface TaskCreationAttrs {
+export interface TaskCreationAttrs {
   title: string;
   description: string;
   authorId: number;
@@ -22,9 +23,23 @@ interface TaskCreationAttrs {
   executorId: number;
 }
 
+export const TaskExample = {
+  title: 'string',
+  description: 'string',
+  authorId: 'number',
+  typeId: 'number',
+  priorityId: 'number',
+  executorId: 'number',
+};
+
+export class CreateTaskBody {
+  @ApiProperty()
+  task: CreateTaskDto;
+}
+
 @Table({ tableName: 'tasks' })
 export class Task extends Model<Task, TaskCreationAttrs> {
-  @ApiProperty({ example: '1', description: 'Уникальный идентификатор' })
+  @ApiProperty({ example: '1', description: 'Uniq identificator' })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -33,12 +48,15 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   })
   id: number;
 
+  @ApiProperty({ example: 'name', description: 'Some task name' })
   @Column({ type: DataType.STRING, unique: false, allowNull: false })
   title: string;
 
+  @ApiProperty({ example: 'description', description: 'Some task description' })
   @Column({ type: DataType.STRING, allowNull: false })
   description: string;
 
+  @ApiProperty({ example: '1', description: 'Some user id' })
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   authorId: number;
@@ -46,6 +64,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   @BelongsTo(() => User)
   author: User;
 
+  @ApiProperty({ example: '1', description: 'Some project id' })
   @ForeignKey(() => Project)
   @Column({ type: DataType.INTEGER })
   projectId: number;
@@ -53,6 +72,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   @BelongsTo(() => Project)
   project: Project;
 
+  @ApiProperty({ example: '1', description: 'Some status task' })
   @ForeignKey(() => StatusTask)
   @Column({ type: DataType.INTEGER })
   statusId: number;
@@ -60,6 +80,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   @BelongsTo(() => StatusTask)
   status: StatusTask;
 
+  @ApiProperty({ example: '1', description: 'Some type task' })
   @ForeignKey(() => TypeTask)
   @Column({ type: DataType.INTEGER })
   typeId: number;
@@ -67,6 +88,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   @BelongsTo(() => TypeTask)
   type: TypeTask;
 
+  @ApiProperty({ example: '1', description: 'Some priority' })
   @ForeignKey(() => PriorityTask)
   @Column({ type: DataType.INTEGER })
   priorityId: number;
@@ -74,6 +96,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   @BelongsTo(() => PriorityTask)
   priority: TypeTask;
 
+  @ApiProperty({ example: '1', description: 'Some user executor' })
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   executorId: number;
