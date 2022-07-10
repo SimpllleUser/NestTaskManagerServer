@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { PriorityTask } from './priority-task.model';
+import { PriorityTask } from './task-priority.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
 
 export type Priority = {

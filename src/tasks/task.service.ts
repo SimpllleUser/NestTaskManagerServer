@@ -4,12 +4,12 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Task } from './task.model';
 import { User } from '../users/users.model';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { StatusTask } from '../status-task/status-task.model';
-import { StatusTaskService } from '../status-task/status-task.service';
+import { StatusTask } from '../task-status/task-status.model';
+import { StatusTaskService } from '../task-status/task-status.service';
 import { TypeTaskService } from '../type-task/type-task.service';
 import { TypeTask } from '../type-task/type-task.model';
-import { PriorityTaskService } from '../priority-task/priority-task.service';
-import { PriorityTask } from '../priority-task/priority-task.model';
+import { PriorityTaskService } from '../task-priority/task-priority.service';
+import { PriorityTask } from '../task-priority/task-priority.model';
 
 @Injectable()
 export class TasksService {

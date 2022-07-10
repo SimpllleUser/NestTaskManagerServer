@@ -5,8 +5,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from '../users/users.model';
 import { Task } from '../tasks/task.model';
 import { Project } from './project.model';
-import { StatusProject } from '../status-project/status-project.model';
-import { StatusProjectModule } from '../status-project/status-project.module';
+import { StatusProject } from '../project-status/project-status.model';
+import { StatusProjectModule } from '../project-status/project-status.module';
 import { UsersModule } from '../users/users.module';
 
 @Module({

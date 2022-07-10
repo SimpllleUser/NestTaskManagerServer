@@ -6,7 +6,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { TypeTaskService } from '../type-task/type-task.service';
-import { PriorityTaskService } from '../priority-task/priority-task.service';
+import { PriorityTaskService } from '../task-priority/task-priority.service';
 
 type ItemTask = {
   id: number;

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStatusProjectDto } from '../status-project/dto/create-status-project.dto';
+import { CreateStatusProjectDto } from '../project-status/dto/create-status-project.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { StatusTask } from './status-task.model';
+import { StatusTask } from './task-status.model';
 
 @Injectable()
 export class StatusTaskService {

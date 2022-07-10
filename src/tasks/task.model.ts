@@ -8,10 +8,10 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
-import { StatusTask } from '../status-task/status-task.model';
+import { StatusTask } from '../task-status/task-status.model';
 import { Project } from '../project/project.model';
 import { TypeTask } from '../type-task/type-task.model';
-import { PriorityTask } from '../priority-task/priority-task.model';
+import { PriorityTask } from '../task-priority/task-priority.model';
 import { CreateTaskDto } from './dto/create-task.dto';
 
 export interface TaskCreationAttrs {

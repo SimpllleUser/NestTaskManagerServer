@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { PriorityTaskService } from './priority-task.service';
+import { PriorityTaskService } from './task-priority.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { PriorityTask } from './priority-task.model';
+import { PriorityTask } from './task-priority.model';
 
 @Module({
   providers: [PriorityTaskService],

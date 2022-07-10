@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { StatusProject } from './status-project.model';
-import { StatusProjectService } from './status-project.service';
+import { StatusProject } from './project-status.model';
+import { StatusProjectService } from './project-status.service';
 
 @Module({
   providers: [StatusProjectService],

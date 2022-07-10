@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { StatusProject } from './status-project.model';
+import { StatusProject } from './project-status.model';
 import { CreateStatusProjectDto } from './dto/create-status-project.dto';
 
 @Injectable()

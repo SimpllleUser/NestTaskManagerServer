@@ -12,7 +12,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/users.model';
 import { Task } from '../tasks/task.model';
 import { ProjectTeam } from './models/project-team';
-import { StatusProject } from '../status-project/status-project.model';
+import { StatusProject } from '../project-status/project-status.model';
 
 interface ProjectCreationAttrs {
   title: string;
