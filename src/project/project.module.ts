@@ -3,7 +3,7 @@ import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from '../user/users.model';
-import { Task } from '../tasks/task.model';
+import { Task } from '../task/task.model';
 import { Project } from './project.model';
 import { StatusProject } from '../project-status/project-status.model';
 import { StatusProjectModule } from '../project-status/project-status.module';

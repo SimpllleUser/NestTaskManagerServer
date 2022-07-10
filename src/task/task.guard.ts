@@ -5,7 +5,7 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import { TypeTaskService } from '../type-task/type-task.service';
+import { TypeTaskService } from '../task-type/task-type.service';
 import { PriorityTaskService } from '../task-priority/task-priority.service';
 
 type ItemTask = {

@@ -6,8 +6,8 @@ import { Task } from './task.model';
 import { StatusTask } from '../task-status/task-status.model';
 import { Project } from '../project/project.model';
 import { StatusTaskModule } from '../task-status/task-status.module';
-import { TypeTask } from '../type-task/type-task.model';
-import { TypeTaskModule } from '../type-task/type-task.module';
+import { TypeTask } from '../task-type/task-type.model';
+import { TypeTaskModule } from '../task-type/task-type.module';
 import { PriorityTask } from '../task-priority/task-priority.model';
 import { PriorityTaskModule } from '../task-priority/task-priority.module';
 

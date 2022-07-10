@@ -5,7 +5,7 @@ interface PriorityCreationAttrs {
   value: number;
 }
 
-@Table({ tableName: 'priority_task' })
+@Table({ tableName: 'task_priority' })
 export class PriorityTask extends Model<PriorityTask, PriorityCreationAttrs> {
   @Column({
     type: DataType.INTEGER,

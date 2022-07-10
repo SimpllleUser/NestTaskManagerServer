@@ -5,7 +5,7 @@ import {
   Model,
   Table,
 } from 'sequelize-typescript';
-import { Task } from '../../tasks/task.model';
+import { Task } from '../../task/task.model';
 import { Project } from '../project.model';
 
 @Table({ tableName: 'project_task', createdAt: false, updatedAt: false })

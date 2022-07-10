@@ -6,8 +6,8 @@ import { User } from '../user/users.model';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { StatusTask } from '../task-status/task-status.model';
 import { StatusTaskService } from '../task-status/task-status.service';
-import { TypeTaskService } from '../type-task/type-task.service';
-import { TypeTask } from '../type-task/type-task.model';
+import { TypeTaskService } from '../task-type/task-type.service';
+import { TypeTask } from '../task-type/task-type.model';
 import { PriorityTaskService } from '../task-priority/task-priority.service';
 import { PriorityTask } from '../task-priority/task-priority.model';
 

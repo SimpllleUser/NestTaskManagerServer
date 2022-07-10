@@ -5,7 +5,7 @@ interface TypeCreationAttrs {
   value: number;
 }
 
-@Table({ tableName: 'status_project' })
+@Table({ tableName: 'project_status' })
 export class StatusProject extends Model<StatusProject, TypeCreationAttrs> {
   @Column({
     type: DataType.INTEGER,

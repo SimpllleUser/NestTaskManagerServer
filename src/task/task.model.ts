@@ -10,7 +10,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/users.model';
 import { StatusTask } from '../task-status/task-status.model';
 import { Project } from '../project/project.model';
-import { TypeTask } from '../type-task/type-task.model';
+import { TypeTask } from '../task-type/task-type.model';
 import { PriorityTask } from '../task-priority/task-priority.model';
 import { CreateTaskDto } from './dto/create-task.dto';
 
@@ -37,7 +37,7 @@ export class CreateTaskBody {
   task: CreateTaskDto;
 }
 
-@Table({ tableName: 'tasks' })
+@Table({ tableName: 'task' })
 export class Task extends Model<Task, TaskCreationAttrs> {
   @ApiProperty({ example: '1', description: 'Uniq identificator' })
   @Column({

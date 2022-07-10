@@ -7,7 +7,7 @@ import { Role } from '../roles/roles.model';
 import { UserRoles } from '../roles/user-roles.model';
 import { RolesModule } from '../roles/roles.module';
 import { AuthModule } from '../auth/auth.module';
-import { Task } from '../tasks/task.model';
+import { Task } from '../task/task.model';
 import { Project } from '../project/project.model';
 
 @Module({

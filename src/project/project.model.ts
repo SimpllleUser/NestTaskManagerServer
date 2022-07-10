@@ -10,7 +10,7 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/users.model';
-import { Task } from '../tasks/task.model';
+import { Task } from '../task/task.model';
 import { ProjectTeam } from './models/project-team';
 import { StatusProject } from '../project-status/project-status.model';
 
@@ -19,7 +19,7 @@ interface ProjectCreationAttrs {
   description: string;
   authorId: number;
 }
-@Table({ tableName: 'projects' })
+@Table({ tableName: 'project' })
 export class Project extends Model<Project, ProjectCreationAttrs> {
   @ApiProperty({ example: '1', description: 'Uniq identificator' })
   @Column({

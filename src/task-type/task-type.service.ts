@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { TypeTask } from './type-task.model';
+import { TypeTask } from './task-type.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
 
 export type Type = {

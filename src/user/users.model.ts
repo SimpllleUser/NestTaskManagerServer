@@ -9,7 +9,7 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '../roles/roles.model';
 import { UserRoles } from '../roles/user-roles.model';
-import { Task } from '../tasks/task.model';
+import { Task } from '../task/task.model';
 import { Project } from '../project/project.model';
 
 interface UserCreationAttrs {
@@ -38,7 +38,7 @@ export interface UserAuth {
   token: string;
 }
 
-@Table({ tableName: 'users' })
+@Table({ tableName: 'user' })
 export class User extends Model<User, UserCreationAttrs> {
   @ApiProperty({ example: '1', description: 'Uniq identificator' })
   @Column({

@@ -4,7 +4,7 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Project } from './project.model';
 import { User } from '../user/users.model';
-import { Task } from '../tasks/task.model';
+import { Task } from '../task/task.model';
 import { StatusProjectService } from '../project-status/project-status.service';
 import { UsersService } from '../user/users.service';
 
