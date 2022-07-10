@@ -7,7 +7,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../users/users.model';
+import { User } from '../user/users.model';
 import { StatusTask } from '../task-status/task-status.model';
 import { Project } from '../project/project.model';
 import { TypeTask } from '../type-task/type-task.model';

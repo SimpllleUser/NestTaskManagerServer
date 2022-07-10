@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Task } from './task.model';
-import { User } from '../users/users.model';
+import { User } from '../user/users.model';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { StatusTask } from '../task-status/task-status.model';
 import { StatusTaskService } from '../task-status/task-status.service';

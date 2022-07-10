@@ -1,7 +1,7 @@
 import { forwardRef, Module, Global } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UsersModule } from '../users/users.module';
+import { UsersModule } from '../user/users.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Global()

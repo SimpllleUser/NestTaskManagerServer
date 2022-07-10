@@ -3,10 +3,10 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Project } from './project.model';
-import { User } from '../users/users.model';
+import { User } from '../user/users.model';
 import { Task } from '../tasks/task.model';
 import { StatusProjectService } from '../project-status/project-status.service';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../user/users.service';
 
 @Injectable()
 export class ProjectService {

@@ -6,7 +6,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 import { Project } from '../project.model';
-import { User } from '../../users/users.model';
+import { User } from '../../user/users.model';
 
 @Table({ tableName: 'project_team', createdAt: false, updatedAt: false })
 export class ProjectTeam extends Model<ProjectTeam> {
