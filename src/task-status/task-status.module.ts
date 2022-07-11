@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { StatusTaskService } from './task-status.service';
+import { TaskStatusService } from './task-status.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { StatusTask } from './task-status.model';
+import { TaskStatus } from './task-status.model';
 
 @Module({
-  providers: [StatusTaskService],
-  imports: [SequelizeModule.forFeature([StatusTask])],
-  exports: [StatusTaskService],
+  providers: [TaskStatusService],
+  imports: [SequelizeModule.forFeature([TaskStatus])],
+  exports: [TaskStatusService],
 })
 export class StatusTaskModule {}

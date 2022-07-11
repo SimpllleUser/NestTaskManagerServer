@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeTaskService } from './task-type.service';
+import { TaskTypeService } from './task-type.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { TypeTask } from './task-type.model';
+import { TaskType } from './task-type.model';
 
 @Module({
-  providers: [TypeTaskService],
-  imports: [SequelizeModule.forFeature([TypeTask])],
-  exports: [TypeTaskService],
+  providers: [TaskTypeService],
+  imports: [SequelizeModule.forFeature([TaskType])],
+  exports: [TaskTypeService],
 })
 export class TypeTaskModule {}

@@ -1,13 +1,13 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { StatusProject } from './project-status.model';
-import { CreateStatusProjectDto } from './dto/create-status-project.dto';
+import { ProjectStatus } from './project-status.model';
+import { CreateStatusProjectDto } from './dto/create-project-status.dto';
 
 @Injectable()
 export class StatusProjectService implements OnModuleInit {
   constructor(
-    @InjectModel(StatusProject)
-    private statusProjectRepository: typeof StatusProject,
+    @InjectModel(ProjectStatus)
+    private statusProjectRepository: typeof ProjectStatus,
   ) {}
 
   async create(dto: CreateStatusProjectDto) {

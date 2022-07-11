@@ -4,20 +4,20 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Task } from './task.model';
 import { User } from '../user/users.model';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { StatusTask } from '../task-status/task-status.model';
-import { StatusTaskService } from '../task-status/task-status.service';
-import { TypeTaskService } from '../task-type/task-type.service';
-import { TypeTask } from '../task-type/task-type.model';
-import { PriorityTaskService } from '../task-priority/task-priority.service';
-import { PriorityTask } from '../task-priority/task-priority.model';
+import { TaskStatus } from '../task-status/task-status.model';
+import { TaskStatusService } from '../task-status/task-status.service';
+import { TaskTypeService } from '../task-type/task-type.service';
+import { TaskType } from '../task-type/task-type.model';
+import { TaskPriorityService } from '../task-priority/task-priority.service';
+import { TaskPriority } from '../task-priority/task-priority.model';
 
 @Injectable()
 export class TasksService {
   constructor(
     @InjectModel(Task) private taskRepository: typeof Task,
-    private statusTask: StatusTaskService,
-    private typeTask: TypeTaskService,
-    private priorityTask: PriorityTaskService,
+    private statusTask: TaskStatusService,
+    private typeTask: TaskTypeService,
+    private priorityTask: TaskPriorityService,
   ) {}
 
   async create(dto: CreateTaskDto) {
@@ -48,16 +48,16 @@ export class TasksService {
           },
         },
         {
-          model: StatusTask,
+          model: TaskStatus,
         },
         {
-          model: TypeTask,
+          model: TaskType,
         },
         {
-          model: PriorityTask,
+          model: TaskPriority,
         },
         {
-          model: PriorityTask,
+          model: TaskPriority,
         },
         {
           model: User,

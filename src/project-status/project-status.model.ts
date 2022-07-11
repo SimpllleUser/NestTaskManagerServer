@@ -6,7 +6,7 @@ interface TypeCreationAttrs {
 }
 
 @Table({ tableName: 'project_status' })
-export class StatusProject extends Model<StatusProject, TypeCreationAttrs> {
+export class ProjectStatus extends Model<ProjectStatus, TypeCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
     unique: true,

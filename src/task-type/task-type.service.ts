@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { TypeTask } from './task-type.model';
+import { TaskType } from './task-type.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
 
 export type Type = {
@@ -9,24 +9,24 @@ export type Type = {
 };
 
 @Injectable()
-export class TypeTaskService {
+export class TaskTypeService {
   constructor(
-    @InjectModel(TypeTask)
-    private typeTaskRepository: typeof TypeTask,
+    @InjectModel(TaskType)
+    private taskTypeRepository: typeof TaskType,
   ) {}
 
   async create(dto: CreateTypeTaskDto) {
-    const typeTask = await this.typeTaskRepository.create(dto);
+    const typeTask = await this.taskTypeRepository.create(dto);
     return typeTask;
   }
 
   async findAll() {
-    const typeTasks = await this.typeTaskRepository.findAll();
+    const typeTasks = await this.taskTypeRepository.findAll();
     return typeTasks;
   }
 
   async getTypeByName(name) {
-    const typeTasks = await this.typeTaskRepository.findOne({
+    const typeTasks = await this.taskTypeRepository.findOne({
       where: { name },
     });
     return typeTasks;

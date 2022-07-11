@@ -5,7 +5,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from '../user/users.model';
 import { Task } from '../task/task.model';
 import { Project } from './project.model';
-import { StatusProject } from '../project-status/project-status.model';
+import { ProjectStatus } from '../project-status/project-status.model';
 import { StatusProjectModule } from '../project-status/project-status.module';
 import { UsersModule } from '../user/users.module';
 
@@ -15,7 +15,7 @@ import { UsersModule } from '../user/users.module';
   imports: [
     UsersModule,
     StatusProjectModule,
-    SequelizeModule.forFeature([StatusProject, Project, User, Task]),
+    SequelizeModule.forFeature([ProjectStatus, Project, User, Task]),
   ],
   exports: [ProjectService],
 })

@@ -6,7 +6,7 @@ interface PriorityCreationAttrs {
 }
 
 @Table({ tableName: 'task_priority' })
-export class PriorityTask extends Model<PriorityTask, PriorityCreationAttrs> {
+export class TaskPriority extends Model<TaskPriority, PriorityCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
     unique: true,

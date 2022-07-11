@@ -9,7 +9,7 @@ import { Task } from '../../task/task.model';
 import { Project } from '../project.model';
 
 @Table({ tableName: 'project_task', createdAt: false, updatedAt: false })
-export class ProjectTasks extends Model<ProjectTasks> {
+export class ProjectTask extends Model<ProjectTask> {
   @Column({
     type: DataType.INTEGER,
     unique: true,

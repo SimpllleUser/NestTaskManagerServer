@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PriorityTaskService } from './task-priority.service';
+import { TaskPriorityService } from './task-priority.service';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { PriorityTask } from './task-priority.model';
+import { TaskPriority } from './task-priority.model';
 
 @Module({
-  providers: [PriorityTaskService],
-  imports: [SequelizeModule.forFeature([PriorityTask])],
-  exports: [PriorityTaskService],
+  providers: [TaskPriorityService],
+  imports: [SequelizeModule.forFeature([TaskPriority])],
+  exports: [TaskPriorityService],
 })
 export class PriorityTaskModule {}

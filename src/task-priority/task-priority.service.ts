@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { PriorityTask } from './task-priority.model';
+import { TaskPriority } from './task-priority.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
 
 export type Priority = {
@@ -9,24 +9,24 @@ export type Priority = {
 };
 
 @Injectable()
-export class PriorityTaskService {
+export class TaskPriorityService {
   constructor(
-    @InjectModel(PriorityTask)
-    private priorityTaskRepository: typeof PriorityTask,
+    @InjectModel(TaskPriority)
+    private taskPriorityaskRepository: typeof TaskPriority,
   ) {}
 
   async create(dto: CreateTypeTaskDto) {
-    const priorityTask = await this.priorityTaskRepository.create(dto);
+    const priorityTask = await this.taskPriorityaskRepository.create(dto);
     return priorityTask;
   }
 
   async findAll() {
-    const priorityTasks = await this.priorityTaskRepository.findAll();
+    const priorityTasks = await this.taskPriorityaskRepository.findAll();
     return priorityTasks;
   }
 
   async getTypeByName(name) {
-    const priorityTasks = await this.priorityTaskRepository.findOne({
+    const priorityTasks = await this.taskPriorityaskRepository.findOne({
       where: { name },
     });
     return priorityTasks;

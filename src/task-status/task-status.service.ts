@@ -1,27 +1,27 @@
 import { Injectable } from '@nestjs/common';
-import { CreateStatusProjectDto } from '../project-status/dto/create-status-project.dto';
+import { CreateStatusProjectDto } from '../project-status/dto/create-project-status.dto';
 import { InjectModel } from '@nestjs/sequelize';
-import { StatusTask } from './task-status.model';
+import { TaskStatus } from './task-status.model';
 
 @Injectable()
-export class StatusTaskService {
+export class TaskStatusService {
   constructor(
-    @InjectModel(StatusTask)
-    private statusTaskRepository: typeof StatusTask,
+    @InjectModel(TaskStatus)
+    private taskStatusRepository: typeof TaskStatus,
   ) {}
 
   async create(dto: CreateStatusProjectDto) {
-    const statusProject = await this.statusTaskRepository.create(dto);
+    const statusProject = await this.taskStatusRepository.create(dto);
     return statusProject;
   }
 
   async findAll() {
-    const statusesProject = await this.statusTaskRepository.findAll();
+    const statusesProject = await this.taskStatusRepository.findAll();
     return statusesProject;
   }
 
   async getStatusByName(name) {
-    const statusProject = await this.statusTaskRepository.findOne({
+    const statusProject = await this.taskStatusRepository.findOne({
       where: { name },
     });
     return statusProject;

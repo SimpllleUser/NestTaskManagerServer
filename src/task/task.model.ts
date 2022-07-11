@@ -8,10 +8,10 @@ import {
 } from 'sequelize-typescript';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../user/users.model';
-import { StatusTask } from '../task-status/task-status.model';
+import { TaskStatus } from '../task-status/task-status.model';
 import { Project } from '../project/project.model';
-import { TypeTask } from '../task-type/task-type.model';
-import { PriorityTask } from '../task-priority/task-priority.model';
+import { TaskType } from '../task-type/task-type.model';
+import { TaskPriority } from '../task-priority/task-priority.model';
 import { CreateTaskDto } from './dto/create-task.dto';
 
 export interface TaskCreationAttrs {
@@ -73,28 +73,28 @@ export class Task extends Model<Task, TaskCreationAttrs> {
   project: Project;
 
   @ApiProperty({ example: '1', description: 'Some status task' })
-  @ForeignKey(() => StatusTask)
+  @ForeignKey(() => TaskStatus)
   @Column({ type: DataType.INTEGER })
   statusId: number;
 
-  @BelongsTo(() => StatusTask)
-  status: StatusTask;
+  @BelongsTo(() => TaskStatus)
+  status: TaskStatus;
 
   @ApiProperty({ example: '1', description: 'Some type task' })
-  @ForeignKey(() => TypeTask)
+  @ForeignKey(() => TaskType)
   @Column({ type: DataType.INTEGER })
   typeId: number;
 
-  @BelongsTo(() => TypeTask)
-  type: TypeTask;
+  @BelongsTo(() => TaskType)
+  type: TaskType;
 
   @ApiProperty({ example: '1', description: 'Some priority' })
-  @ForeignKey(() => PriorityTask)
+  @ForeignKey(() => TaskPriority)
   @Column({ type: DataType.INTEGER })
   priorityId: number;
 
-  @BelongsTo(() => PriorityTask)
-  priority: TypeTask;
+  @BelongsTo(() => TaskPriority)
+  priority: TaskType;
 
   @ApiProperty({ example: '1', description: 'Some user executor' })
   @ForeignKey(() => User)

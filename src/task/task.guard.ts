@@ -5,8 +5,8 @@ import {
   HttpStatus,
   Injectable,
 } from '@nestjs/common';
-import { TypeTaskService } from '../task-type/task-type.service';
-import { PriorityTaskService } from '../task-priority/task-priority.service';
+import { TaskTypeService } from '../task-type/task-type.service';
+import { TaskPriorityService } from '../task-priority/task-priority.service';
 
 type ItemTask = {
   id: number;
@@ -17,8 +17,8 @@ type ItemTask = {
 @Injectable()
 export class TaskGuard implements CanActivate {
   constructor(
-    private typeTaskService: TypeTaskService,
-    private priorityTaskService: PriorityTaskService,
+    private typeTaskService: TaskTypeService,
+    private priorityTaskService: TaskPriorityService,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {

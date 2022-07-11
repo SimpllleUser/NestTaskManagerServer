@@ -5,8 +5,8 @@ interface TypeCreationAttrs {
   value: number;
 }
 
-@Table({ tableName: 'task-type' })
-export class TypeTask extends Model<TypeTask, TypeCreationAttrs> {
+@Table({ tableName: 'task_type' })
+export class TaskType extends Model<TaskType, TypeCreationAttrs> {
   @Column({
     type: DataType.INTEGER,
     unique: true,
