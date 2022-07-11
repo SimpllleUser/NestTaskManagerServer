@@ -28,14 +28,14 @@ export class StatusProjectService implements OnModuleInit {
   }
 
   async onModuleInit(): Promise<void> {
-    // const statuses = await this.findAll();
-    // const notExistStatuses = this.getNotExistStatuses(statuses);
-    // if (!notExistStatuses?.length) return;
-    // await Promise.all(
-    //   notExistStatuses.map((status: CreateStatusProjectDto) =>
-    //     this.create(status),
-    //   ),
-    // );
+    const statuses = await this.findAll();
+    const notExistStatuses = this.getNotExistStatuses(statuses);
+    if (statuses?.length) return;
+    await Promise.all(
+      notExistStatuses.map((status: CreateStatusProjectDto) =>
+        this.create(status),
+      ),
+    );
   }
 
   getNotExistStatuses(existStatuses) {
@@ -61,6 +61,5 @@ export class StatusProjectService implements OnModuleInit {
       (status) => !existStatuses.find(({ name }) => status === name),
     );
     return notExistsStatus;
-    //
   }
 }

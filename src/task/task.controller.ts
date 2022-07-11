@@ -49,7 +49,7 @@ export class TasksController {
     return this.taskService.findAllByAuthor(userId);
   }
 
-  @ApiOperation({ summary: 'Get task by author' })
+  @ApiOperation({ summary: 'Get task from project' })
   @ApiResponse({ status: 200, type: [Task] })
   @UseGuards(JwtAuthGuard)
   @Get('/project/:id')

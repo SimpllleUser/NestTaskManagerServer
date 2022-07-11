@@ -32,10 +32,14 @@ export class TaskTypeService {
     return typeTasks;
   }
 
+  async onModuleInit(): Promise<void> {
+    await this.initTypes();
+  }
+
   async initTypes(): Promise<void> {
     const types = await this.findAll();
     const notExistTypes = this.getNotExistTypes(types);
-    if (!notExistTypes?.length) return;
+    if (types?.length) return;
     await Promise.all(notExistTypes.map((type: Type) => this.create(type)));
   }
 

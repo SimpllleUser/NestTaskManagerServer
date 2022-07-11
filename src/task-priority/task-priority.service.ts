@@ -13,7 +13,7 @@ export class TaskPriorityService {
   constructor(
     @InjectModel(TaskPriority)
     private taskPriorityaskRepository: typeof TaskPriority,
-  ) {}
+  ) { }
 
   async create(dto: CreateTypeTaskDto) {
     const priorityTask = await this.taskPriorityaskRepository.create(dto);
@@ -32,10 +32,14 @@ export class TaskPriorityService {
     return priorityTasks;
   }
 
+  async onModuleInit(): Promise<void> {
+    await this.initPriorities();
+  }
+
   async initPriorities(): Promise<void> {
     const priorities = await this.findAll();
     const notExistPriorities = this.getNotExistPriority(priorities);
-    if (!notExistPriorities?.length) return;
+    if (priorities?.length) return;
     await Promise.all(
       notExistPriorities.map((priority: Priority) => this.create(priority)),
     );
@@ -43,9 +47,9 @@ export class TaskPriorityService {
 
   getNotExistPriority(existTypes) {
     const types: Priority[] = [
-      { name: 'HIGH', value: 4 },
-      { name: 'NORMAL', value: 3 },
-      { name: 'LOW', value: 1 },
+      { name: 'HIGH', value: 1 },
+      { name: 'NORMAL', value: 2 },
+      { name: 'LOW', value: 3 },
     ];
     const notExistsPriority = types.filter(
       (type) => !existTypes.find(({ name }) => type === name),

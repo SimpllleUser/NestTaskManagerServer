@@ -28,4 +28,12 @@ export class CreateTaskDto {
   @IsInt()
   @Min(1)
   executorId: number;
+  @ApiProperty({ example: '1', description: 'Some status id' })
+  @IsInt()
+  @Min(1)
+  statusId: number;
+  @ApiProperty({ example: '1', description: 'Some project id' })
+  @IsInt()
+  @Min(1)
+  projectId: number;
 }

@@ -20,17 +20,9 @@ export interface TaskCreationAttrs {
   authorId: number;
   typeId: number;
   priorityId: number;
+  statusId: number;
   executorId: number;
 }
-
-export const TaskExample = {
-  title: 'string',
-  description: 'string',
-  authorId: 'number',
-  typeId: 'number',
-  priorityId: 'number',
-  executorId: 'number',
-};
 
 export class CreateTaskBody {
   @ApiProperty()
@@ -58,7 +50,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @ApiProperty({ example: '1', description: 'Some user id' })
   @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, unique: false })
   authorId: number;
 
   @BelongsTo(() => User)
@@ -74,7 +66,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @ApiProperty({ example: '1', description: 'Some status task' })
   @ForeignKey(() => TaskStatus)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, unique: false, allowNull: false })
   statusId: number;
 
   @BelongsTo(() => TaskStatus)
@@ -82,7 +74,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @ApiProperty({ example: '1', description: 'Some type task' })
   @ForeignKey(() => TaskType)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, unique: false, allowNull: false })
   typeId: number;
 
   @BelongsTo(() => TaskType)
@@ -90,7 +82,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @ApiProperty({ example: '1', description: 'Some priority' })
   @ForeignKey(() => TaskPriority)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, unique: false, allowNull: false })
   priorityId: number;
 
   @BelongsTo(() => TaskPriority)
@@ -98,7 +90,7 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @ApiProperty({ example: '1', description: 'Some user executor' })
   @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER })
+  @Column({ type: DataType.INTEGER, unique: false, allowNull: false })
   executorId: number;
 
   @BelongsTo(() => User)
