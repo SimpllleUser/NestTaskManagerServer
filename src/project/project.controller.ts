@@ -70,4 +70,8 @@ export class ProjectController {
   ) {
     return this.projectService.deleteUser(projectId, userId);
   }
+  @Get('/statuses')
+  getProjectStatuses() {
+    return this.projectService.getAllStatuses();
+  }
 }

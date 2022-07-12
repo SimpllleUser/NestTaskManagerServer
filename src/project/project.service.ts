@@ -12,12 +12,12 @@ import { UsersService } from '../user/users.service';
 export class ProjectService {
   constructor(
     @InjectModel(Project) private projectRepository: typeof Project,
-    private statusProjectService: ProjectStatusService,
+    private projectStatusService: ProjectStatusService,
     private userService: UsersService,
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
-    const status = await this.statusProjectService.getStatusByName('TODO');
+    const status = await this.projectStatusService.getStatusByName('TODO');
     const project = await this.projectRepository.create(createProjectDto);
     await project.$add('team', createProjectDto.authorId);
     project.statusId = status.id;
@@ -103,6 +103,10 @@ export class ProjectService {
     await project.$remove('team', userId);
     await project.save();
     return { status: true };
+  }
+  async getAllStatuses() {
+    const statuses = await this.projectStatusService.findAll();
+    return statuses;
   }
 }
 //
