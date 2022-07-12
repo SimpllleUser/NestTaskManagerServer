@@ -71,8 +71,7 @@ export class ProjectController {
     return this.projectService.deleteUser(projectId, userId);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('/statuses/all')
+  @Get('statuses/all')
   getProjectStatuses() {
     return this.projectService.getAllStatuses();
   }
