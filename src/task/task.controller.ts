@@ -17,6 +17,9 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { JwtAuthGuard } from '../auth/jwt-auth-guards';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Task } from './task.model';
+import { TaskStatus } from 'src/task-status/task-status.model';
+import { TaskPriority } from 'src/task-priority/task-priority.model';
+import { TaskType } from 'src/task-type/task-type.model';
 
 @ApiTags('Tasks')
 @Controller('tasks')
@@ -69,5 +72,29 @@ export class TasksController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.taskService.remove(+id);
+  }
+
+  @ApiOperation({ summary: 'Task statuses' })
+  @ApiResponse({ status: 200, type: TaskStatus })
+  @UseGuards(JwtAuthGuard)
+  @Get('/statuses')
+  getStatuses() {
+    return this.taskService.getAllStatuses();
+  }
+
+  @ApiOperation({ summary: 'Task priorities' })
+  @ApiResponse({ status: 200, type: TaskPriority })
+  @UseGuards(JwtAuthGuard)
+  @Get('/priorities')
+  getPiorities() {
+    return this.taskService.getAllPriorities();
+  }
+
+  @ApiOperation({ summary: 'Task types' })
+  @ApiResponse({ status: 200, type: TaskType })
+  @UseGuards(JwtAuthGuard)
+  @Get('/types')
+  gettypes() {
+    return this.taskService.getAllTypes();
   }
 }

@@ -15,13 +15,13 @@ import { TaskPriority } from '../task-priority/task-priority.model';
 export class TasksService {
   constructor(
     @InjectModel(Task) private taskRepository: typeof Task,
-    private statusTask: TaskStatusService,
-    private typeTask: TaskTypeService,
-    private priorityTask: TaskPriorityService,
+    private taskTypeService: TaskTypeService,
+    private taskPriorityService: TaskPriorityService,
+    private taskStatusService: TaskStatusService,
   ) {}
 
   async create(dto: CreateTaskDto) {
-    const status = await this.statusTask.getStatusByName('OPEN');
+    const status = await this.taskStatusService.getStatusByName('OPEN');
     const task = await this.taskRepository.create(dto);
     task.statusId = status.id;
     await task.save();
@@ -91,7 +91,16 @@ export class TasksService {
     return { result: true };
   }
 
-  async onModuleInit(): Promise<void> {
-    // await this.priorityTask.initPriorities();//
+  async getAllStatuses() {
+    const statuses = await this.taskStatusService.findAll();
+    return statuses;
+  }
+  async getAllPriorities() {
+    const priorities = await this.taskPriorityService.findAll();
+    return priorities;
+  }
+  async getAllTypes() {
+    const types = await this.taskTypeService.findAll();
+    return types;
   }
 }
