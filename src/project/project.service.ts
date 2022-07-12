@@ -5,14 +5,14 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Project } from './project.model';
 import { User } from '../user/users.model';
 import { Task } from '../task/task.model';
-import { StatusProjectService } from '../project-status/project-status.service';
+import { ProjectStatusService } from '../project-status/project-status.service';
 import { UsersService } from '../user/users.service';
 
 @Injectable()
 export class ProjectService {
   constructor(
     @InjectModel(Project) private projectRepository: typeof Project,
-    private statusProjectService: StatusProjectService,
+    private statusProjectService: ProjectStatusService,
     private userService: UsersService,
   ) {}
 
