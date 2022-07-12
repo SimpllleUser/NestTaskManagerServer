@@ -41,19 +41,19 @@ export class TaskStatusService {
   getNotExistStatuses(existStatuses) {
     const statuses = [
       {
-        name: 'OPEN',
+        name: 'open',
         value: 1,
       },
       {
-        name: 'IN_PROGRESS',
+        name: 'in progress',
         value: 2,
       },
       {
-        name: 'DONE',
+        name: 'done',
         value: 3,
       },
       {
-        name: 'TODO',
+        name: 'todo',
         value: 4,
       },
     ];

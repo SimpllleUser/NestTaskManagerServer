@@ -1,65 +1,26 @@
-import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { UsersModule } from './user/users.module';
-import { ConfigModule } from '@nestjs/config';
-import { User } from './user/users.model';
-import { RolesModule } from './roles/roles.module';
-import { Role } from './roles/roles.model';
-import { UserRoles } from './roles/user-roles.model';
-import { AuthModule } from './auth/auth.module';
-import { TasksModule } from './task/task.module';
-import { Task } from './task/task.model';
-import { StatusTaskModule } from './task-status/task-status.module';
-import { TaskStatus } from './task-status/task-status.model';
-import { ProjectModule } from './project/project.module';
-import { ProjectTask } from './project/models/project-tasks';
-import { Project } from './project/project.model';
-import { ProjectTeam } from './project/models/project-team';
-import { ProjectStatus } from './project-status/project-status.model';
-import { StatusProjectModule } from './project-status/project-status.module';
-import { TaskType } from './task-type/task-type.model';
-import { TaskPriority } from './task-priority/task-priority.model';
-import { PriorityTaskModule } from './task-priority/task-priority.module';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppResultInterceptor } from './app/app-result.interceptor';
 
-@Module({
-  imports: [
-    ConfigModule.forRoot({
-      envFilePath: '.dev.env',
-    }),
-    SequelizeModule.forRoot({
-      host: '0.0.0.0',
-      password: '',
-      dialect: 'sqlite',
-      pool: {
-        max: 5,
-        min: 0,
-        idle: 10000,
-      },
-      storage: './db.sqlite',
-      autoLoadModels: true,
-      models: [
-        TaskPriority,
-        ProjectStatus,
-        Project,
-        ProjectTask,
-        ProjectTeam,
-        TaskType,
-        TaskStatus,
-        User,
-        Role,
-        UserRoles,
-        Task,
-      ],
-    }),
-    PriorityTaskModule,
-    StatusProjectModule,
-    ProjectModule,
-    UsersModule,
-    RolesModule,
-    AuthModule,
-    TasksModule,
-    StatusTaskModule,
-    ProjectModule,
-  ],
-})
-export class AppModule {}
+async function bootstrap() {
+  const PORT = process.env.PORT || 3000;
+  const swaggerConfig = new DocumentBuilder()
+    .setTitle('Documentation API')
+    .setDescription('It`s documentation API for TaskManager app server')
+    .setVersion('1.0')
+    .addTag('Documentation')
+    .build();
+  const app = await NestFactory.create(AppModule, { cors: true });
+  app.useGlobalInterceptors(new AppResultInterceptor());
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('/api/swagger', app, document);
+  // app.useStaticAssets(join(__dirname, '..', 'public'));
+  // app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  // app.setViewEngine('hbs');
+  await app.listen(PORT, () => {
+    console.log(new Date().toString());
+    console.log(`Server start http://localhost:${PORT}`);
+  });
+}
+bootstrap();

@@ -47,9 +47,9 @@ export class TaskPriorityService {
 
   getNotExistPriority(existTypes) {
     const types: Priority[] = [
-      { name: 'HIGH', value: 1 },
-      { name: 'NORMAL', value: 2 },
-      { name: 'LOW', value: 3 },
+      { name: 'hight', value: 1 },
+      { name: 'normal', value: 2 },
+      { name: 'low', value: 3 },
     ];
     const notExistsPriority = types.filter(
       (type) => !existTypes.find(({ name }) => type === name),

@@ -45,10 +45,10 @@ export class TaskTypeService {
 
   getNotExistTypes(existTypes) {
     const types: Type[] = [
-      { name: 'BUG', value: 4 },
-      { name: 'FEATURE', value: 2 },
-      { name: 'FIX', value: 3 },
-      { name: 'PLANNING', value: 1 },
+      { name: 'bug', value: 4 },
+      { name: 'feature', value: 2 },
+      { name: 'fix', value: 3 },
+      { name: 'planning', value: 1 },
     ];
     const notExistsStatus = types.filter(
       (type) => !existTypes.find(({ name }) => type === name),
