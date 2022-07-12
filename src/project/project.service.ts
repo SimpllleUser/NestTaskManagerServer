@@ -105,9 +105,7 @@ export class ProjectService {
     return { status: true };
   }
   async getAllStatuses() {
-    const statuses = await this.projectStatusService.findAll();
-    console.log('statuses', statuses);
+    const statuses = await this.projectStatusService.getAll();
     return statuses;
   }
 }
-//

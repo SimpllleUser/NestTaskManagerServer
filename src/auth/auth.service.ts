@@ -58,7 +58,6 @@ export class AuthService {
   }
   private getUserAuth(user: UserModel): UserAuth {
     const { id, name, login }: UserModel = user;
-    console.log(id, name, login);
     return { id, name, login, ...this.generateToken(user) };
   }
 }

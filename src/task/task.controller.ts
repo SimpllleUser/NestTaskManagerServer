@@ -18,13 +18,17 @@ import { JwtAuthGuard } from '../auth/jwt-auth-guards';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Task } from './task.model';
 import { TaskStatus } from 'src/task-status/task-status.model';
+import { TaskStatusService } from 'src/task-status/task-status.service';
 import { TaskPriority } from 'src/task-priority/task-priority.model';
 import { TaskType } from 'src/task-type/task-type.model';
 
 @ApiTags('Tasks')
 @Controller('tasks')
 export class TasksController {
-  constructor(private taskService: TasksService) {}
+  constructor(
+    private taskService: TasksService,
+    private taskStatusService: TaskStatusService,
+  ) {}
 
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({ status: 200, type: [Task] })
@@ -75,26 +79,24 @@ export class TasksController {
   }
 
   @ApiOperation({ summary: 'Task statuses' })
-  @ApiResponse({ status: 200, type: TaskStatus })
-  @UseGuards(JwtAuthGuard)
-  @Get('/statuses')
+  @ApiResponse({ status: 200, type: [TaskStatus] })
+  @Get('/statuses/all')
   getStatuses() {
-    return this.taskService.getAllStatuses();
+    return this.taskStatusService.findAll();
   }
 
   @ApiOperation({ summary: 'Task priorities' })
-  @ApiResponse({ status: 200, type: TaskPriority })
-  @UseGuards(JwtAuthGuard)
-  @Get('/priorities')
+  @ApiResponse({ status: 200, type: [TaskPriority] })
+  @Get('/priorities/all')
   getPiorities() {
     return this.taskService.getAllPriorities();
   }
 
   @ApiOperation({ summary: 'Task types' })
-  @ApiResponse({ status: 200, type: TaskType })
+  @ApiResponse({ status: 200, type: [TaskType] })
   @UseGuards(JwtAuthGuard)
-  @Get('/types')
-  gettypes() {
+  @Get('/types/all')
+  getAllTypes() {
     return this.taskService.getAllTypes();
   }
 }

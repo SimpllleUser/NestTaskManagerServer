@@ -8,4 +8,4 @@ import { ProjectStatusService } from './project-status.service';
   imports: [SequelizeModule.forFeature([ProjectStatus])],
   exports: [ProjectStatusService],
 })
-export class StatusProjectModule {}
+export class ProjectStatusModule {}

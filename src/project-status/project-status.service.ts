@@ -15,7 +15,7 @@ export class ProjectStatusService implements OnModuleInit {
     return statusProject;
   }
 
-  async findAll() {
+  async getAll(): Promise<ProjectStatus[]> {
     const statusesProject = await this.projectStatusRepository.findAll();
     return statusesProject;
   }
@@ -28,9 +28,9 @@ export class ProjectStatusService implements OnModuleInit {
   }
 
   async onModuleInit(): Promise<void> {
-    const statuses = await this.findAll();
+    const statuses = await this.getAll();
     const notExistStatuses = this.getNotExistStatuses(statuses);
-    if (statuses?.length) return;
+    if (statuses) return;
     await Promise.all(
       notExistStatuses.map((status: CreateStatusProjectDto) =>
         this.create(status),

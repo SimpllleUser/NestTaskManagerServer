@@ -8,4 +8,4 @@ import { TaskPriority } from './task-priority.model';
   imports: [SequelizeModule.forFeature([TaskPriority])],
   exports: [TaskPriorityService],
 })
-export class PriorityTaskModule {}
+export class TaskPriorityModule {}

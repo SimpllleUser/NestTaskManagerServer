@@ -6,7 +6,7 @@ import { User } from '../user/users.model';
 import { Task } from '../task/task.model';
 import { Project } from './project.model';
 import { ProjectStatus } from '../project-status/project-status.model';
-import { StatusProjectModule } from '../project-status/project-status.module';
+import { ProjectStatusModule } from '../project-status/project-status.module';
 import { UsersModule } from '../user/users.module';
 
 @Module({
@@ -14,7 +14,7 @@ import { UsersModule } from '../user/users.module';
   providers: [ProjectService],
   imports: [
     UsersModule,
-    StatusProjectModule,
+    ProjectStatusModule,
     SequelizeModule.forFeature([ProjectStatus, Project, User, Task]),
   ],
   exports: [ProjectService],

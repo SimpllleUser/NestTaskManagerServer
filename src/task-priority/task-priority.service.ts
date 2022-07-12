@@ -13,7 +13,7 @@ export class TaskPriorityService {
   constructor(
     @InjectModel(TaskPriority)
     private taskPriorityaskRepository: typeof TaskPriority,
-  ) { }
+  ) {}
 
   async create(dto: CreateTypeTaskDto) {
     const priorityTask = await this.taskPriorityaskRepository.create(dto);

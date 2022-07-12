@@ -8,4 +8,4 @@ import { TaskStatus } from './task-status.model';
   imports: [SequelizeModule.forFeature([TaskStatus])],
   exports: [TaskStatusService],
 })
-export class StatusTaskModule {}
+export class TaskStatusModule {}
