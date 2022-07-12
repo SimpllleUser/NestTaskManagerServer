@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ProjectStatus } from './project-status.model';
-import { StatusProjectService } from './project-status.service';
+import { ProjectStatusService } from './project-status.service';
 
 @Module({
-  providers: [StatusProjectService],
+  providers: [ProjectStatusService],
   imports: [SequelizeModule.forFeature([ProjectStatus])],
-  exports: [StatusProjectService],
+  exports: [ProjectStatusService],
 })
 export class StatusProjectModule {}

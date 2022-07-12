@@ -4,7 +4,7 @@ import { ProjectStatus } from './project-status.model';
 import { CreateStatusProjectDto } from './dto/create-project-status.dto';
 
 @Injectable()
-export class StatusProjectService implements OnModuleInit {
+export class ProjectStatusService implements OnModuleInit {
   constructor(
     @InjectModel(ProjectStatus)
     private statusProjectRepository: typeof ProjectStatus,
