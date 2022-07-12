@@ -7,21 +7,21 @@ import { CreateStatusProjectDto } from './dto/create-project-status.dto';
 export class ProjectStatusService implements OnModuleInit {
   constructor(
     @InjectModel(ProjectStatus)
-    private statusProjectRepository: typeof ProjectStatus,
+    private projectStatusRepository: typeof ProjectStatus,
   ) {}
 
   async create(dto: CreateStatusProjectDto) {
-    const statusProject = await this.statusProjectRepository.create(dto);
+    const statusProject = await this.projectStatusRepository.create(dto);
     return statusProject;
   }
 
   async findAll() {
-    const statusesProject = await this.statusProjectRepository.findAll();
+    const statusesProject = await this.projectStatusRepository.findAll();
     return statusesProject;
   }
 
   async getStatusByName(name) {
-    const statusProject = await this.statusProjectRepository.findOne({
+    const statusProject = await this.projectStatusRepository.findOne({
       where: { name },
     });
     return statusProject;
