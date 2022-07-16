@@ -17,10 +17,10 @@ export class ProjectService {
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
-    const status = await this.projectStatusService.getStatusByName('todo');
+    // const status = await this.projectStatusService.getStatusByName('todo');
     const project = await this.projectRepository.create(createProjectDto);
     await project.$add('team', createProjectDto.authorId);
-    project.statusId = status.id;
+    // project.statusId = status.id;
     await project.save();
     return project;
   }

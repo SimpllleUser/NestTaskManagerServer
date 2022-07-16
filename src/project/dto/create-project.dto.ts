@@ -16,6 +16,11 @@ export class CreateProjectDto {
   @IsNumber({
     allowInfinity: false,
     allowNaN: false,
+  })
+  readonly statusId: number;
+  @IsNumber({
+    allowInfinity: false,
+    allowNaN: false,
     maxDecimalPlaces: 10000000000,
   })
   readonly authorId: number;
