@@ -7,6 +7,7 @@ import { User } from '../user/users.model';
 import { Task } from '../task/task.model';
 import { ProjectStatusService } from '../project-status/project-status.service';
 import { UsersService } from '../user/users.service';
+import { ProjectStatus } from 'src/project-status/project-status.model';
 
 @Injectable()
 export class ProjectService {
@@ -18,9 +19,9 @@ export class ProjectService {
 
   async create(createProjectDto: CreateProjectDto) {
     // const status = await this.projectStatusService.getStatusByName('todo');
+    // project.statusId = status.id;
     const project = await this.projectRepository.create(createProjectDto);
     await project.$add('team', createProjectDto.authorId);
-    // project.statusId = status.id;
     await project.save();
     return project;
   }
@@ -30,15 +31,14 @@ export class ProjectService {
       where: { authorId },
       include: [
         {
+          model: ProjectStatus,
+        },
+        {
           model: User,
           as: 'author',
           attributes: {
             exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
           },
-        },
-        {
-          model: Task,
-          as: 'tasks',
         },
       ],
     });
