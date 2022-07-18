@@ -86,8 +86,8 @@ export class ProjectService {
     const project = await this.projectRepository.findOne({
       where: { id },
     });
-    const updatedProject = await project.update(updateProjectDto);
-    return updatedProject;
+    await project.update(updateProjectDto);
+    return await this.findOne(id);
   }
 
   async remove(id: number) {
