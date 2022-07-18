@@ -64,6 +64,9 @@ export class ProjectService {
           },
         },
         {
+          model: ProjectStatus,
+        },
+        {
           model: Task,
           as: 'tasks',
         },
