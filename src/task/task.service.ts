@@ -21,10 +21,10 @@ export class TasksService {
   ) {}
 
   async create(dto: CreateTaskDto) {
-    const status = await this.taskStatusService.getStatusByName('OPEN');
+    // const status = await this.taskStatusService.getStatusByName('OPEN');
     const task = await this.taskRepository.create(dto);
-    task.statusId = status.id;
-    await task.save();
+    // task.statusId = status.id;
+    // await task.save();
     return task;
   }
 

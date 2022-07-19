@@ -33,8 +33,8 @@ export class TasksController {
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({ status: 200, type: [Task] })
   @UseGuards(JwtAuthGuard)
-  @UsePipes(ValidationPipe)
-  @UseGuards(TaskGuard)
+  // @UsePipes(ValidationPipe)
+  // @UseGuards(TaskGuard)
   @Post()
   createTask(@Body() dto: CreateTaskDto) {
     return this.taskService.create(dto);
