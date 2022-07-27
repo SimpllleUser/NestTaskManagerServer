@@ -56,19 +56,19 @@ export class ProjectController {
     return this.projectService.remove(+id);
   }
 
-  @Patch(':projectId/user/:userId')
+  @Patch(':projectId/users')
   addUser(
     @Param('projectId') projectId: number,
-    @Param('userId') userId: number,
+    @Body() body: {  userIds: number[] },
   ) {
-    return this.projectService.addUser(projectId, userId);
+    return this.projectService.addUsers(projectId, body);
   }
-  @Delete(':projectId/user/:userId')
+  @Delete(':projectId/users')
   deleteUser(
     @Param('projectId') projectId: number,
-    @Param('userId') userId: number,
+    @Body() body: {  userIds: number[] },
   ) {
-    return this.projectService.deleteUser(projectId, userId);
+    return this.projectService.deleteUsers(projectId, body);
   }
 
   @Get('statuses/all')

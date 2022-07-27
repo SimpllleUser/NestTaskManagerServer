@@ -27,6 +27,10 @@ export class UsersService {
     const user = await this.userRepository.findByPk(id);
     return user;
   }
+  async findByIds(ids) {
+    const users = await this.userRepository.findAll({ where: { id: ids } });
+    return users;
+  }
 
   async getAllUsers() {
     const users = await this.userRepository.findAll();

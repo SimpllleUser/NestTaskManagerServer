@@ -94,18 +94,19 @@ export class ProjectService {
     return await this.projectRepository.destroy({ where: { id } });
   }
 
-  async addUser(projectId, userId: number) {
+  async addUsers(projectId, { userIds }: { userIds: number[] }) {
     const project = await this.findOne(projectId);
-    const user = await this.userService.findOne(userId);
-    await project.$add('team', userId);
+    const users = await this.userService.findByIds(userIds);
+    await project.$add('team', users);
     await project.save();
-    return user;
+    return project;
   }
-  async deleteUser(projectId, userId: number) {
+  async deleteUsers(projectId, { userIds }: { userIds: number[] }) {
     const project = await this.findOne(projectId);
-    await project.$remove('team', userId);
+    const users = await this.userService.findByIds(userIds);
+    await project.$remove('team', users);
     await project.save();
-    return { status: true };
+    return project;
   }
   async getAllStatuses() {
     const statuses = await this.projectStatusService.getAll();
