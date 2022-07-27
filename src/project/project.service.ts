@@ -108,6 +108,20 @@ export class ProjectService {
     await project.save();
     return project;
   }
+  async addUser(projectId, userId: number) {
+    const project = await this.findOne(projectId);
+    const user = await this.userService.findOne(userId);
+    await project.$add('team', userId);
+    await project.save();
+    return user;
+  }
+  async deleteUser(projectId, userId: number) {
+    const project = await this.findOne(projectId);
+    const user = await this.userService.findOne(userId);
+    await project.$remove('team', userId);
+    await project.save();
+    return user;
+  }
   async getAllStatuses() {
     const statuses = await this.projectStatusService.getAll();
     return statuses;
