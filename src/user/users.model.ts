@@ -11,6 +11,7 @@ import { Role } from '../roles/roles.model';
 import { UserRoles } from '../roles/user-roles.model';
 import { Task } from '../task/task.model';
 import { Project } from '../project/project.model';
+import { Exclude } from 'class-transformer';
 
 interface UserCreationAttrs {
   login: string;
@@ -55,6 +56,7 @@ export class User extends Model<User, UserCreationAttrs> {
   name: string;
   @ApiProperty({ example: '12345678', description: 'password' })
   @Column({ type: DataType.STRING, allowNull: false })
+  @Exclude()
   password: string;
   @Column({ type: DataType.STRING, allowNull: true })
   hashCode: string;

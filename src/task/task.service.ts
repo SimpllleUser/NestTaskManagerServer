@@ -23,15 +23,43 @@ export class TasksService {
   async create(dto: CreateTaskDto) {
     // const status = await this.taskStatusService.getStatusByName('OPEN');
     const task = await this.taskRepository.create(dto);
+    const createdTask = await this.findOne(task.id);
     // task.statusId = status.id;
     // await task.save();
-    return task;
+    return createdTask;
   }
 
   async findOne(id: number) {
     const task = await this.taskRepository.findOne({
       where: { id },
-      include: { all: true },
+      include: [
+        {
+          model: User,
+          as: 'author',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
+        },
+        {
+          model: TaskStatus,
+        },
+        {
+          model: TaskType,
+        },
+        {
+          model: TaskPriority,
+        },
+        {
+          model: TaskPriority,
+        },
+        {
+          model: User,
+          as: 'executor',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
+        },
+      ],
     });
     return task || {};
   }
@@ -74,6 +102,20 @@ export class TasksService {
   async findAllByProject(projectId: number) {
     const task = await this.taskRepository.findAll({
       where: { projectId },
+      include: [
+        {
+          model: TaskStatus,
+        },
+        {
+          model: TaskType,
+        },
+        {
+          model: TaskPriority,
+        },
+        {
+          model: TaskPriority,
+        },
+      ],
     });
     return task || {};
   }
@@ -82,7 +124,8 @@ export class TasksService {
     const task = await this.taskRepository.findOne({
       where: { id },
     });
-    const updatedTask = await task.update(updateTaskDto);
+    await task.update(updateTaskDto);
+    const updatedTask = await this.findOne(id);
     return updatedTask;
   }
 
