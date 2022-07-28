@@ -99,14 +99,14 @@ export class ProjectService {
     const users = await this.userService.findByIds(userIds);
     await project.$add('team', users);
     await project.save();
-    return project;
+    return users;
   }
   async deleteUsers(projectId, { userIds }: { userIds: number[] }) {
     const project = await this.findOne(projectId);
     const users = await this.userService.findByIds(userIds);
     await project.$remove('team', users);
     await project.save();
-    return project;
+    return users;
   }
   async addUser(projectId, userId: number) {
     const project = await this.findOne(projectId);
