@@ -5,9 +5,9 @@ import { InjectModel } from '@nestjs/sequelize';
 import { Project } from './project.model';
 import { User } from '../user/users.model';
 import { Task } from '../task/task.model';
-import { ProjectStatusService } from '../project-status/project-status.service';
+import { ProjectStatusService } from './project-status/project-status.service';
 import { UsersService } from '../user/users.service';
-import { ProjectStatus } from 'src/project-status/project-status.model';
+import { ProjectStatus } from 'src/project/project-status/project-status.model';
 
 @Injectable()
 export class ProjectService {
