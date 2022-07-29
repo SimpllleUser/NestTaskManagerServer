@@ -30,7 +30,7 @@ export class ProjectStatusService implements OnModuleInit {
   async onModuleInit(): Promise<void> {
     const statuses = await this.getAll();
     const notExistStatuses = this.getNotExistStatuses(statuses);
-    if (statuses) return;
+    if (statuses?.length) return;
     await Promise.all(
       notExistStatuses.map((status: CreateStatusProjectDto) =>
         this.create(status),
