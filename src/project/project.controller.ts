@@ -1,3 +1,4 @@
+import { CreateProjectCommentDto } from './project-comment/dto/create-project-comment.dto';
 import {
   Controller,
   Get,
@@ -59,14 +60,14 @@ export class ProjectController {
   @Patch(':projectId/users')
   addUsers(
     @Param('projectId') projectId: number,
-    @Body() body: {  userIds: number[] },
+    @Body() body: { userIds: number[] },
   ) {
     return this.projectService.addUsers(projectId, body);
   }
   @Delete(':projectId/users')
   deleteUsers(
     @Param('projectId') projectId: number,
-    @Body() body: {  userIds: number[] },
+    @Body() body: { userIds: number[] },
   ) {
     return this.projectService.deleteUsers(projectId, body);
   }
@@ -84,6 +85,10 @@ export class ProjectController {
     @Param('userId') userId: number,
   ) {
     return this.projectService.deleteUser(projectId, userId);
+  }
+  @Patch('/comment/add')
+  addComment(@Body() comment: CreateProjectCommentDto) {
+    return this.projectService.addComment(comment);
   }
 
   @Get('statuses/all')

@@ -1,3 +1,4 @@
+import { ProjectComment } from './../project/project-comment/project-comment.model';
 import {
   BelongsToMany,
   Column,
@@ -66,6 +67,8 @@ export class User extends Model<User, UserCreationAttrs> {
   roles: Role[];
   @HasMany(() => Task)
   tasks: Task[];
+  @HasMany(() => ProjectComment)
+  comments: ProjectComment[];
   @HasMany(() => Project)
   projects: Project[];
 }

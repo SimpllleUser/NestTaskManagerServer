@@ -5,12 +5,8 @@ import { ProjectComment } from './project-comment.model';
 import { ProjectCommentService } from './project-comment.service';
 
 @Module({
-    providers: [ProjectCommentService],
-    imports: [
-      SequelizeModule.forFeature([
-        Project,
-        ProjectComment,
-      ]),
-    ],
-  })
+  providers: [ProjectCommentService],
+  imports: [SequelizeModule.forFeature([Project, ProjectComment])],
+  exports: [ProjectCommentService],
+})
 export class ProjectCommentModule {}

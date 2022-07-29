@@ -1,3 +1,4 @@
+import { ProjectComment } from './../project/project-comment/project-comment.model';
 import { forwardRef, Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
@@ -14,7 +15,14 @@ import { Project } from '../project/project.model';
   controllers: [UsersController],
   providers: [UsersService],
   imports: [
-    SequelizeModule.forFeature([User, Role, UserRoles, Task, Project]),
+    SequelizeModule.forFeature([
+      User,
+      Role,
+      UserRoles,
+      Task,
+      Project,
+      ProjectComment,
+    ]),
     RolesModule,
     forwardRef(() => AuthModule),
   ],

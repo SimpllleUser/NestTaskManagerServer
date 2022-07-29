@@ -1,3 +1,4 @@
+import { ProjectCommentModule } from './project-comment/project-comment.module';
 import { Module } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { ProjectController } from './project.controller';
@@ -16,6 +17,7 @@ import { ProjectComment } from './project-comment/project-comment.model';
   imports: [
     UsersModule,
     ProjectStatusModule,
+    ProjectCommentModule,
     SequelizeModule.forFeature([
       ProjectStatus,
       Project,

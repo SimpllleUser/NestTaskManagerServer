@@ -1,3 +1,4 @@
+import { User } from './../../user/users.model';
 import {
   BelongsTo,
   Column,
@@ -29,8 +30,12 @@ export class ProjectComment extends Model<
   body: string;
 
   @ApiProperty({ example: '1', description: 'Some user id' })
+  @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER, unique: false })
   authorId: number;
+
+  @BelongsTo(() => User)
+  author: User;
 
   @ApiProperty({ example: '1', description: 'Some project id' })
   @ForeignKey(() => Project)

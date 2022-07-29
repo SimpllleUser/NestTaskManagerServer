@@ -1,3 +1,4 @@
+import { ProjectComment } from './project-comment/project-comment.model';
 import { Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
@@ -70,6 +71,9 @@ export class ProjectService {
           model: ProjectStatus,
         },
         {
+          model: ProjectComment,
+        },
+        {
           model: Task,
           as: 'tasks',
         },
@@ -131,7 +135,8 @@ export class ProjectService {
   }
   async addComment(comment: CreateProjectCommentDto) {
     const project = await this.findOne(comment.projectId);
-    const commentByProject = await this.projectCommentService.create(comment);
-    return commentByProject;
+    const createdComment = await this.projectCommentService.create(comment);
+    await project.$add('comments', createdComment);
+    return createdComment;
   }
 }
