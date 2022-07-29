@@ -8,6 +8,8 @@ import { Task } from '../task/task.model';
 import { ProjectStatusService } from './project-status/project-status.service';
 import { UsersService } from '../user/users.service';
 import { ProjectStatus } from 'src/project/project-status/project-status.model';
+import { CreateProjectCommentDto } from './project-comment/dto/create-project-comment.dto';
+import { ProjectCommentService } from './project-comment/project-comment.service';
 
 @Injectable()
 export class ProjectService {
@@ -15,6 +17,7 @@ export class ProjectService {
     @InjectModel(Project) private projectRepository: typeof Project,
     private projectStatusService: ProjectStatusService,
     private userService: UsersService,
+    private projectCommentService: ProjectCommentService,
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
@@ -125,5 +128,10 @@ export class ProjectService {
   async getAllStatuses() {
     const statuses = await this.projectStatusService.getAll();
     return statuses;
+  }
+  async addComment(comment: CreateProjectCommentDto) {
+    const project = await this.findOne(comment.projectId);
+    const commentByProject = await this.projectCommentService.create(comment);
+    return commentByProject;
   }
 }

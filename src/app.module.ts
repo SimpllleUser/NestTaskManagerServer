@@ -20,7 +20,7 @@ import { ProjectStatusModule } from './project/project-status/project-status.mod
 import { TaskType } from './task-type/task-type.model';
 import { TaskPriority } from './task-priority/task-priority.model';
 import { TaskPriorityModule } from './task-priority/task-priority.module';
-import { ProjectComment } from './project/project-comment/project-cooment.model';
+import { ProjectComment } from './project/project-comment/project-comment.model';
 
 @Module({
   imports: [

@@ -13,7 +13,7 @@ import { User } from '../user/users.model';
 import { Task } from '../task/task.model';
 import { ProjectTeam } from './models/project-team';
 import { ProjectStatus } from './project-status/project-status.model';
-import { ProjectComment } from './project-comment/project-cooment.model';
+import { ProjectComment } from './project-comment/project-comment.model';
 
 interface ProjectCreationAttrs {
   title: string;

@@ -8,7 +8,7 @@ import { Project } from './project.model';
 import { ProjectStatus } from './project-status/project-status.model';
 import { ProjectStatusModule } from './project-status/project-status.module';
 import { UsersModule } from '../user/users.module';
-import { ProjectComment } from './project-comment/project-cooment.model';
+import { ProjectComment } from './project-comment/project-comment.model';
 
 @Module({
   controllers: [ProjectController],
