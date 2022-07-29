@@ -20,6 +20,7 @@ import { ProjectStatusModule } from './project/project-status/project-status.mod
 import { TaskType } from './task-type/task-type.model';
 import { TaskPriority } from './task-priority/task-priority.model';
 import { TaskPriorityModule } from './task-priority/task-priority.module';
+import { ProjectComment } from './project/project-comment/project-cooment.model';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { TaskPriorityModule } from './task-priority/task-priority.module';
       storage: './db.sqlite',
       autoLoadModels: true,
       models: [
+        ProjectComment,
         TaskPriority,
         ProjectStatus,
         Project,
@@ -61,6 +63,7 @@ import { TaskPriorityModule } from './task-priority/task-priority.module';
     TasksModule,
     TaskStatusModule,
     ProjectModule,
+    ProjectStatusModule,
   ],
 })
 export class AppModule {}

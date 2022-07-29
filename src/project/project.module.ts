@@ -8,6 +8,7 @@ import { Project } from './project.model';
 import { ProjectStatus } from './project-status/project-status.model';
 import { ProjectStatusModule } from './project-status/project-status.module';
 import { UsersModule } from '../user/users.module';
+import { ProjectComment } from './project-comment/project-cooment.model';
 
 @Module({
   controllers: [ProjectController],
@@ -15,7 +16,13 @@ import { UsersModule } from '../user/users.module';
   imports: [
     UsersModule,
     ProjectStatusModule,
-    SequelizeModule.forFeature([ProjectStatus, Project, User, Task]),
+    SequelizeModule.forFeature([
+      ProjectStatus,
+      Project,
+      User,
+      Task,
+      ProjectComment,
+    ]),
   ],
   exports: [ProjectService],
 })

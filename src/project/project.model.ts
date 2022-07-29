@@ -13,6 +13,7 @@ import { User } from '../user/users.model';
 import { Task } from '../task/task.model';
 import { ProjectTeam } from './models/project-team';
 import { ProjectStatus } from './project-status/project-status.model';
+import { ProjectComment } from './project-comment/project-cooment.model';
 
 interface ProjectCreationAttrs {
   title: string;
@@ -53,6 +54,9 @@ export class Project extends Model<Project, ProjectCreationAttrs> {
   })
   @HasMany(() => Task)
   tasks: Task[];
+  
+  @HasMany(() => ProjectComment)
+  comments: ProjectComment[];
 
   @BelongsToMany(() => User, () => ProjectTeam)
   team: User[];
