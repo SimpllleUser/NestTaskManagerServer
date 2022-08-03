@@ -21,12 +21,17 @@ export class TasksService {
   ) {}
 
   async create(dto: CreateTaskDto) {
-    await this.taskTypeService.findOne(dto.statusId);
-    await this.taskPriorityService.findOne(dto.priorityId);
-    await this.taskStatusService.findOne(dto.statusId);
-    const task = await this.taskRepository.create(dto);
-    const createdTask = await this.findOne(task.id);
-    return createdTask;
+    try {
+      await this.taskTypeService.findOne(dto.typeId);
+      await this.taskTypeService.findOne(dto.typeId);
+      await this.taskPriorityService.findOne(dto.priorityId);
+      await this.taskStatusService.findOne(dto.statusId);
+      const task = await this.taskRepository.create(dto);
+      const createdTask = await this.findOne(task.id);
+      return createdTask;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async findOne(id: number) {
@@ -62,10 +67,7 @@ export class TasksService {
       ],
     });
     if (!task) {
-      throw new HttpException(
-        'users not found',
-        HttpStatus.NOT_FOUND,
-      );
+      throw new HttpException('task not found', HttpStatus.NOT_FOUND);
     }
     return task;
   }
@@ -127,10 +129,14 @@ export class TasksService {
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {
-    const task = await this.findOne(id);
-    await task.update(updateTaskDto);
-    const updatedTask = await this.findOne(id);
-    return updatedTask;
+    try {
+      const task = await this.findOne(id);
+      await task.update(updateTaskDto);
+      const updatedTask = await this.findOne(id);
+      return updatedTask;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   async remove(id: number) {
