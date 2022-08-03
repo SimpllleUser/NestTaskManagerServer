@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { ProjectStatus } from './project-status.model';
 import { CreateStatusProjectDto } from './dto/create-project-status.dto';
@@ -20,11 +20,22 @@ export class ProjectStatusService implements OnModuleInit {
     return statusesProject;
   }
 
+  async findOne(id: number) {
+    const status = await this.projectStatusRepository.findByPk(id);
+    if (!status) {
+      throw new HttpException('not found status', HttpStatus.NOT_FOUND)
+    }
+    return status;
+  }
+
   async getStatusByName(name) {
-    const statusProject = await this.projectStatusRepository.findOne({
+    const status = await this.projectStatusRepository.findOne({
       where: { name },
     });
-    return statusProject;
+    if (!status) {
+      throw new HttpException('not found status', HttpStatus.NOT_FOUND)
+    }
+    return status;
   }
 
   async onModuleInit(): Promise<void> {

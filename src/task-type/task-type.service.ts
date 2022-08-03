@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TaskType } from './task-type.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
@@ -24,12 +24,22 @@ export class TaskTypeService {
     const typeTasks = await this.taskTypeRepository.findAll();
     return typeTasks;
   }
+  async findOne(id: number) {
+    const type = await this.taskTypeRepository.findByPk(id);
+    if (!type) {
+      throw new HttpException('not found type', HttpStatus.NOT_FOUND)
+    }
+    return type;
+  }
 
   async getTypeByName(name) {
-    const typeTasks = await this.taskTypeRepository.findOne({
+    const type = await this.taskTypeRepository.findOne({
       where: { name },
     });
-    return typeTasks;
+    if (!type) {
+      throw new HttpException('not found type', HttpStatus.NOT_FOUND)
+    }
+    return type;
   }
 
   async onModuleInit(): Promise<void> {

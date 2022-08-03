@@ -23,6 +23,7 @@ export class ProjectService {
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
+    await this.projectStatusService.findOne(createProjectDto.statusId);
     const project = await this.projectRepository.create(createProjectDto);
     await this.userService.findOne(createProjectDto.authorId);
     await project.$add('team', createProjectDto.authorId);

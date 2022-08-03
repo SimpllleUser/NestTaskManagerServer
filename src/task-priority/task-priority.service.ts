@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TaskPriority } from './task-priority.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
@@ -25,11 +25,22 @@ export class TaskPriorityService {
     return priorityTasks;
   }
 
+  async findOne(id: number) {
+    const priority = await this.taskPriorityaskRepository.findByPk(id);
+    if (!priority) {
+      throw new HttpException('not found priority', HttpStatus.NOT_FOUND);
+    }
+    return priority;
+  }
+
   async getTypeByName(name) {
-    const priorityTasks = await this.taskPriorityaskRepository.findOne({
+    const priority = await this.taskPriorityaskRepository.findOne({
       where: { name },
     });
-    return priorityTasks;
+    if (!priority) {
+      throw new HttpException('not found priority', HttpStatus.NOT_FOUND);
+    }
+    return priority;
   }
 
   async onModuleInit(): Promise<void> {

@@ -25,7 +25,7 @@ export class UsersService {
 
   async findOne(id) {
     const user = await this.userRepository.findByPk(id);
-    if (user) {
+    if (!user) {
       throw new HttpException(
         'user not found',
         HttpStatus.NOT_FOUND,
@@ -35,7 +35,7 @@ export class UsersService {
   }
   async findByIds(ids) {
     const users = await this.userRepository.findAll({ where: { id: ids } });
-    if (users?.length) {
+    if (!users?.length) {
       throw new HttpException(
         'users not found',
         HttpStatus.NOT_FOUND,
@@ -54,7 +54,7 @@ export class UsersService {
       where: { login },
       include: { all: true },
     });
-    if (user) {
+    if (!user) {
       throw new HttpException(
         'users not found',
         HttpStatus.NOT_FOUND,
@@ -66,7 +66,7 @@ export class UsersService {
   async addRole(dto: AddRoleDto) {
     const user = await this.userRepository.findByPk(dto.userId);
     const role = await this.roleService.getRoleByValue(dto.value);
-    if (role && user) {
+    if (!role || !user) {
       await user.$add('role', role.id);
       return dto;
     }

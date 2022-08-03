@@ -21,6 +21,9 @@ export class TasksService {
   ) {}
 
   async create(dto: CreateTaskDto) {
+    await this.taskTypeService.findOne(dto.statusId);
+    await this.taskPriorityService.findOne(dto.priorityId);
+    await this.taskStatusService.findOne(dto.statusId);
     const task = await this.taskRepository.create(dto);
     const createdTask = await this.findOne(task.id);
     return createdTask;
@@ -58,7 +61,7 @@ export class TasksService {
         },
       ],
     });
-    if (task) {
+    if (!task) {
       throw new HttpException(
         'users not found',
         HttpStatus.NOT_FOUND,
