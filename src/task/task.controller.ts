@@ -6,7 +6,9 @@ import {
   Param,
   Patch,
   Post,
+  UseFilters,
   UseGuards,
+  UseInterceptors,
   UsePipes,
 } from '@nestjs/common';
 import { TasksService } from './task.service';
@@ -21,8 +23,12 @@ import { TaskStatus } from 'src/task-status/task-status.model';
 import { TaskStatusService } from 'src/task-status/task-status.service';
 import { TaskPriority } from 'src/task-priority/task-priority.model';
 import { TaskType } from 'src/task-type/task-type.model';
+import { NotFoundInterceptor } from 'src/interceptor/not-found.interceptor';
+import { AllException } from 'src/filters/all-exceptions.filter';
 
 @ApiTags('Tasks')
+@UseInterceptors(NotFoundInterceptor)
+@UseFilters(new AllException())
 @Controller('tasks')
 export class TasksController {
   constructor(
