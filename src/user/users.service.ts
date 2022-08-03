@@ -25,10 +25,22 @@ export class UsersService {
 
   async findOne(id) {
     const user = await this.userRepository.findByPk(id);
+    if (user) {
+      throw new HttpException(
+        'user not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return user;
   }
   async findByIds(ids) {
     const users = await this.userRepository.findAll({ where: { id: ids } });
+    if (users?.length) {
+      throw new HttpException(
+        'users not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return users;
   }
 
@@ -53,7 +65,7 @@ export class UsersService {
       return dto;
     }
     throw new HttpException(
-      'Пользователь или роль не найдены',
+      'user or role not found',
       HttpStatus.NOT_FOUND,
     );
   }

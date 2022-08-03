@@ -1,5 +1,5 @@
 import { ProjectComment } from './project-comment/project-comment.model';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectModel } from '@nestjs/sequelize';
@@ -11,6 +11,7 @@ import { UsersService } from '../user/users.service';
 import { ProjectStatus } from 'src/project/project-status/project-status.model';
 import { CreateProjectCommentDto } from './project-comment/dto/create-project-comment.dto';
 import { ProjectCommentService } from './project-comment/project-comment.service';
+import _ = require('lodash');
 
 @Injectable()
 export class ProjectService {
@@ -22,9 +23,8 @@ export class ProjectService {
   ) {}
 
   async create(createProjectDto: CreateProjectDto) {
-    // const status = await this.projectStatusService.getStatusByName('todo');
-    // project.statusId = status.id;
     const project = await this.projectRepository.create(createProjectDto);
+    await this.userService.findOne(createProjectDto.authorId);
     await project.$add('team', createProjectDto.authorId);
     await project.save();
     return project;
@@ -86,13 +86,15 @@ export class ProjectService {
         },
       ],
     });
+    if (!project) {
+      throw new HttpException('Not found project', HttpStatus.NOT_FOUND);
+    }
+
     return project;
   }
 
   async update(id: number, updateProjectDto: UpdateProjectDto) {
-    const project = await this.projectRepository.findOne({
-      where: { id },
-    });
+    const project = await this.findOne(id);
     await project.update(updateProjectDto);
     return await this.findOne(id);
   }
@@ -100,9 +102,14 @@ export class ProjectService {
   async remove(id: number) {
     return await this.projectRepository.destroy({ where: { id } });
   }
-
   async addUsers(projectId, { userIds }: { userIds: number[] }) {
     const project = await this.findOne(projectId);
+    if (this.existUserInTeam(project, userIds)) {
+      throw new HttpException(
+        'One or more user exist in team ',
+        HttpStatus.CONFLICT,
+      );
+    }
     const users = await this.userService.findByIds(userIds);
     await project.$add('team', users);
     await project.save();
@@ -110,6 +117,12 @@ export class ProjectService {
   }
   async deleteUsers(projectId, { userIds }: { userIds: number[] }) {
     const project = await this.findOne(projectId);
+    if (!this.existUserInTeam(project, userIds)) {
+      throw new HttpException(
+        'One or more user not exist in team ',
+        HttpStatus.CONFLICT,
+      );
+    }
     const users = await this.userService.findByIds(userIds);
     await project.$remove('team', users);
     await project.save();
@@ -117,6 +130,12 @@ export class ProjectService {
   }
   async addUser(projectId, userId: number) {
     const project = await this.findOne(projectId);
+    if (this.existUserInTeam(project, [userId])) {
+      throw new HttpException(
+        'One or more user exist in team ',
+        HttpStatus.CONFLICT,
+      );
+    }
     const user = await this.userService.findOne(userId);
     await project.$add('team', userId);
     await project.save();
@@ -124,6 +143,12 @@ export class ProjectService {
   }
   async deleteUser(projectId, userId: number) {
     const project = await this.findOne(projectId);
+    if (this.existUserInTeam(project, [userId])) {
+      throw new HttpException(
+        'One or more user not exist in team ',
+        HttpStatus.CONFLICT,
+      );
+    }
     const user = await this.userService.findOne(userId);
     await project.$remove('team', userId);
     await project.save();
@@ -138,5 +163,10 @@ export class ProjectService {
     const createdComment = await this.projectCommentService.create(comment);
     await project.$add('comments', createdComment);
     return createdComment;
+  }
+  existUserInTeam(project: Project, userIds: number[]) {
+    return Boolean(
+      _.chain(userIds).intersection(_.map(project.team, 'id')).value().length,
+    );
   }
 }
