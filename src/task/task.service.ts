@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Task } from './task.model';
@@ -21,11 +21,8 @@ export class TasksService {
   ) {}
 
   async create(dto: CreateTaskDto) {
-    // const status = await this.taskStatusService.getStatusByName('OPEN');
     const task = await this.taskRepository.create(dto);
     const createdTask = await this.findOne(task.id);
-    // task.statusId = status.id;
-    // await task.save();
     return createdTask;
   }
 
@@ -61,7 +58,13 @@ export class TasksService {
         },
       ],
     });
-    return task || {};
+    if (task) {
+      throw new HttpException(
+        'users not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    return task;
   }
 
   async findAllByAuthor(authorId: number) {
@@ -117,13 +120,11 @@ export class TasksService {
         },
       ],
     });
-    return task || {};
+    return task;
   }
 
   async update(id: number, updateTaskDto: UpdateTaskDto) {
-    const task = await this.taskRepository.findOne({
-      where: { id },
-    });
+    const task = await this.findOne(id);
     await task.update(updateTaskDto);
     const updatedTask = await this.findOne(id);
     return updatedTask;

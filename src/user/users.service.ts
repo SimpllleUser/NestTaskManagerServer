@@ -54,6 +54,12 @@ export class UsersService {
       where: { login },
       include: { all: true },
     });
+    if (user) {
+      throw new HttpException(
+        'users not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
     return user;
   }
 
@@ -83,7 +89,7 @@ export class UsersService {
   async ban(dto: BanUserDto) {
     const user = await this.userRepository.findByPk(dto.userId);
     if (!user) {
-      throw new HttpException('Пользователь не найден', HttpStatus.NOT_FOUND);
+      throw new HttpException('user not found', HttpStatus.NOT_FOUND);
     }
 
     await user.save();
