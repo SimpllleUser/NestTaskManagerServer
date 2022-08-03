@@ -60,4 +60,7 @@ export class AuthService {
     const { id, name, login }: UserModel = user;
     return { id, name, login, ...this.generateToken(user) };
   }
+  dekodeToken(token: string) {
+    return this.jwtService.decode(token);
+  };
 }

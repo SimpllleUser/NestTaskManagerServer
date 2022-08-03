@@ -9,6 +9,7 @@ import {
   Delete,
   UsePipes,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -86,6 +87,7 @@ export class ProjectController {
   ) {
     return this.projectService.deleteUser(projectId, userId);
   }
+
   @Patch('/comment/add')
   addComment(@Body() comment: CreateProjectCommentDto) {
     return this.projectService.addComment(comment);
