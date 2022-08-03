@@ -10,6 +10,7 @@ import { TaskTypeService } from '../task-type/task-type.service';
 import { TaskType } from '../task-type/task-type.model';
 import { TaskPriorityService } from '../task-priority/task-priority.service';
 import { TaskPriority } from '../task-priority/task-priority.model';
+/// ! ADD FILTER OR PIPE ON GLOBAL HADLER SERVER ERROR
 
 @Injectable()
 export class TasksService {
