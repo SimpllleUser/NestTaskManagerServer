@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@n
 import { InjectModel } from '@nestjs/sequelize';
 import { TaskType } from './task-type.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
+import _ = require('lodash');
 
 export type Type = {
   name: string;
@@ -14,6 +15,13 @@ export class TaskTypeService {
     @InjectModel(TaskType)
     private taskTypeRepository: typeof TaskType,
   ) {}
+
+  types: Type[] = [
+    { name: 'bug', value: 4 },
+    { name: 'feature', value: 2 },
+    { name: 'fix', value: 3 },
+    { name: 'planning', value: 1 },
+  ];
 
   async create(dto: CreateTypeTaskDto) {
     const typeTask = await this.taskTypeRepository.create(dto);
@@ -53,14 +61,14 @@ export class TaskTypeService {
     await Promise.all(notExistTypes.map((type: Type) => this.create(type)));
   }
 
+  existType(id: number) {
+    const exist = _.find(this.types, { value: id });
+    if (!exist) throw new HttpException('not found type', HttpStatus.NOT_FOUND);
+    return exist;
+  }
+
   getNotExistTypes(existTypes) {
-    const types: Type[] = [
-      { name: 'bug', value: 4 },
-      { name: 'feature', value: 2 },
-      { name: 'fix', value: 3 },
-      { name: 'planning', value: 1 },
-    ];
-    const notExistsStatus = types.filter(
+    const notExistsStatus = this.types.filter(
       (type) => !existTypes.find(({ name }) => type === name),
     );
     return notExistsStatus;

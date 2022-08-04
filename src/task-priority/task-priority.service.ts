@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TaskPriority } from './task-priority.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
+import _ = require('lodash');
+import { values } from 'lodash';
 
 export type Priority = {
   name: string;
@@ -14,6 +16,12 @@ export class TaskPriorityService {
     @InjectModel(TaskPriority)
     private taskPriorityaskRepository: typeof TaskPriority,
   ) {}
+
+  private priorities: Priority[] = [
+    { name: 'hight', value: 1 },
+    { name: 'normal', value: 2 },
+    { name: 'low', value: 3 },
+  ];
 
   async create(dto: CreateTypeTaskDto) {
     const priorityTask = await this.taskPriorityaskRepository.create(dto);
@@ -57,14 +65,15 @@ export class TaskPriorityService {
   }
 
   getNotExistPriority(existTypes) {
-    const types: Priority[] = [
-      { name: 'hight', value: 1 },
-      { name: 'normal', value: 2 },
-      { name: 'low', value: 3 },
-    ];
-    const notExistsPriority = types.filter(
+    const notExistsPriority = this.priorities.filter(
       (type) => !existTypes.find(({ name }) => type === name),
     );
     return notExistsPriority;
+  }
+
+  existPriority(id: number) {
+    const exist = _.find(this.priorities, { value: id  });
+    if (!exist) throw new HttpException('not found priority', HttpStatus.NOT_FOUND);
+    return exist;
   }
 }

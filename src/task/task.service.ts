@@ -10,7 +10,6 @@ import { TaskTypeService } from '../task-type/task-type.service';
 import { TaskType } from '../task-type/task-type.model';
 import { TaskPriorityService } from '../task-priority/task-priority.service';
 import { TaskPriority } from '../task-priority/task-priority.model';
-/// ! ADD FILTER OR PIPE ON GLOBAL HADLER SERVER ERROR
 
 @Injectable()
 export class TasksService {
@@ -22,17 +21,12 @@ export class TasksService {
   ) {}
 
   async create(dto: CreateTaskDto) {
-    // try {
-      // await this.taskTypeService.findOne(dto.typeId);
-      // await this.taskTypeService.findOne(dto.typeId);
-      // await this.taskPriorityService.findOne(dto.priorityId);
-      // await this.taskStatusService.findOne(dto.statusId);
+      await this.taskTypeService.existType(dto.typeId);
+      await this.taskPriorityService.existPriority(dto.priorityId);
+      await this.taskStatusService.existStatus(dto.statusId);
       const task = await this.taskRepository.create(dto);
       const createdTask = await this.findOne(task.id);
       return createdTask;
-    // } catch (error) {
-    //   throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    // }
   }
 
   async findOne(id: number) {
