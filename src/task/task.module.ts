@@ -10,6 +10,7 @@ import { TaskType } from '../task-type/task-type.model';
 import { TypeTaskModule } from '../task-type/task-type.module';
 import { TaskPriority } from '../task-priority/task-priority.model';
 import { TaskPriorityModule } from '../task-priority/task-priority.module';
+import { TaskCommentModule } from './task-comment/task-comment.module';
 
 @Module({
   providers: [TasksService],
@@ -18,6 +19,7 @@ import { TaskPriorityModule } from '../task-priority/task-priority.module';
     TaskStatusModule,
     TypeTaskModule,
     TaskPriorityModule,
+    TaskCommentModule, 
     SequelizeModule.forFeature([
       TaskPriority,
       TaskType,

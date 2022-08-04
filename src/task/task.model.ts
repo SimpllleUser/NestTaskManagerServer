@@ -3,6 +3,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from 'sequelize-typescript';
@@ -13,6 +14,7 @@ import { Project } from '../project/project.model';
 import { TaskType } from '../task-type/task-type.model';
 import { TaskPriority } from '../task-priority/task-priority.model';
 import { CreateTaskDto } from './dto/create-task.dto';
+import { TaskComment } from './task-comment/task-comment.model';
 
 export interface TaskCreationAttrs {
   title: string;
@@ -63,6 +65,9 @@ export class Task extends Model<Task, TaskCreationAttrs> {
 
   @BelongsTo(() => Project)
   project: Project;
+
+  @HasMany(() => TaskComment)
+  comments: TaskComment[];
 
   @ApiProperty({ example: '1', description: 'Some status task' })
   @ForeignKey(() => TaskStatus)

@@ -25,6 +25,7 @@ import { TaskPriority } from 'src/task-priority/task-priority.model';
 import { TaskType } from 'src/task-type/task-type.model';
 import { NotFoundInterceptor } from 'src/interceptor/not-found.interceptor';
 import { AllException } from 'src/filters/all-exceptions.filter';
+import { CreateTaskCommentDto } from './task-comment/dto/create-task-comment.dto';
 
 @ApiTags('Tasks')
 @UseGuards(JwtAuthGuard)
@@ -106,5 +107,10 @@ export class TasksController {
   @Get('/types/all')
   getAllTypes() {
     return this.taskService.getAllTypes();
+  }
+
+  @Patch('/comment/add')
+  addComment(@Body() comment: CreateTaskCommentDto) {
+    return this.taskService.addComment(comment);
   }
 }

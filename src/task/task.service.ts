@@ -10,6 +10,9 @@ import { TaskTypeService } from '../task-type/task-type.service';
 import { TaskType } from '../task-type/task-type.model';
 import { TaskPriorityService } from '../task-priority/task-priority.service';
 import { TaskPriority } from '../task-priority/task-priority.model';
+import { CreateTaskCommentDto } from './task-comment/dto/create-task-comment.dto';
+import { TaskCommentService } from './task-comment/task-comment.service';
+import { TaskComment } from './task-comment/task-comment.model';
 
 @Injectable()
 export class TasksService {
@@ -18,6 +21,7 @@ export class TasksService {
     private taskTypeService: TaskTypeService,
     private taskPriorityService: TaskPriorityService,
     private taskStatusService: TaskStatusService,
+    private taskCommentService: TaskCommentService,
   ) {}
 
   async create(dto: CreateTaskDto) {
@@ -51,6 +55,9 @@ export class TasksService {
         },
         {
           model: TaskPriority,
+        },
+        {
+          model: TaskComment,
         },
         {
           model: User,
@@ -150,5 +157,11 @@ export class TasksService {
   async getAllTypes() {
     const types = await this.taskTypeService.findAll();
     return types;
+  }
+  async addComment(comment: CreateTaskCommentDto) {
+    const task = await this.findOne(comment.taskId);
+    const createdComment = await this.taskCommentService.create(comment);
+    await task.$add('comments', createdComment);
+    return createdComment;
   }
 }

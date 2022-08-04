@@ -35,12 +35,12 @@ export class UsersService {
   }
   async findByIds(ids) {
     const users = await this.userRepository.findAll({ where: { id: ids } });
-    if (!users?.length) {
-      throw new HttpException(
-        'users not found',
-        HttpStatus.NOT_FOUND,
-      );
-    }
+    // if (!users?.length) {
+    //   throw new HttpException(
+    //     'users not found',
+    //     HttpStatus.NOT_FOUND,
+    //   );
+    // }
     return users;
   }
 
@@ -54,12 +54,12 @@ export class UsersService {
       where: { login },
       include: { all: true },
     });
-    if (!user) {
-      throw new HttpException(
-        'users not found',
-        HttpStatus.NOT_FOUND,
-      );
-    }
+    // if (!user) {
+    //   throw new HttpException(
+    //     'users not found',
+    //     HttpStatus.NOT_FOUND,
+    //   );
+    // }
     return user;
   }
 

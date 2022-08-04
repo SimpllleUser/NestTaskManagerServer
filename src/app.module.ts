@@ -21,6 +21,7 @@ import { TaskType } from './task-type/task-type.model';
 import { TaskPriority } from './task-priority/task-priority.model';
 import { TaskPriorityModule } from './task-priority/task-priority.module';
 import { ProjectComment } from './project/project-comment/project-comment.model';
+import { TaskComment } from './task/task-comment/task-comment.model';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { ProjectComment } from './project/project-comment/project-comment.model'
       autoLoadModels: true,
       models: [
         ProjectComment,
+        TaskComment,
         TaskPriority,
         ProjectStatus,
         Project,
@@ -55,7 +57,6 @@ import { ProjectComment } from './project/project-comment/project-comment.model'
     }),
     TaskPriorityModule,
     TaskStatusModule,
-    ProjectStatusModule,
     ProjectModule,
     UsersModule,
     RolesModule,
