@@ -18,6 +18,7 @@ import { Roles } from '../auth/roles-auth.decorator';
 import { ValidationPipe } from '../pipes/validation.pipe';
 
 @ApiTags('Users')
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
@@ -39,7 +40,6 @@ export class UsersController {
     return this.usersService.getAllUsers();
   }
 
-  @UseGuards(JwtAuthGuard)
   @Roles('ADMIN')
   @ApiOperation({ summary: 'Get user role' })
   @ApiResponse({ status: 200 })

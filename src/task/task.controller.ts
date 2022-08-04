@@ -27,6 +27,7 @@ import { NotFoundInterceptor } from 'src/interceptor/not-found.interceptor';
 import { AllException } from 'src/filters/all-exceptions.filter';
 
 @ApiTags('Tasks')
+@UseGuards(JwtAuthGuard)
 @UseInterceptors(NotFoundInterceptor)
 @UseFilters(new AllException())
 @Controller('tasks')
@@ -38,9 +39,9 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({ status: 200, type: [Task] })
-  @UseGuards(JwtAuthGuard)
-  // @UsePipes(ValidationPipe)
-  // @UseGuards(TaskGuard)
+  
+  @UsePipes(ValidationPipe)
+  @UseGuards(TaskGuard)
   @Post()
   createTask(@Body() dto: CreateTaskDto) {
     return this.taskService.create(dto);
@@ -48,7 +49,7 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Get task' })
   @ApiResponse({ status: 200, type: [Task] })
-  @UseGuards(JwtAuthGuard)
+  
   @Get('/:id')
   getTask(@Param('id') id: number) {
     return this.taskService.findOne(id);
@@ -56,7 +57,7 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Get task by author' })
   @ApiResponse({ status: 200, type: [Task] })
-  @UseGuards(JwtAuthGuard)
+  
   @Get('/author/:id')
   getAllByAuthor(@Param('id') userId: number) {
     return this.taskService.findAllByAuthor(userId);
@@ -64,7 +65,7 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Get task from project' })
   @ApiResponse({ status: 200, type: [Task] })
-  @UseGuards(JwtAuthGuard)
+  
   @Get('/project/:id')
   getAllByProject(@Param('id') projectId: number) {
     return this.taskService.findAllByProject(projectId);
@@ -72,13 +73,13 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Update task' })
   @ApiResponse({ status: 200, type: Task })
-  @UseGuards(JwtAuthGuard)
+  
   @Patch('/:id')
   update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(id, updateTaskDto);
   }
 
-  @UseGuards(JwtAuthGuard)
+  
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.taskService.remove(+id);
@@ -93,6 +94,7 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Task priorities' })
   @ApiResponse({ status: 200, type: [TaskPriority] })
+  
   @Get('/priorities/all')
   getPiorities() {
     return this.taskService.getAllPriorities();
@@ -100,7 +102,7 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Task types' })
   @ApiResponse({ status: 200, type: [TaskType] })
-  @UseGuards(JwtAuthGuard)
+  
   @Get('/types/all')
   getAllTypes() {
     return this.taskService.getAllTypes();

@@ -19,6 +19,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth-guards';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Project } from './project.model';
 @ApiTags('Project')
+@UseGuards(JwtAuthGuard)
 @Controller('project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
@@ -40,7 +41,6 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Get project by id' })
   @ApiResponse({ status: 200, type: Project })
-  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.projectService.findOne(+id);
@@ -48,6 +48,7 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Update project' })
   @ApiResponse({ status: 200, type: Project })
+  @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(+id, updateProjectDto);
@@ -65,6 +66,7 @@ export class ProjectController {
   ) {
     return this.projectService.addUsers(projectId, body);
   }
+
   @Delete(':projectId/users')
   deleteUsers(
     @Param('projectId') projectId: number,
@@ -80,6 +82,7 @@ export class ProjectController {
   ) {
     return this.projectService.addUser(projectId, userId);
   }
+
   @Delete(':projectId/user/:userId')
   deleteUser(
     @Param('projectId') projectId: number,
