@@ -96,6 +96,10 @@ export class ProjectController {
     return this.projectService.addComment(comment);
   }
 
+  @Get(':projectId/comment/all')
+  getComments( @Param('projectId') projectId: number,) {
+    return this.projectService.getComments(projectId);
+  }
   @Get('statuses/all')
   getProjectStatuses() {
     return this.projectService.getAllStatuses();

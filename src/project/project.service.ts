@@ -165,6 +165,10 @@ export class ProjectService {
     await project.$add('comments', createdComment);
     return createdComment;
   }
+  async getComments(id: number) {
+    const comments = this.projectCommentService.findAllByProjectId(id)
+    return comments;
+  }
   existUserInTeam(project: Project, userIds: number[]) {
     return Boolean(
       _.chain(userIds).intersection(_.map(project.team, 'id')).value().length,

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
+import { User } from 'src/user/users.model';
 import { CreateProjectCommentDto } from './dto/create-project-comment.dto';
 import { ProjectComment } from './project-comment.model';
 
@@ -16,19 +17,19 @@ export class ProjectCommentService {
   }
 
   async findAllByProjectId(projectId: number) {
-    const comments = await this.projectCommentRepository.findAll({ where:{ projectId } });
+    const comments = await this.projectCommentRepository.findAll({
+      where: { projectId },
+      include: [{ model: User }],
+    });
     return comments;
   }
 
-//   async getStatusByName(name) {
-//     const statusProject = await this.projectCommentRepository.findOne({
-//       where: { name },
-//     });
-//     return statusProject;
-//   }
+  //   async getStatusByName(name) {
+  //     const statusProject = await this.projectCommentRepository.findOne({
+  //       where: { name },
+  //     });
+  //     return statusProject;
+  //   }
 
-  async onModuleInit(): Promise<void> {
-
-  }
-
+  async onModuleInit(): Promise<void> {}
 }
