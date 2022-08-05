@@ -164,4 +164,8 @@ export class TasksService {
     await task.$add('comments', createdComment);
     return createdComment;
   }
+  async getComments(taskId: number) {
+    const comments = this.taskCommentService.findAllByTaskId(taskId)
+    return comments;
+  }
 }

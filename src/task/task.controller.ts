@@ -113,4 +113,8 @@ export class TasksController {
   addComment(@Body() comment: CreateTaskCommentDto) {
     return this.taskService.addComment(comment);
   }
+  @Get(':taskId/comment/add')
+  getComments(@Param('taskId') taskId: number) {
+    return this.taskService.getComments(taskId);
+  }
 }
