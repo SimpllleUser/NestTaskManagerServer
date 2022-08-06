@@ -11,8 +11,17 @@ export class ProjectCommentService {
     private projectCommentRepository: typeof ProjectComment,
   ) {}
 
+  async getOneById(id: number) {
+    const comment = await this.projectCommentRepository.findOne({
+      where: { id },
+      include: [{ model: User }],
+    });
+    return comment;
+  }
+
   async create(dto: CreateProjectCommentDto) {
-    const comment = await this.projectCommentRepository.create(dto);
+    const createdComment = await this.projectCommentRepository.create(dto);
+    const comment = await this.getOneById(createdComment.id);
     return comment;
   }
 

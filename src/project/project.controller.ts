@@ -48,7 +48,7 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Update project' })
   @ApiResponse({ status: 200, type: Project })
-  @UsePipes(ValidationPipe)
+  // @UsePipes(ValidationPipe)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(+id, updateProjectDto);
