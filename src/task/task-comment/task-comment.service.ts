@@ -11,18 +11,27 @@ export class TaskCommentService {
     private taskCommentRepository: typeof TaskComment,
   ) {}
 
+  async getOneById(id: number) {
+    const comment = await this.taskCommentRepository.findOne({
+      where: { id },
+      include: [{ model: User }],
+    });
+    return comment;
+  }
+
   async create(dto: CreateTaskCommentDto) {
-    const comment = await this.taskCommentRepository.create(dto);
+    const createdComment = await this.taskCommentRepository.create(dto);
+    const comment = await this.getOneById(createdComment.id);
     return comment;
   }
 
   async findAllByTaskId(taskId: number) {
-    const comments = await this.taskCommentRepository.findAll({ where:{ taskId }, include: [{ model: User }] });
+    const comments = await this.taskCommentRepository.findAll({
+      where: { taskId },
+      include: [{ model: User }],
+    });
     return comments;
   }
 
-  async onModuleInit(): Promise<void> {
-
-  }
-
+  async onModuleInit(): Promise<void> {}
 }
