@@ -198,4 +198,29 @@ export class ProjectService {
       _.chain(userIds).intersection(_.map(project.team, 'id')).value().length,
     );
   }
+  async userExistOnProject({ projectId, userId }) {
+    const projects = await this.projectRepository.findAll({
+      where: { id: projectId },
+      include: [
+        {
+          model: ProjectStatus,
+        },
+        {
+          model: User,
+          as: 'team',
+          where: {
+            id: userId,
+          }
+        },
+        {
+          model: User,
+          as: 'author',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
+        },
+      ],
+    });
+    return projects;
+  }
 }

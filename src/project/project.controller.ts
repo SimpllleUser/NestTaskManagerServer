@@ -21,6 +21,7 @@ import { Project } from './project.model';
 import { User } from 'src/user/users.model';
 import { ProjectComment } from './project-comment/project-comment.model';
 import { ProjectStatus } from './project-status/project-status.model';
+import { ProjectAvailable } from './ProjectAvailable.guard';
 @ApiTags('Project')
 @UseGuards(JwtAuthGuard)
 @Controller('project')
@@ -51,6 +52,7 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Get project by id' })
   @ApiResponse({ status: 200, type: Project })
+  @UseGuards(ProjectAvailable)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.projectService.findOne(+id);
@@ -58,7 +60,7 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Update project' })
   @ApiResponse({ status: 200, type: Project })
-  // @UsePipes(ValidationPipe)
+  @UseGuards(ProjectAvailable)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
     return this.projectService.update(+id, updateProjectDto);
@@ -71,46 +73,51 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Added users list' })
   @ApiResponse({ status: 200, type: [User] })
-  @Patch(':projectId/users')
+  @UseGuards(ProjectAvailable)
+  @Patch(':id/users')
   addUsers(
-    @Param('projectId') projectId: number,
+    @Param('id') id: number,
     @Body() body: { userIds: number[] },
   ) {
-    return this.projectService.addUsers(projectId, body);
+    return this.projectService.addUsers(id, body);
   }
 
   @ApiOperation({ summary: 'Deleted users list' })
   @ApiResponse({ status: 200, type: [User] })
-  @Delete(':projectId/users')
+  @UseGuards(ProjectAvailable)
+  @Delete(':id/users')
   deleteUsers(
-    @Param('projectId') projectId: number,
+    @Param('id') id: number,
     @Body() body: { userIds: number[] },
   ) {
-    return this.projectService.deleteUsers(projectId, body);
+    return this.projectService.deleteUsers(id, body);
   }
 
   @ApiOperation({ summary: 'Added user to ptoject' })
   @ApiResponse({ status: 200, type: User })
-  @Patch(':projectId/user/:userId')
+  @UseGuards(ProjectAvailable)
+  @Patch(':id/user/:userId')
   addUser(
-    @Param('projectId') projectId: number,
+    @Param('id') id: number,
     @Param('userId') userId: number,
   ) {
-    return this.projectService.addUser(projectId, userId);
+    return this.projectService.addUser(id, userId);
   }
 
   @ApiOperation({ summary: 'Deleted user to ptoject' })
   @ApiResponse({ status: 200, type: User })
-  @Delete(':projectId/user/:userId')
+  @UseGuards(ProjectAvailable)
+  @Delete(':id/user/:userId')
   deleteUser(
-    @Param('projectId') projectId: number,
+    @Param('id') id: number,
     @Param('userId') userId: number,
   ) {
-    return this.projectService.deleteUser(projectId, userId);
+    return this.projectService.deleteUser(id, userId);
   }
 
   @ApiOperation({ summary: 'Add comment to project' })
   @ApiResponse({ status: 200, type: ProjectComment })
+  @UseGuards(ProjectAvailable)
   @Patch('/comment/add')
   addComment(@Body() comment: CreateProjectCommentDto) {
     return this.projectService.addComment(comment);
@@ -118,9 +125,10 @@ export class ProjectController {
 
   @ApiOperation({ summary: 'Get all comments' })
   @ApiResponse({ status: 200, type: [ProjectComment] })
-  @Get(':projectId/comment/all')
-  getComments( @Param('projectId') projectId: number,) {
-    return this.projectService.getComments(projectId);
+  @UseGuards(ProjectAvailable)
+  @Get(':id/comment/all')
+  getComments( @Param('projectId') id: number,) {
+    return this.projectService.getComments(id);
   }
 
   @ApiOperation({ summary: 'Get all statuses' })
