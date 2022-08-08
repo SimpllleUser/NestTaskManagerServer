@@ -33,10 +33,34 @@ export class ProjectService {
 
   async findAllByAuthor(authorId: number) {
     const projects = await this.projectRepository.findAll({
-      where: { authorId },
+      where: { authorId, },
       include: [
         {
           model: ProjectStatus,
+        },
+        {
+          model: User,
+          as: 'author',
+          attributes: {
+            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+          },
+        },
+      ],
+    });
+    return projects;
+  }
+  async findAllAvailableForUser(userId: number) {
+    const projects = await this.projectRepository.findAll({
+      include: [
+        {
+          model: ProjectStatus,
+        },
+        {
+          model: User,
+          as: 'team',
+          where: {
+            id: userId,
+          }
         },
         {
           model: User,
@@ -166,7 +190,7 @@ export class ProjectService {
     return createdComment;
   }
   async getComments(id: number) {
-    const comments = this.projectCommentService.findAllByProjectId(id)
+    const comments = this.projectCommentService.findAllByProjectId(id);
     return comments;
   }
   existUserInTeam(project: Project, userIds: number[]) {

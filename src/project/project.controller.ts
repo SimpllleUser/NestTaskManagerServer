@@ -41,6 +41,13 @@ export class ProjectController {
   findAllByAuthor(@Param('id') id: number) {
     return this.projectService.findAllByAuthor(id);
   }
+  
+  @ApiOperation({ summary: 'Get projects by author' })
+  @ApiResponse({ status: 200, type: [Project] })
+  @Get('/all/by-user/:id')
+  findAllByAvailable(@Param('id') id: number) {
+    return this.projectService.findAllAvailableForUser(id);
+  }
 
   @ApiOperation({ summary: 'Get project by id' })
   @ApiResponse({ status: 200, type: Project })
