@@ -25,6 +25,7 @@ import { TaskPriority } from 'src/task-priority/task-priority.model';
 import { TaskType } from 'src/task-type/task-type.model';
 import { NotFoundInterceptor } from 'src/interceptor/not-found.interceptor';
 import { AllException } from 'src/filters/all-exceptions.filter';
+import { TaskComment } from './task-comment/task-comment.model';
 import { CreateTaskCommentDto } from './task-comment/dto/create-task-comment.dto';
 
 @ApiTags('Tasks')
@@ -40,7 +41,6 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Create task' })
   @ApiResponse({ status: 200, type: [Task] })
-  
   @UsePipes(ValidationPipe)
   @UseGuards(TaskGuard)
   @Post()
@@ -50,7 +50,6 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Get task' })
   @ApiResponse({ status: 200, type: [Task] })
-  
   @Get('/:id')
   getTask(@Param('id') id: number) {
     return this.taskService.findOne(id);
@@ -58,7 +57,6 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Get task by author' })
   @ApiResponse({ status: 200, type: [Task] })
-  
   @Get('/author/:id')
   getAllByAuthor(@Param('id') userId: number) {
     return this.taskService.findAllByAuthor(userId);
@@ -66,7 +64,6 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Get task from project' })
   @ApiResponse({ status: 200, type: [Task] })
-  
   @Get('/project/:id')
   getAllByProject(@Param('id') projectId: number) {
     return this.taskService.findAllByProject(projectId);
@@ -74,14 +71,13 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Update task' })
   @ApiResponse({ status: 200, type: Task })
-  
   @Patch('/:id')
   update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(id, updateTaskDto);
   }
 
-  
   @Delete(':id')
+  @ApiOperation({ summary: 'Task deleted' })
   remove(@Param('id') id: string) {
     return this.taskService.remove(+id);
   }
@@ -95,7 +91,6 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Task priorities' })
   @ApiResponse({ status: 200, type: [TaskPriority] })
-  
   @Get('/priorities/all')
   getPiorities() {
     return this.taskService.getAllPriorities();
@@ -103,16 +98,20 @@ export class TasksController {
 
   @ApiOperation({ summary: 'Task types' })
   @ApiResponse({ status: 200, type: [TaskType] })
-  
   @Get('/types/all')
   getAllTypes() {
     return this.taskService.getAllTypes();
   }
 
+  @ApiOperation({ summary: 'Created comment' })
+  @ApiResponse({ status: 200, type: TaskComment })
   @Patch('/comment/add')
   addComment(@Body() comment: CreateTaskCommentDto) {
     return this.taskService.addComment(comment);
   }
+
+  @ApiOperation({ summary: 'Comment list' })
+  @ApiResponse({ status: 200, type: [TaskComment] })
   @Get(':taskId/comment/all')
   getComments(@Param('taskId') taskId: number) {
     return this.taskService.getComments(taskId);

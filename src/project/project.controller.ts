@@ -18,6 +18,9 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { JwtAuthGuard } from '../auth/jwt-auth-guards';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Project } from './project.model';
+import { User } from 'src/user/users.model';
+import { ProjectComment } from './project-comment/project-comment.model';
+import { ProjectStatus } from './project-status/project-status.model';
 @ApiTags('Project')
 @UseGuards(JwtAuthGuard)
 @Controller('project')
@@ -59,6 +62,8 @@ export class ProjectController {
     return this.projectService.remove(+id);
   }
 
+  @ApiOperation({ summary: 'Added users list' })
+  @ApiResponse({ status: 200, type: [User] })
   @Patch(':projectId/users')
   addUsers(
     @Param('projectId') projectId: number,
@@ -67,6 +72,8 @@ export class ProjectController {
     return this.projectService.addUsers(projectId, body);
   }
 
+  @ApiOperation({ summary: 'Deleted users list' })
+  @ApiResponse({ status: 200, type: [User] })
   @Delete(':projectId/users')
   deleteUsers(
     @Param('projectId') projectId: number,
@@ -75,6 +82,8 @@ export class ProjectController {
     return this.projectService.deleteUsers(projectId, body);
   }
 
+  @ApiOperation({ summary: 'Added user to ptoject' })
+  @ApiResponse({ status: 200, type: User })
   @Patch(':projectId/user/:userId')
   addUser(
     @Param('projectId') projectId: number,
@@ -83,6 +92,8 @@ export class ProjectController {
     return this.projectService.addUser(projectId, userId);
   }
 
+  @ApiOperation({ summary: 'Deleted user to ptoject' })
+  @ApiResponse({ status: 200, type: User })
   @Delete(':projectId/user/:userId')
   deleteUser(
     @Param('projectId') projectId: number,
@@ -91,15 +102,22 @@ export class ProjectController {
     return this.projectService.deleteUser(projectId, userId);
   }
 
+  @ApiOperation({ summary: 'Add comment to project' })
+  @ApiResponse({ status: 200, type: ProjectComment })
   @Patch('/comment/add')
   addComment(@Body() comment: CreateProjectCommentDto) {
     return this.projectService.addComment(comment);
   }
 
+  @ApiOperation({ summary: 'Get all comments' })
+  @ApiResponse({ status: 200, type: [ProjectComment] })
   @Get(':projectId/comment/all')
   getComments( @Param('projectId') projectId: number,) {
     return this.projectService.getComments(projectId);
   }
+
+  @ApiOperation({ summary: 'Get all statuses' })
+  @ApiResponse({ status: 200, type: [ProjectStatus] })
   @Get('statuses/all')
   getProjectStatuses() {
     return this.projectService.getAllStatuses();
