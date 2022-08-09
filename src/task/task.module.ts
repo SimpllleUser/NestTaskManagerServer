@@ -11,6 +11,7 @@ import { TypeTaskModule } from '../task-type/task-type.module';
 import { TaskPriority } from '../task-priority/task-priority.model';
 import { TaskPriorityModule } from '../task-priority/task-priority.module';
 import { TaskCommentModule } from './task-comment/task-comment.module';
+import { ProjectModule } from 'src/project/project.module';
 
 @Module({
   providers: [TasksService],
@@ -20,6 +21,7 @@ import { TaskCommentModule } from './task-comment/task-comment.module';
     TypeTaskModule,
     TaskPriorityModule,
     TaskCommentModule, 
+    ProjectModule, 
     SequelizeModule.forFeature([
       TaskPriority,
       TaskType,

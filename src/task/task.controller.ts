@@ -27,6 +27,7 @@ import { NotFoundInterceptor } from 'src/interceptor/not-found.interceptor';
 import { AllException } from 'src/filters/all-exceptions.filter';
 import { TaskComment } from './task-comment/task-comment.model';
 import { CreateTaskCommentDto } from './task-comment/dto/create-task-comment.dto';
+import { TaskAvailable } from './TaskAvailable.guard';
 
 @ApiTags('Tasks')
 @UseGuards(JwtAuthGuard)
@@ -48,6 +49,7 @@ export class TasksController {
     return this.taskService.create(dto);
   }
 
+  @UseGuards(TaskAvailable)
   @ApiOperation({ summary: 'Get task' })
   @ApiResponse({ status: 200, type: [Task] })
   @Get('/:id')
@@ -62,6 +64,7 @@ export class TasksController {
     return this.taskService.findAllByAuthor(userId);
   }
 
+  @UseGuards(TaskAvailable)
   @ApiOperation({ summary: 'Get task from project' })
   @ApiResponse({ status: 200, type: [Task] })
   @Get('/project/:id')
@@ -69,6 +72,7 @@ export class TasksController {
     return this.taskService.findAllByProject(projectId);
   }
 
+  @UseGuards(TaskAvailable)
   @ApiOperation({ summary: 'Update task' })
   @ApiResponse({ status: 200, type: Task })
   @Patch('/:id')
@@ -76,6 +80,7 @@ export class TasksController {
     return this.taskService.update(id, updateTaskDto);
   }
 
+  @UseGuards(TaskAvailable)
   @Delete(':id')
   @ApiOperation({ summary: 'Task deleted' })
   remove(@Param('id') id: string) {
@@ -103,6 +108,7 @@ export class TasksController {
     return this.taskService.getAllTypes();
   }
 
+  @UseGuards(TaskAvailable)
   @ApiOperation({ summary: 'Created comment' })
   @ApiResponse({ status: 200, type: TaskComment })
   @Patch('/comment/add')
@@ -110,10 +116,11 @@ export class TasksController {
     return this.taskService.addComment(comment);
   }
 
+  @UseGuards(TaskAvailable)
   @ApiOperation({ summary: 'Comment list' })
   @ApiResponse({ status: 200, type: [TaskComment] })
-  @Get(':taskId/comment/all')
-  getComments(@Param('taskId') taskId: number) {
-    return this.taskService.getComments(taskId);
+  @Get(':id/comment/all')
+  getComments(@Param('id') id: number) {
+    return this.taskService.getComments(id);
   }
 }
