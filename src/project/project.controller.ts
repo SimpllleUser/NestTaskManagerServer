@@ -127,7 +127,7 @@ export class ProjectController {
   @ApiResponse({ status: 200, type: [ProjectComment] })
   @UseGuards(ProjectAvailable)
   @Get(':id/comment/all')
-  getComments( @Param('projectId') id: number,) {
+  getComments( @Param('id') id: number,) {
     return this.projectService.getComments(id);
   }
 

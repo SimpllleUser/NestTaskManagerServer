@@ -142,12 +142,12 @@ export class ProjectService {
   }
   async deleteUsers(projectId, { userIds }: { userIds: number[] }) {
     const project = await this.findOne(projectId);
-    if (!this.existUserInTeam(project, userIds)) {
-      throw new HttpException(
-        'One or more user not exist in team ',
-        HttpStatus.CONFLICT,
-      );
-    }
+    // if (!this.existUserInTeam(project, userIds)) {
+    //   throw new HttpException(
+    //     'One or more user not exist in team ',
+    //     HttpStatus.CONFLICT,
+    //   );
+    // }
     const users = await this.userService.findByIds(userIds);
     await project.$remove('team', users);
     await project.save();
