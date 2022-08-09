@@ -76,6 +76,7 @@ export class TasksController {
   @ApiOperation({ summary: 'Update task' })
   @ApiResponse({ status: 200, type: Task })
   @Patch('/:id')
+  @UsePipes(ValidationPipe)
   update(@Param('id') id: number, @Body() updateTaskDto: UpdateTaskDto) {
     return this.taskService.update(id, updateTaskDto);
   }
@@ -112,6 +113,7 @@ export class TasksController {
   @ApiOperation({ summary: 'Created comment' })
   @ApiResponse({ status: 200, type: TaskComment })
   @Patch('/comment/add')
+  @UsePipes(ValidationPipe)
   addComment(@Body() comment: CreateTaskCommentDto) {
     return this.taskService.addComment(comment);
   }
@@ -120,6 +122,7 @@ export class TasksController {
   @ApiOperation({ summary: 'Comment list' })
   @ApiResponse({ status: 200, type: [TaskComment] })
   @Get(':id/comment/all')
+
   getComments(@Param('id') id: number) {
     return this.taskService.getComments(id);
   }
