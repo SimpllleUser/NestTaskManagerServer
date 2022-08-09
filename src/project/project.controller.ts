@@ -137,4 +137,12 @@ export class ProjectController {
   getProjectStatuses() {
     return this.projectService.getAllStatuses();
   }
+  
+  @ApiOperation({ summary: 'Get all users by project' })
+  @ApiResponse({ status: 200, type: [ProjectStatus] })
+  @UseGuards(ProjectAvailable)
+  @Get(':id/users/all')
+  getUsersByProject(@Param('id') id: number) {
+    return this.projectService.getUsersByProject(id);
+  }
 }

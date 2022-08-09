@@ -33,7 +33,7 @@ export class ProjectService {
 
   async findAllByAuthor(authorId: number) {
     const projects = await this.projectRepository.findAll({
-      where: { authorId, },
+      where: { authorId },
       include: [
         {
           model: ProjectStatus,
@@ -60,7 +60,7 @@ export class ProjectService {
           as: 'team',
           where: {
             id: userId,
-          }
+          },
         },
         {
           model: User,
@@ -183,6 +183,18 @@ export class ProjectService {
     const statuses = await this.projectStatusService.getAll();
     return statuses;
   }
+  async getUsersByProject(projectId) {
+    const statuses = await this.projectRepository.findAll({
+      where: { id: projectId },
+      include: [
+        {
+          model: User,
+          as: 'team',
+        },
+      ],
+    });
+    return statuses;
+  }
   async addComment(comment: CreateProjectCommentDto) {
     const project = await this.findOne(comment.projectId);
     const createdComment = await this.projectCommentService.create(comment);
@@ -210,7 +222,7 @@ export class ProjectService {
           as: 'team',
           where: {
             id: userId,
-          }
+          },
         },
         {
           model: User,
