@@ -22,11 +22,16 @@ import { TaskPriority } from './task-priority/task-priority.model';
 import { TaskPriorityModule } from './task-priority/task-priority.module';
 import { ProjectComment } from './project/project-comment/project-comment.model';
 import { TaskComment } from './task/task-comment/task-comment.model';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.dev.env',
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
     }),
     SequelizeModule.forRoot({
       host: '0.0.0.0',
