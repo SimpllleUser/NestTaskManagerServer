@@ -101,7 +101,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TasksController.prototype, "getAllByAuthor", null);
 __decorate([
-    (0, common_1.UseGuards)(TaskAvailable_guard_1.TaskAvailable),
     (0, swagger_1.ApiOperation)({ summary: 'Get task from project' }),
     (0, swagger_1.ApiResponse)({ status: 200, type: [task_model_1.Task] }),
     (0, common_1.Get)('/project/:id'),

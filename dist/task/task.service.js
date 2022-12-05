@@ -116,7 +116,7 @@ let TasksService = class TasksService {
         return task || {};
     }
     async findAllByProject(projectId) {
-        const task = await this.taskRepository.findAll({
+        const tasks = await this.taskRepository.findAll({
             where: { projectId },
             include: [
                 {
@@ -128,12 +128,9 @@ let TasksService = class TasksService {
                 {
                     model: task_priority_model_1.TaskPriority,
                 },
-                {
-                    model: task_priority_model_1.TaskPriority,
-                },
             ],
         });
-        return task;
+        return tasks;
     }
     async update(id, updateTaskDto) {
         try {

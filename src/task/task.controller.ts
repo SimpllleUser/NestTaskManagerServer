@@ -64,7 +64,7 @@ export class TasksController {
     return this.taskService.findAllByAuthor(userId);
   }
 
-  @UseGuards(TaskAvailable)
+  // @UseGuards(TaskAvailable)
   @ApiOperation({ summary: 'Get task from project' })
   @ApiResponse({ status: 200, type: [Task] })
   @Get('/project/:id')
@@ -122,7 +122,6 @@ export class TasksController {
   @ApiOperation({ summary: 'Comment list' })
   @ApiResponse({ status: 200, type: [TaskComment] })
   @Get(':id/comment/all')
-
   getComments(@Param('id') id: number) {
     return this.taskService.getComments(id);
   }

@@ -30,7 +30,8 @@ export class TaskAvailable implements CanActivate {
         userId,
       });
       const exitsProject = Boolean(projects?.length);
-      if (!exitsProject)
+      console.log(taskId);
+      if (taskId)
         new ConflictException({ message: 'User not have access to task' });
       return exitsProject;
     } catch (e) {

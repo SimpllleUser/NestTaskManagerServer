@@ -34,7 +34,8 @@ let TaskAvailable = class TaskAvailable {
                 userId,
             });
             const exitsProject = Boolean(projects === null || projects === void 0 ? void 0 : projects.length);
-            if (!exitsProject)
+            console.log(taskId);
+            if (taskId)
                 new common_1.ConflictException({ message: 'User not have access to task' });
             return exitsProject;
         }

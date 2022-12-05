@@ -4,7 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppResultInterceptor } from './app/app-result.interceptor';
 
 async function bootstrap() {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 7000;
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Documentation API')
     .setDescription('It`s documentation API for TaskManager app server')
