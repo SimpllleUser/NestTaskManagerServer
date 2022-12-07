@@ -16,56 +16,11 @@ exports.TaskTypeService = void 0;
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const task_type_model_1 = require("./task-type.model");
-const _ = require("lodash");
 const constants_1 = require("../utils/constants");
-let TaskTypeService = class TaskTypeService {
+const option_general_service_1 = require("../general-option/option-general.service");
+let TaskTypeService = class TaskTypeService extends option_general_service_1.OptionGeneralService {
     constructor(taskTypeRepository) {
-        this.taskTypeRepository = taskTypeRepository;
-        this.types = [
-            constants_1.TYPE.LOW,
-            constants_1.TYPE.MEDIUM,
-            constants_1.TYPE.HIGHT,
-        ];
-    }
-    async create(dto) {
-        const typeTask = await this.taskTypeRepository.create(dto);
-        return typeTask;
-    }
-    async findAll() {
-        const typeTasks = await this.taskTypeRepository.findAll();
-        return typeTasks;
-    }
-    async findOne(id) {
-        const type = await this.taskTypeRepository.findByPk(id);
-        if (!type) {
-            throw new common_1.HttpException('not found type', common_1.HttpStatus.NOT_FOUND);
-        }
-        return type;
-    }
-    async getTypeByName(name) {
-        const type = await this.taskTypeRepository.findOne({
-            where: { name },
-        });
-        if (!type) {
-            throw new common_1.HttpException('not found type', common_1.HttpStatus.NOT_FOUND);
-        }
-        return type;
-    }
-    async onModuleInit() {
-        await this.initTypes();
-    }
-    async initTypes() {
-        const existTypes = await this.findAll();
-        const notExistTypes = _.differenceBy(this.types, existTypes.map(({ value, name }) => ({ value, name })), 'name');
-        if (!(notExistTypes === null || notExistTypes === void 0 ? void 0 : notExistTypes.length))
-            return;
-        await Promise.all(notExistTypes.map((type) => this.create(type)));
-    }
-    existType(id) {
-        return Boolean(_.find(this.types, { value: id }).value);
-    }
-    getNotExistTypes(existTypes) {
-        return this.types.filter((type) => !existTypes.find(({ name }) => type === name));
+        super([constants_1.TYPE.LOW, constants_1.TYPE.MEDIUM, constants_1.TYPE.HIGHT], taskTypeRepository);
     }
 };
 TaskTypeService = __decorate([

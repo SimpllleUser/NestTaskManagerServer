@@ -5,7 +5,6 @@ import { Project } from './project.model';
 import { User } from '../user/users.model';
 import { ProjectStatusService } from './project-status/project-status.service';
 import { UsersService } from '../user/users.service';
-import { ProjectStatus } from 'src/project/project-status/project-status.model';
 import { CreateProjectCommentDto } from './project-comment/dto/create-project-comment.dto';
 import { ProjectCommentService } from './project-comment/project-comment.service';
 export declare class ProjectService {
@@ -28,7 +27,7 @@ export declare class ProjectService {
     }): Promise<User[]>;
     addUser(projectId: any, userId: number): Promise<User>;
     deleteUser(projectId: any, userId: number): Promise<User>;
-    getAllStatuses(): Promise<ProjectStatus[]>;
+    getAllStatuses(): Promise<import("../general-option/option-general.model").OptionModel[]>;
     getUsersByProject(projectId: any): Promise<Project[]>;
     addComment(comment: CreateProjectCommentDto): Promise<ProjectComment>;
     getComments(id: number): Promise<ProjectComment[]>;

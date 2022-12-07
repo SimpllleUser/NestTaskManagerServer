@@ -2,10 +2,7 @@ import { TasksService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './task.model';
-import { TaskStatus } from 'src/task-status/task-status.model';
 import { TaskStatusService } from 'src/task-status/task-status.service';
-import { TaskPriority } from 'src/task-priority/task-priority.model';
-import { TaskType } from 'src/task-type/task-type.model';
 import { TaskComment } from './task-comment/task-comment.model';
 import { CreateTaskCommentDto } from './task-comment/dto/create-task-comment.dto';
 export declare class TasksController {
@@ -20,9 +17,9 @@ export declare class TasksController {
     remove(id: string): Promise<{
         result: boolean;
     }>;
-    getStatuses(): Promise<TaskStatus[]>;
-    getPiorities(): Promise<TaskPriority[]>;
-    getAllTypes(): Promise<TaskType[]>;
+    getStatuses(): Promise<import("../general-option/option-general.model").OptionModel[]>;
+    getPiorities(): Promise<import("../general-option/option-general.model").OptionModel[]>;
+    getAllTypes(): Promise<import("../general-option/option-general.model").OptionModel[]>;
     addComment(comment: CreateTaskCommentDto): Promise<TaskComment>;
     getComments(id: number): Promise<TaskComment[]>;
 }

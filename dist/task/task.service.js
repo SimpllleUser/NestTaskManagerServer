@@ -34,9 +34,7 @@ let TasksService = class TasksService {
         this.taskCommentService = taskCommentService;
     }
     async create(dto) {
-        await this.taskTypeService.existType(dto.typeId);
-        await this.taskPriorityService.existPriority(dto.priorityId);
-        await this.taskStatusService.existStatus(dto.statusId);
+        await this.taskTypeService.existEnity(dto.typeId);
         const task = await this.taskRepository.create(dto);
         const createdTask = await this.findOne(task.id);
         return createdTask;

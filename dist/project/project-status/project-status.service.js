@@ -17,52 +17,10 @@ const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const project_status_model_1 = require("./project-status.model");
 const constants_1 = require("../../utils/constants");
-const _ = require("lodash");
-let ProjectStatusService = class ProjectStatusService {
+const option_general_service_1 = require("../../general-option/option-general.service");
+let ProjectStatusService = class ProjectStatusService extends option_general_service_1.OptionGeneralService {
     constructor(projectStatusRepository) {
-        this.projectStatusRepository = projectStatusRepository;
-        this.statuses = [
-            constants_1.STATUS.LOW,
-            constants_1.STATUS.NORMAL,
-            constants_1.STATUS.MEDIUM,
-            constants_1.STATUS.HIGHT,
-        ];
-    }
-    async create(dto) {
-        const statusProject = await this.projectStatusRepository.create(dto);
-        return statusProject;
-    }
-    async findAll() {
-        const statusesProject = await this.projectStatusRepository.findAll();
-        return statusesProject;
-    }
-    async findOne(id) {
-        const status = await this.projectStatusRepository.findByPk(id);
-        return status;
-    }
-    async getStatusByName(name) {
-        const status = await this.projectStatusRepository.findOne({
-            where: { name },
-        });
-        return status;
-    }
-    async onModuleInit() {
-        await this.initStatuses();
-    }
-    async initStatuses() {
-        const existStatuses = await this.findAll();
-        const notExistTypes = _.differenceBy(this.statuses, existStatuses.map(({ value, name }) => ({ value, name })), 'name');
-        if (!(notExistTypes === null || notExistTypes === void 0 ? void 0 : notExistTypes.length))
-            return;
-        await Promise.all(notExistTypes.map((status) => this.create(status)));
-    }
-    existStatus(id) {
-        var _a;
-        return Boolean((_a = _.find(this.statuses, { value: id })) === null || _a === void 0 ? void 0 : _a.value);
-    }
-    getNotExistStatuses(existStatuses) {
-        const notExistsStatus = this.statuses.filter((status) => !existStatuses.find(({ name }) => status === name));
-        return notExistsStatus;
+        super([constants_1.STATUS.LOW, constants_1.STATUS.NORMAL, constants_1.STATUS.MEDIUM, constants_1.STATUS.HIGHT], projectStatusRepository);
     }
 };
 ProjectStatusService = __decorate([

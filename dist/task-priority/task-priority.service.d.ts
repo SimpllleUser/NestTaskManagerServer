@@ -1,19 +1,9 @@
 import { TaskPriority } from './task-priority.model';
-import { CreateTypeTaskDto } from './dto/create-type-task.dto';
+import { OptionGeneralService } from 'src/general-option/option-general.service';
 export declare type Priority = {
     name: string;
     value: number;
 };
-export declare class TaskPriorityService {
-    private taskPriorityaskRepository;
+export declare class TaskPriorityService extends OptionGeneralService {
     constructor(taskPriorityaskRepository: typeof TaskPriority);
-    private priorities;
-    create(dto: CreateTypeTaskDto): Promise<TaskPriority>;
-    findAll(): Promise<TaskPriority[]>;
-    findOne(id: number): Promise<TaskPriority>;
-    getTypeByName(name: any): Promise<TaskPriority>;
-    onModuleInit(): Promise<void>;
-    initPriorities(): Promise<void>;
-    getNotExistPriority(existTypes: any): Priority[];
-    existPriority(id: number): boolean;
 }

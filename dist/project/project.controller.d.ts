@@ -5,7 +5,6 @@ import { UpdateProjectDto } from './dto/update-project.dto';
 import { Project } from './project.model';
 import { User } from 'src/user/users.model';
 import { ProjectComment } from './project-comment/project-comment.model';
-import { ProjectStatus } from './project-status/project-status.model';
 export declare class ProjectController {
     private readonly projectService;
     constructor(projectService: ProjectService);
@@ -25,6 +24,6 @@ export declare class ProjectController {
     deleteUser(id: number, userId: number): Promise<User>;
     addComment(comment: CreateProjectCommentDto): Promise<ProjectComment>;
     getComments(id: number): Promise<ProjectComment[]>;
-    getProjectStatuses(): Promise<ProjectStatus[]>;
+    getProjectStatuses(): Promise<import("../general-option/option-general.model").OptionModel[]>;
     getUsersByProject(id: number): Promise<Project[]>;
 }

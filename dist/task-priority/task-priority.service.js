@@ -16,58 +16,11 @@ exports.TaskPriorityService = void 0;
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const task_priority_model_1 = require("./task-priority.model");
-const _ = require("lodash");
 const constants_1 = require("../utils/constants");
-let TaskPriorityService = class TaskPriorityService {
+const option_general_service_1 = require("../general-option/option-general.service");
+let TaskPriorityService = class TaskPriorityService extends option_general_service_1.OptionGeneralService {
     constructor(taskPriorityaskRepository) {
-        this.taskPriorityaskRepository = taskPriorityaskRepository;
-        this.priorities = [
-            constants_1.PRIORITY.LOW,
-            constants_1.PRIORITY.MEDIUM,
-            constants_1.PRIORITY.HIGHT,
-        ];
-    }
-    async create(dto) {
-        const priorityTask = await this.taskPriorityaskRepository.create(dto);
-        return priorityTask;
-    }
-    async findAll() {
-        const priorityTasks = await this.taskPriorityaskRepository.findAll();
-        return priorityTasks;
-    }
-    async findOne(id) {
-        const priority = await this.taskPriorityaskRepository.findByPk(id);
-        if (!priority) {
-            throw new common_1.HttpException('not found priority', common_1.HttpStatus.NOT_FOUND);
-        }
-        return priority;
-    }
-    async getTypeByName(name) {
-        const priority = await this.taskPriorityaskRepository.findOne({
-            where: { name },
-        });
-        if (!priority) {
-            throw new common_1.HttpException('not found priority', common_1.HttpStatus.NOT_FOUND);
-        }
-        return priority;
-    }
-    async onModuleInit() {
-        await this.initPriorities();
-    }
-    async initPriorities() {
-        const priorities = await this.findAll();
-        const notExistPriorities = this.getNotExistPriority(priorities);
-        if (priorities === null || priorities === void 0 ? void 0 : priorities.length)
-            return;
-        await Promise.all(notExistPriorities.map((priority) => this.create(priority)));
-    }
-    getNotExistPriority(existTypes) {
-        const notExistsPriority = this.priorities.filter((type) => !existTypes.find(({ name }) => type === name));
-        return notExistsPriority;
-    }
-    existPriority(id) {
-        var _a;
-        return Boolean((_a = _.find(this.priorities, { value: id })) === null || _a === void 0 ? void 0 : _a.value);
+        super([constants_1.PRIORITY.LOW, constants_1.PRIORITY.MEDIUM, constants_1.PRIORITY.HIGHT], taskPriorityaskRepository);
     }
 };
 TaskPriorityService = __decorate([
