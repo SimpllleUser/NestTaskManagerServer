@@ -1,8 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateStatusProjectDto } from '../project/project-status/dto/create-project-status.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { TaskStatus } from './task-status.model';
 import _ = require('lodash');
+import { PropertyOption, STATUS } from 'src/utils/constants';
 
 @Injectable()
 export class TaskStatusService {
@@ -12,22 +13,26 @@ export class TaskStatusService {
   ) {}
 
   private statuses = [
-    {
-      name: 'open',
-      value: 1,
-    },
-    {
-      name: 'in progress',
-      value: 2,
-    },
-    {
-      name: 'done',
-      value: 3,
-    },
-    {
-      name: 'todo',
-      value: 4,
-    },
+    STATUS.LOW,
+    STATUS.NORMAL,
+    STATUS.MEDIUM,
+    STATUS.HIGHT,
+    // {
+    //   name: 'open',
+    //   value: 1,
+    // },
+    // {
+    //   name: 'in progress',
+    //   value: 2,
+    // },
+    // {
+    //   name: 'done',
+    //   value: 3,
+    // },
+    // {
+    //   name: 'todo',
+    //   value: 4,
+    // },
   ];
 
   async create(dto: CreateStatusProjectDto) {
@@ -42,9 +47,6 @@ export class TaskStatusService {
 
   async findOne(id: number) {
     const status = await this.taskStatusRepository.findByPk(id);
-    if (!status) {
-      throw new HttpException('not found status', HttpStatus.NOT_FOUND)
-    }
     return status;
   }
 
@@ -52,34 +54,31 @@ export class TaskStatusService {
     const status = await this.taskStatusRepository.findOne({
       where: { name },
     });
-    if (!status) {
-      throw new HttpException('not found status', HttpStatus.NOT_FOUND)
-    }
     return status;
   }
 
   async onModuleInit(): Promise<void> {
-    const statuses = await this.findAll();
-    const notExistStatuses = this.getNotExistStatuses(statuses);
-    if (statuses?.length) return;
-    await Promise.all(
-      notExistStatuses.map((status: CreateStatusProjectDto) =>
-        this.create(status),
-      ),
+    await this.initStatuses();
+  }
+  async initStatuses(): Promise<void> {
+    const existStatuses = await this.findAll();
+    // const types = await this.findAll();
+    const notExistTypes = _.differenceBy(
+      this.statuses,
+      existStatuses.map(({ value, name }) => ({ value, name })),
+      'name',
     );
+    if (!notExistTypes?.length) return;
+    await Promise.all(notExistTypes.map((status) => this.create(status)));
   }
 
-  existStatus(id: number) {
-    const exist = _.find(this.statuses, { value: id });
-    if (!exist) throw new HttpException('not found status', HttpStatus.NOT_FOUND);
-    return exist;
+  existStatus(id: number): boolean {
+    return Boolean(_.find(this.statuses, { value: id }).value);
   }
 
-  getNotExistStatuses(existStatuses) {
-    const notExistsStatus = this.statuses.filter(
+  getNotExistStatuses(existStatuses): PropertyOption[] {
+    return this.statuses.filter(
       (status) => !existStatuses.find(({ name }) => status === name),
     );
-    return notExistsStatus;
-    //
   }
 }

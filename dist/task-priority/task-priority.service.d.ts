@@ -15,5 +15,5 @@ export declare class TaskPriorityService {
     onModuleInit(): Promise<void>;
     initPriorities(): Promise<void>;
     getNotExistPriority(existTypes: any): Priority[];
-    existPriority(id: number): Priority;
+    existPriority(id: number): boolean;
 }

@@ -9,7 +9,6 @@ import {
   Delete,
   UsePipes,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -42,7 +41,7 @@ export class ProjectController {
   findAllByAuthor(@Param('id') id: number) {
     return this.projectService.findAllByAuthor(id);
   }
-  
+
   @ApiOperation({ summary: 'Get projects by author' })
   @ApiResponse({ status: 200, type: [Project] })
   @Get('/all/by-user/:id')
@@ -75,10 +74,7 @@ export class ProjectController {
   @ApiResponse({ status: 200, type: [User] })
   @UseGuards(ProjectAvailable)
   @Patch(':id/users')
-  addUsers(
-    @Param('id') id: number,
-    @Body() body: { userIds: number[] },
-  ) {
+  addUsers(@Param('id') id: number, @Body() body: { userIds: number[] }) {
     return this.projectService.addUsers(id, body);
   }
 
@@ -86,10 +82,7 @@ export class ProjectController {
   @ApiResponse({ status: 200, type: [User] })
   @UseGuards(ProjectAvailable)
   @Delete(':id/users')
-  deleteUsers(
-    @Param('id') id: number,
-    @Body() body: { userIds: number[] },
-  ) {
+  deleteUsers(@Param('id') id: number, @Body() body: { userIds: number[] }) {
     return this.projectService.deleteUsers(id, body);
   }
 
@@ -97,10 +90,7 @@ export class ProjectController {
   @ApiResponse({ status: 200, type: User })
   @UseGuards(ProjectAvailable)
   @Patch(':id/user/:userId')
-  addUser(
-    @Param('id') id: number,
-    @Param('userId') userId: number,
-  ) {
+  addUser(@Param('id') id: number, @Param('userId') userId: number) {
     return this.projectService.addUser(id, userId);
   }
 
@@ -108,10 +98,7 @@ export class ProjectController {
   @ApiResponse({ status: 200, type: User })
   @UseGuards(ProjectAvailable)
   @Delete(':id/user/:userId')
-  deleteUser(
-    @Param('id') id: number,
-    @Param('userId') userId: number,
-  ) {
+  deleteUser(@Param('id') id: number, @Param('userId') userId: number) {
     return this.projectService.deleteUser(id, userId);
   }
 
@@ -127,7 +114,7 @@ export class ProjectController {
   @ApiResponse({ status: 200, type: [ProjectComment] })
   @UseGuards(ProjectAvailable)
   @Get(':id/comment/all')
-  getComments( @Param('id') id: number,) {
+  getComments(@Param('id') id: number) {
     return this.projectService.getComments(id);
   }
 
@@ -137,7 +124,7 @@ export class ProjectController {
   getProjectStatuses() {
     return this.projectService.getAllStatuses();
   }
-  
+
   @ApiOperation({ summary: 'Get all users by project' })
   @ApiResponse({ status: 200, type: [ProjectStatus] })
   @UseGuards(ProjectAvailable)

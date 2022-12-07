@@ -1,8 +1,9 @@
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { TaskType } from './task-type.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
 import _ = require('lodash');
+import { TYPE } from 'src/utils/constants';
 
 export type Type = {
   name: string;
@@ -16,11 +17,14 @@ export class TaskTypeService {
     private taskTypeRepository: typeof TaskType,
   ) {}
 
-  types: Type[] = [
-    { name: 'bug', value: 4 },
-    { name: 'feature', value: 2 },
-    { name: 'fix', value: 3 },
-    { name: 'planning', value: 1 },
+  private types: Type[] = [
+    TYPE.LOW,
+    TYPE.MEDIUM,
+    TYPE.HIGHT,
+    // { name: 'bug', value: 4 },
+    // { name: 'feature', value: 2 },
+    // { name: 'fix', value: 3 },
+    // { name: 'planning', value: 1 },
   ];
 
   async create(dto: CreateTypeTaskDto) {
@@ -35,7 +39,7 @@ export class TaskTypeService {
   async findOne(id: number) {
     const type = await this.taskTypeRepository.findByPk(id);
     if (!type) {
-      throw new HttpException('not found type', HttpStatus.NOT_FOUND)
+      throw new HttpException('not found type', HttpStatus.NOT_FOUND);
     }
     return type;
   }
@@ -45,7 +49,7 @@ export class TaskTypeService {
       where: { name },
     });
     if (!type) {
-      throw new HttpException('not found type', HttpStatus.NOT_FOUND)
+      throw new HttpException('not found type', HttpStatus.NOT_FOUND);
     }
     return type;
   }
@@ -55,22 +59,24 @@ export class TaskTypeService {
   }
 
   async initTypes(): Promise<void> {
-    const types = await this.findAll();
-    const notExistTypes = this.getNotExistTypes(types);
-    if (types?.length) return;
+    const existTypes = await this.findAll();
+    // const types = await this.findAll();
+    const notExistTypes = _.differenceBy(
+      this.types,
+      existTypes.map(({ value, name }) => ({ value, name })),
+      'name',
+    );
+    if (!notExistTypes?.length) return;
     await Promise.all(notExistTypes.map((type: Type) => this.create(type)));
   }
 
   existType(id: number) {
-    const exist = _.find(this.types, { value: id });
-    if (!exist) throw new HttpException('not found type', HttpStatus.NOT_FOUND);
-    return exist;
+    return Boolean(_.find(this.types, { value: id }).value);
   }
 
   getNotExistTypes(existTypes) {
-    const notExistsStatus = this.types.filter(
+    return this.types.filter(
       (type) => !existTypes.find(({ name }) => type === name),
     );
-    return notExistsStatus;
   }
 }

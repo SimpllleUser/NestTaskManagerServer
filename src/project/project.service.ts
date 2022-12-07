@@ -180,7 +180,7 @@ export class ProjectService {
     return user;
   }
   async getAllStatuses() {
-    const statuses = await this.projectStatusService.getAll();
+    const statuses = await this.projectStatusService.findAll();
     return statuses;
   }
   async getUsersByProject(projectId) {

@@ -17,13 +17,14 @@ const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const task_priority_model_1 = require("./task-priority.model");
 const _ = require("lodash");
+const constants_1 = require("../utils/constants");
 let TaskPriorityService = class TaskPriorityService {
     constructor(taskPriorityaskRepository) {
         this.taskPriorityaskRepository = taskPriorityaskRepository;
         this.priorities = [
-            { name: 'hight', value: 1 },
-            { name: 'normal', value: 2 },
-            { name: 'low', value: 3 },
+            constants_1.PRIORITY.LOW,
+            constants_1.PRIORITY.MEDIUM,
+            constants_1.PRIORITY.HIGHT,
         ];
     }
     async create(dto) {
@@ -65,10 +66,8 @@ let TaskPriorityService = class TaskPriorityService {
         return notExistsPriority;
     }
     existPriority(id) {
-        const exist = _.find(this.priorities, { value: id });
-        if (!exist)
-            throw new common_1.HttpException('not found priority', common_1.HttpStatus.NOT_FOUND);
-        return exist;
+        var _a;
+        return Boolean((_a = _.find(this.priorities, { value: id })) === null || _a === void 0 ? void 0 : _a.value);
     }
 };
 TaskPriorityService = __decorate([

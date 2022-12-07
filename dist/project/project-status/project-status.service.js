@@ -16,61 +16,52 @@ exports.ProjectStatusService = void 0;
 const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const project_status_model_1 = require("./project-status.model");
+const constants_1 = require("../../utils/constants");
+const _ = require("lodash");
 let ProjectStatusService = class ProjectStatusService {
     constructor(projectStatusRepository) {
         this.projectStatusRepository = projectStatusRepository;
+        this.statuses = [
+            constants_1.STATUS.LOW,
+            constants_1.STATUS.NORMAL,
+            constants_1.STATUS.MEDIUM,
+            constants_1.STATUS.HIGHT,
+        ];
     }
     async create(dto) {
         const statusProject = await this.projectStatusRepository.create(dto);
         return statusProject;
     }
-    async getAll() {
+    async findAll() {
         const statusesProject = await this.projectStatusRepository.findAll();
         return statusesProject;
     }
     async findOne(id) {
         const status = await this.projectStatusRepository.findByPk(id);
-        if (!status) {
-            throw new common_1.HttpException('not found status', common_1.HttpStatus.NOT_FOUND);
-        }
         return status;
     }
     async getStatusByName(name) {
         const status = await this.projectStatusRepository.findOne({
             where: { name },
         });
-        if (!status) {
-            throw new common_1.HttpException('not found status', common_1.HttpStatus.NOT_FOUND);
-        }
         return status;
     }
     async onModuleInit() {
-        const statuses = await this.getAll();
-        const notExistStatuses = this.getNotExistStatuses(statuses);
-        if (statuses === null || statuses === void 0 ? void 0 : statuses.length)
+        await this.initStatuses();
+    }
+    async initStatuses() {
+        const existStatuses = await this.findAll();
+        const notExistTypes = _.differenceBy(this.statuses, existStatuses.map(({ value, name }) => ({ value, name })), 'name');
+        if (!(notExistTypes === null || notExistTypes === void 0 ? void 0 : notExistTypes.length))
             return;
-        await Promise.all(notExistStatuses.map((status) => this.create(status)));
+        await Promise.all(notExistTypes.map((status) => this.create(status)));
+    }
+    existStatus(id) {
+        var _a;
+        return Boolean((_a = _.find(this.statuses, { value: id })) === null || _a === void 0 ? void 0 : _a.value);
     }
     getNotExistStatuses(existStatuses) {
-        const statuses = [
-            {
-                name: 'open',
-                value: 1,
-            },
-            {
-                name: 'in progress',
-                value: 2,
-            },
-            {
-                name: 'done',
-                value: 3,
-            },
-            {
-                name: 'todo',
-                value: 4,
-            },
-        ];
-        const notExistsStatus = statuses.filter((status) => !existStatuses.find(({ name }) => status === name));
+        const notExistsStatus = this.statuses.filter((status) => !existStatuses.find(({ name }) => status === name));
         return notExistsStatus;
     }
 };

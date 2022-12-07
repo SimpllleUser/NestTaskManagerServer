@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/sequelize';
 import { TaskPriority } from './task-priority.model';
 import { CreateTypeTaskDto } from './dto/create-type-task.dto';
 import _ = require('lodash');
-import { values } from 'lodash';
+import { PRIORITY } from 'src/utils/constants';
 
 export type Priority = {
   name: string;
@@ -18,9 +18,12 @@ export class TaskPriorityService {
   ) {}
 
   private priorities: Priority[] = [
-    { name: 'hight', value: 1 },
-    { name: 'normal', value: 2 },
-    { name: 'low', value: 3 },
+    PRIORITY.LOW,
+    PRIORITY.MEDIUM,
+    PRIORITY.HIGHT,
+    // { name: 'hight', value: 3 },
+    // { name: 'normal', value: 2 },
+    // { name: 'low', value: 1 },
   ];
 
   async create(dto: CreateTypeTaskDto) {
@@ -72,8 +75,6 @@ export class TaskPriorityService {
   }
 
   existPriority(id: number) {
-    const exist = _.find(this.priorities, { value: id  });
-    if (!exist) throw new HttpException('not found priority', HttpStatus.NOT_FOUND);
-    return exist;
+    return Boolean(_.find(this.priorities, { value: id })?.value);
   }
 }

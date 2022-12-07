@@ -17,14 +17,14 @@ const common_1 = require("@nestjs/common");
 const sequelize_1 = require("@nestjs/sequelize");
 const task_type_model_1 = require("./task-type.model");
 const _ = require("lodash");
+const constants_1 = require("../utils/constants");
 let TaskTypeService = class TaskTypeService {
     constructor(taskTypeRepository) {
         this.taskTypeRepository = taskTypeRepository;
         this.types = [
-            { name: 'bug', value: 4 },
-            { name: 'feature', value: 2 },
-            { name: 'fix', value: 3 },
-            { name: 'planning', value: 1 },
+            constants_1.TYPE.LOW,
+            constants_1.TYPE.MEDIUM,
+            constants_1.TYPE.HIGHT,
         ];
     }
     async create(dto) {
@@ -55,21 +55,17 @@ let TaskTypeService = class TaskTypeService {
         await this.initTypes();
     }
     async initTypes() {
-        const types = await this.findAll();
-        const notExistTypes = this.getNotExistTypes(types);
-        if (types === null || types === void 0 ? void 0 : types.length)
+        const existTypes = await this.findAll();
+        const notExistTypes = _.differenceBy(this.types, existTypes.map(({ value, name }) => ({ value, name })), 'name');
+        if (!(notExistTypes === null || notExistTypes === void 0 ? void 0 : notExistTypes.length))
             return;
         await Promise.all(notExistTypes.map((type) => this.create(type)));
     }
     existType(id) {
-        const exist = _.find(this.types, { value: id });
-        if (!exist)
-            throw new common_1.HttpException('not found type', common_1.HttpStatus.NOT_FOUND);
-        return exist;
+        return Boolean(_.find(this.types, { value: id }).value);
     }
     getNotExistTypes(existTypes) {
-        const notExistsStatus = this.types.filter((type) => !existTypes.find(({ name }) => type === name));
-        return notExistsStatus;
+        return this.types.filter((type) => !existTypes.find(({ name }) => type === name));
     }
 };
 TaskTypeService = __decorate([

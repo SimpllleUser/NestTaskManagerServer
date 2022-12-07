@@ -7,13 +7,13 @@ export declare type Type = {
 export declare class TaskTypeService {
     private taskTypeRepository;
     constructor(taskTypeRepository: typeof TaskType);
-    types: Type[];
+    private types;
     create(dto: CreateTypeTaskDto): Promise<TaskType>;
     findAll(): Promise<TaskType[]>;
     findOne(id: number): Promise<TaskType>;
     getTypeByName(name: any): Promise<TaskType>;
     onModuleInit(): Promise<void>;
     initTypes(): Promise<void>;
-    existType(id: number): Type;
+    existType(id: number): boolean;
     getNotExistTypes(existTypes: any): Type[];
 }
