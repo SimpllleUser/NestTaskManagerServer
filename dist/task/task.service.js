@@ -32,24 +32,8 @@ let TasksService = class TasksService {
         this.taskPriorityService = taskPriorityService;
         this.taskStatusService = taskStatusService;
         this.taskCommentService = taskCommentService;
-    }
-    async create(dto) {
-        await this.taskTypeService.existEnity(dto.typeId);
-        const task = await this.taskRepository.create(dto);
-        const createdTask = await this.findOne(task.id);
-        return createdTask;
-    }
-    async findOne(id) {
-        const task = await this.taskRepository.findOne({
-            where: { id },
+        this.projectDetailparamsModel = {
             include: [
-                {
-                    model: users_model_1.User,
-                    as: 'author',
-                    attributes: {
-                        exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-                    },
-                },
                 {
                     model: task_status_model_1.TaskStatus,
                 },
@@ -65,69 +49,43 @@ let TasksService = class TasksService {
                 {
                     model: task_comment_model_1.TaskComment,
                 },
-                {
-                    model: users_model_1.User,
-                    as: 'executor',
-                    attributes: {
-                        exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-                    },
-                },
+                this.getUserParamsAs('executor'),
+                this.getUserParamsAs('author'),
             ],
-        });
+        };
+    }
+    getUserParamsAs(enity) {
+        return {
+            model: users_model_1.User,
+            as: enity,
+            attributes: {
+                exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+            },
+        };
+    }
+    async create(dto) {
+        await this.taskTypeService.existEnity(dto.typeId);
+        const task = await this.taskRepository.create(dto);
+        const createdTask = await this.findOne(task.id);
+        return createdTask;
+    }
+    async findOne(id) {
+        const task = await this.taskRepository.findOne(Object.assign({ where: { id } }, this.projectDetailparamsModel));
         if (!task) {
             throw new common_1.HttpException('task not found', common_1.HttpStatus.NOT_FOUND);
         }
         return task;
     }
     async findAllByAuthor(authorId) {
-        const task = await this.taskRepository.findAll({
-            where: { authorId },
-            include: [
-                {
-                    model: users_model_1.User,
-                    as: 'author',
-                    attributes: {
-                        exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-                    },
-                },
-                {
-                    model: task_status_model_1.TaskStatus,
-                },
-                {
-                    model: task_type_model_1.TaskType,
-                },
-                {
-                    model: task_priority_model_1.TaskPriority,
-                },
-                {
-                    model: task_priority_model_1.TaskPriority,
-                },
-                {
-                    model: users_model_1.User,
-                    as: 'executor',
-                    attributes: {
-                        exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-                    },
-                },
-            ],
-        });
+        const task = await this.taskRepository.findAll(Object.assign({ where: { authorId } }, this.projectDetailparamsModel));
+        return task || {};
+    }
+    async findAllByExecutor(executorId) {
+        const task = await this.taskRepository.findAll(Object.assign({ where: { executorId } }, this.projectDetailparamsModel));
         return task || {};
     }
     async findAllByProject(projectId) {
-        const tasks = await this.taskRepository.findAll({
-            where: { projectId },
-            include: [
-                {
-                    model: task_status_model_1.TaskStatus,
-                },
-                {
-                    model: task_type_model_1.TaskType,
-                },
-                {
-                    model: task_priority_model_1.TaskPriority,
-                },
-            ],
-        });
+        const tasks = await this.taskRepository.findAll(Object.assign({ where: { projectId } }, this.projectDetailparamsModel));
         return tasks;
     }
     async update(id, updateTaskDto) {

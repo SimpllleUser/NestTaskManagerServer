@@ -14,9 +14,12 @@ export declare class TasksService {
     private taskStatusService;
     private taskCommentService;
     constructor(taskRepository: typeof Task, taskTypeService: TaskTypeService, taskPriorityService: TaskPriorityService, taskStatusService: TaskStatusService, taskCommentService: TaskCommentService);
+    private getUserParamsAs;
+    private projectDetailparamsModel;
     create(dto: CreateTaskDto): Promise<Task>;
     findOne(id: number): Promise<Task>;
     findAllByAuthor(authorId: number): Promise<{}>;
+    findAllByExecutor(executorId: number): Promise<{}>;
     findAllByProject(projectId: number): Promise<Task[]>;
     update(id: number, updateTaskDto: UpdateTaskDto): Promise<Task>;
     remove(id: number): Promise<{

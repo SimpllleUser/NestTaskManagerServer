@@ -12,6 +12,7 @@ export declare class TasksController {
     createTask(dto: CreateTaskDto): Promise<Task>;
     getTask(id: number): Promise<Task>;
     getAllByAuthor(userId: number): Promise<{}>;
+    getAllByExecutor(userId: number): Promise<{}>;
     getAllByProject(projectId: number): Promise<Task[]>;
     update(id: number, updateTaskDto: UpdateTaskDto): Promise<Task>;
     remove(id: string): Promise<{

@@ -57,7 +57,7 @@ export class User extends Model<User, UserCreationAttrs> {
   name: string;
   @ApiProperty({ example: '12345678', description: 'password' })
   @Column({ type: DataType.STRING, allowNull: false })
-  @Exclude()
+  @Exclude({ toPlainOnly: true })
   password: string;
   @Column({ type: DataType.STRING, allowNull: true })
   hashCode: string;

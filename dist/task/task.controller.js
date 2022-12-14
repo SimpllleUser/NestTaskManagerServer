@@ -45,6 +45,9 @@ let TasksController = class TasksController {
     getAllByAuthor(userId) {
         return this.taskService.findAllByAuthor(userId);
     }
+    getAllByExecutor(userId) {
+        return this.taskService.findAllByExecutor(userId);
+    }
     getAllByProject(projectId) {
         return this.taskService.findAllByProject(projectId);
     }
@@ -100,6 +103,15 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", void 0)
 ], TasksController.prototype, "getAllByAuthor", null);
+__decorate([
+    (0, swagger_1.ApiOperation)({ summary: 'Get task by executor' }),
+    (0, swagger_1.ApiResponse)({ status: 200, type: [task_model_1.Task] }),
+    (0, common_1.Get)('/executor/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", void 0)
+], TasksController.prototype, "getAllByExecutor", null);
 __decorate([
     (0, swagger_1.ApiOperation)({ summary: 'Get task from project' }),
     (0, swagger_1.ApiResponse)({ status: 200, type: [task_model_1.Task] }),

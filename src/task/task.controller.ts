@@ -64,6 +64,13 @@ export class TasksController {
     return this.taskService.findAllByAuthor(userId);
   }
 
+  @ApiOperation({ summary: 'Get task by executor' })
+  @ApiResponse({ status: 200, type: [Task] })
+  @Get('/executor/:id')
+  getAllByExecutor(@Param('id') userId: number) {
+    return this.taskService.findAllByExecutor(userId);
+  }
+
   // @UseGuards(TaskAvailable)
   @ApiOperation({ summary: 'Get task from project' })
   @ApiResponse({ status: 200, type: [Task] })

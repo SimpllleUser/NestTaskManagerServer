@@ -23,6 +23,36 @@ export class TasksService {
     private taskStatusService: TaskStatusService,
     private taskCommentService: TaskCommentService,
   ) {}
+  private getUserParamsAs(enity: string) {
+    return {
+      model: User,
+      as: enity,
+      attributes: {
+        exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
+      },
+    };
+  }
+  private projectDetailparamsModel = {
+    include: [
+      {
+        model: TaskStatus,
+      },
+      {
+        model: TaskType,
+      },
+      {
+        model: TaskPriority,
+      },
+      {
+        model: TaskPriority,
+      },
+      {
+        model: TaskComment,
+      },
+      this.getUserParamsAs('executor'),
+      this.getUserParamsAs('author'),
+    ],
+  };
 
   async create(dto: CreateTaskDto) {
     await this.taskTypeService.existEnity(dto.typeId);
@@ -36,37 +66,7 @@ export class TasksService {
   async findOne(id: number) {
     const task = await this.taskRepository.findOne({
       where: { id },
-      include: [
-        {
-          model: User,
-          as: 'author',
-          attributes: {
-            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-          },
-        },
-        {
-          model: TaskStatus,
-        },
-        {
-          model: TaskType,
-        },
-        {
-          model: TaskPriority,
-        },
-        {
-          model: TaskPriority,
-        },
-        {
-          model: TaskComment,
-        },
-        {
-          model: User,
-          as: 'executor',
-          attributes: {
-            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-          },
-        },
-      ],
+      ...this.projectDetailparamsModel,
     });
     if (!task) {
       throw new HttpException('task not found', HttpStatus.NOT_FOUND);
@@ -77,34 +77,14 @@ export class TasksService {
   async findAllByAuthor(authorId: number) {
     const task = await this.taskRepository.findAll({
       where: { authorId },
-      include: [
-        {
-          model: User,
-          as: 'author',
-          attributes: {
-            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-          },
-        },
-        {
-          model: TaskStatus,
-        },
-        {
-          model: TaskType,
-        },
-        {
-          model: TaskPriority,
-        },
-        {
-          model: TaskPriority,
-        },
-        {
-          model: User,
-          as: 'executor',
-          attributes: {
-            exclude: ['password', 'hashCode', 'createdAt', 'updatedAt'],
-          },
-        },
-      ],
+      ...this.projectDetailparamsModel,
+    });
+    return task || {};
+  }
+  async findAllByExecutor(executorId: number) {
+    const task = await this.taskRepository.findAll({
+      where: { executorId },
+      ...this.projectDetailparamsModel,
     });
     return task || {};
   }
@@ -112,17 +92,7 @@ export class TasksService {
   async findAllByProject(projectId: number) {
     const tasks = await this.taskRepository.findAll({
       where: { projectId },
-      include: [
-        {
-          model: TaskStatus,
-        },
-        {
-          model: TaskType,
-        },
-        {
-          model: TaskPriority,
-        },
-      ],
+      ...this.projectDetailparamsModel,
     });
     return tasks;
   }
